@@ -1,0 +1,94 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-ink: var(--wq-text);
+  --color-muted: var(--wq-text-muted);
+  --color-primary: var(--wq-primary);
+  --color-on-primary: var(--wq-on-primary);
+  --color-secondary: var(--wq-secondary);
+  --color-accent: var(--wq-accent);
+  --color-on-accent: var(--wq-on-accent);
+  --color-surface: var(--wq-surface);
+  --color-canvas: var(--wq-background);
+  --color-success: var(--wq-success);
+  --color-success-surface: var(--wq-success-surface);
+  --color-hint: var(--wq-hint);
+  --color-hint-surface: var(--wq-hint-surface);
+  --color-reveal: var(--wq-reveal);
+  --color-reveal-surface: var(--wq-reveal-surface);
+  --color-incorrect: var(--wq-incorrect);
+  --color-incorrect-surface: var(--wq-incorrect-surface);
+  --font-display: "Fredoka", "Trebuchet MS", sans-serif;
+  --font-body: "Nunito", "Trebuchet MS", sans-serif;
+}
+
+:root {
+  --wq-primary: #3c3489;
+  --wq-on-primary: #ffffff;
+  --wq-secondary: #2a5bd7;
+  --wq-background: #f4f0ff;
+  --wq-surface: #ffffff;
+  --wq-accent: #e6b325;
+  --wq-on-accent: #1a2340;
+  --wq-text: #1a2340;
+  --wq-text-muted: #3e4c6e;
+  --wq-success: #0d6a36;
+  --wq-success-surface: #e7f6ec;
+  --wq-hint: #6f4700;
+  --wq-hint-surface: #fff3d0;
+  --wq-reveal: #14396e;
+  --wq-reveal-surface: #e8f1fb;
+  --wq-incorrect: #8a3412;
+  --wq-incorrect-surface: #fde7dc;
+  --wq-radius-button: 1.25rem;
+  --wq-radius-card: 1.75rem;
+  --wq-shadow: 0 16px 40px rgb(26 35 64 / 0.08);
+  color: var(--wq-text);
+  background: var(--wq-background);
+  font-family: var(--font-body);
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+}
+
+button,
+a,
+input {
+  touch-action: manipulation;
+}
+
+:focus-visible {
+  outline: 3px solid var(--wq-secondary);
+  outline-offset: 3px;
+}
+
+.astro-arm {
+  transform-origin: 112px 112px;
+  animation: wave 1.6s ease-in-out infinite;
+}
+
+@keyframes wave {
+  0%,
+  100% { transform: rotate(0deg); }
+  50% { transform: rotate(16deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

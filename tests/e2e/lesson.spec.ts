@@ -1,0 +1,100 @@
+import { expect, test, type Page } from '@playwright/test'
+
+async function start(page: Page) {
+  await page.goto('/')
+  await page.getByTestId('start-learning').click()
+  await page.getByTestId('start-mission').click()
+  await expect(page.getByText('Challenge 1 of 5')).toBeVisible()
+}
+
+async function choose(page: Page, optionId: string) {
+  await page.getByTestId(`choice-${optionId}`).click()
+}
+
+async function solveRest(page: Page) {
+  await choose(page, 'three-fifths')
+  await page.getByTestId('check-answer').click()
+  await page.getByTestId('next').click()
+  await page.getByTestId('numeric-input').fill('5/8')
+  await page.getByTestId('check-answer').click()
+  await page.getByTestId('next').click()
+  await page.getByTestId('tick-3').click()
+  await page.getByTestId('check-answer').click()
+  await page.getByTestId('next').click()
+  await choose(page, 'seven-tenths')
+  await page.getByTestId('check-answer').click()
+  await page.getByTestId('next').click()
+}
+
+test('completes the mission with correct answers', async ({ page }) => {
+  await start(page)
+  await choose(page, 'one-fourth')
+  await page.getByTestId('check-answer').click()
+  await expect(page.getByTestId('feedback')).toContainText('Amazing! You figured it out.')
+  await page.getByTestId('next').click()
+  await solveRest(page)
+  await expect(page.getByTestId('score')).toContainText('5 out of 5')
+  await expect(page.getByText('You finished 5 challenges.')).toBeVisible()
+})
+
+test('shows a hint after two mistakes and still accepts the right answer', async ({ page }) => {
+  await start(page)
+  await choose(page, 'one-third')
+  await page.getByTestId('check-answer').click()
+  await choose(page, 'four-over-one')
+  await page.getByTestId('check-answer').click()
+  await expect(page.getByTestId('feedback')).toContainText("Here's a little clue!")
+  await choose(page, 'one-fourth')
+  await page.getByTestId('check-answer').click()
+  await expect(page.getByTestId('feedback')).toContainText('You found another way to learn!')
+  await expect(page.getByTestId('next')).toBeEnabled()
+})
+
+test('reveals the answer after three mistakes and lets the child continue', async ({ page }) => {
+  await start(page)
+  for (const optionId of ['one-third', 'four-over-one', 'three-fourths']) {
+    await choose(page, optionId)
+    await page.getByTestId('check-answer').click()
+  }
+  await expect(page.getByTestId('feedback')).toContainText('The answer is 1/4.')
+  await page.getByTestId('next').click()
+  await expect(page.getByText('Challenge 2 of 5')).toBeVisible()
+})
+
+test('keeps progress after a browser refresh', async ({ page }) => {
+  await start(page)
+  await choose(page, 'one-fourth')
+  await page.getByTestId('check-answer').click()
+  await page.getByTestId('next').click()
+  await expect(page.getByText('Challenge 2 of 5')).toBeVisible()
+  await page.reload()
+  await expect(page.getByText('Challenge 2 of 5')).toBeVisible()
+  await page.getByRole('button', { name: 'Back' }).click()
+  await expect(page.getByTestId('feedback')).toContainText('Amazing! You figured it out.')
+})
+
+test('does not duplicate the score when moving backward and forward', async ({ page }) => {
+  await start(page)
+  await choose(page, 'one-third')
+  await page.getByTestId('check-answer').click()
+  await choose(page, 'one-fourth')
+  await page.getByTestId('check-answer').click()
+  await page.getByTestId('next').click()
+  await page.getByRole('button', { name: 'Back' }).click()
+  await page.getByTestId('next').click()
+  await solveRest(page)
+  await expect(page.getByTestId('score')).toContainText('4 out of 5')
+  await expect(page.getByText('You finished 5 challenges.')).toBeVisible()
+})
+
+test('completes the mission on a tablet-sized screen', async ({ page }) => {
+  await page.setViewportSize({ width: 768, height: 1024 })
+  await start(page)
+  await choose(page, 'one-fourth')
+  await page.getByTestId('check-answer').click()
+  await page.getByTestId('next').click()
+  await solveRest(page)
+  await expect(page.getByTestId('score')).toContainText('5 out of 5')
+  const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)
+  expect(overflow).toBeLessThanOrEqual(1)
+})

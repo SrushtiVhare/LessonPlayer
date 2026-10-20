@@ -1,0 +1,216 @@
+{
+  "id": "space-fractions",
+  "version": 1,
+  "title": "Star Pieces",
+  "description": "Help Astro gather broken star pieces by adding fractions with the same denominator.",
+  "grade": 4,
+  "topic": "Adding fractions with the same denominator",
+  "objectives": [
+    "Tell what a numerator and a denominator mean.",
+    "Add fractions that share a denominator by adding the numerators.",
+    "Show a sum on a number line."
+  ],
+  "theme": {
+    "id": "space",
+    "colors": {
+      "primary": "#3C3489",
+      "onPrimary": "#FFFFFF",
+      "secondary": "#2A5BD7",
+      "background": "#F4F0FF",
+      "surface": "#FFFFFF",
+      "accent": "#E6B325",
+      "onAccent": "#1A2340",
+      "text": "#1A2340",
+      "textMuted": "#3E4C6E",
+      "success": "#0D6A36",
+      "successSurface": "#E7F6EC",
+      "hint": "#6F4700",
+      "hintSurface": "#FFF3D0",
+      "reveal": "#14396E",
+      "revealSurface": "#E8F1FB",
+      "incorrect": "#8A3412",
+      "incorrectSurface": "#FDE7DC"
+    },
+    "character": {
+      "name": "Astro",
+      "description": "A small astronaut with a round helmet, a yellow star badge, and a friendly smile.",
+      "illustration": "astronaut"
+    },
+    "decorations": ["stars", "planets"],
+    "background": "starfield",
+    "buttons": { "radius": "lg" },
+    "cards": { "radius": "xl", "shadow": "soft" },
+    "celebration": { "style": "stars" },
+    "sound": { "celebration": true },
+    "phrases": {
+      "welcome": "Let's solve this together!",
+      "thinking": "Let's solve this together!",
+      "encourage": "Good try! Let's look at the pieces again.",
+      "celebrate": "Amazing! You figured it out.",
+      "proud": "Ready for your next space mission?"
+    }
+  },
+  "slides": [
+    {
+      "id": "intro",
+      "type": "intro",
+      "title": "Star Pieces",
+      "story": "Welcome, Space Explorer! The stars have broken into pieces. Let's help Astro put them back together by learning about fractions!",
+      "objective": "Add fractions that have the same denominator.",
+      "startLabel": "Start Mission",
+      "readAloud": "Welcome, Space Explorer! The stars have broken into pieces. Let's help Astro put them back together by learning about fractions. Today we will add fractions that have the same denominator."
+    },
+    {
+      "id": "identify-fraction",
+      "type": "task",
+      "instruction": "One piece of this star is glowing. Which fraction matches it?",
+      "supportingText": "The star is split into equal pieces.",
+      "hint": "Count the equal pieces first. That number is the denominator. Then count the glowing pieces.",
+      "explanation": "The denominator 4 tells us there are 4 equal pieces. The numerator 1 means 1 piece is glowing.",
+      "answerLabel": "1/4",
+      "readAloud": "One piece of this star is glowing. The star is split into equal pieces. Which fraction matches it?",
+      "visual": {
+        "type": "fraction-bars",
+        "bars": [
+          {
+            "segments": 4,
+            "shaded": 1,
+            "color": "gold",
+            "caption": "1 glowing piece out of 4 equal pieces"
+          }
+        ]
+      },
+      "interaction": {
+        "type": "multiple-choice",
+        "prompt": "One piece of this star is glowing. Which fraction matches it?",
+        "correctOptionId": "one-fourth",
+        "options": [
+          { "id": "one-fourth", "label": "1/4", "accessibleLabel": "1 out of 4" },
+          { "id": "one-third", "label": "1/3", "accessibleLabel": "1 out of 3" },
+          { "id": "four-over-one", "label": "4/1", "accessibleLabel": "4 out of 1" },
+          { "id": "three-fourths", "label": "3/4", "accessibleLabel": "3 out of 4" }
+        ]
+      }
+    },
+    {
+      "id": "add-fifths",
+      "type": "task",
+      "instruction": "Astro has 1/5 of a star and finds 2/5 more. How much is that altogether?",
+      "hint": "The pieces are all fifths. Add how many pieces you have: 1 plus 2.",
+      "explanation": "The pieces are the same size, so the denominator stays 5. 1 plus 2 equals 3, which is 3/5.",
+      "answerLabel": "3/5",
+      "readAloud": "Astro has 1 fifth of a star and finds 2 fifths more. How much is that altogether?",
+      "interaction": {
+        "type": "multiple-choice",
+        "prompt": "Astro has 1/5 of a star and finds 2/5 more. How much is that altogether?",
+        "correctOptionId": "three-fifths",
+        "options": [
+          { "id": "three-fifths", "label": "3/5", "accessibleLabel": "3 out of 5" },
+          { "id": "three-tenths", "label": "3/10", "accessibleLabel": "3 out of 10" },
+          { "id": "two-fifths", "label": "2/5", "accessibleLabel": "2 out of 5" },
+          { "id": "one-fifth", "label": "1/5", "accessibleLabel": "1 out of 5" }
+        ]
+      }
+    },
+    {
+      "id": "type-eighths",
+      "type": "task",
+      "instruction": "Type the sum of 2/8 and 3/8.",
+      "supportingText": "You can type a fraction or a decimal.",
+      "hint": "Add the top numbers. The bottom number stays 8.",
+      "explanation": "2 eighths plus 3 eighths is 5 eighths. The denominator stays 8.",
+      "answerLabel": "5/8",
+      "readAloud": "Type the sum of 2 eighths and 3 eighths. You can type a fraction or a decimal.",
+      "visual": {
+        "type": "fraction-bars",
+        "bars": [
+          { "segments": 8, "shaded": 2, "color": "gold", "caption": "2 eighths" },
+          { "segments": 8, "shaded": 3, "color": "blue", "caption": "3 eighths" }
+        ]
+      },
+      "interaction": {
+        "type": "numeric-input",
+        "prompt": "Type the sum of 2/8 and 3/8.",
+        "acceptedFormats": ["fraction", "decimal"],
+        "allowNegative": false,
+        "correct": { "numerator": 5, "denominator": 8 },
+        "placeholder": "Fraction or decimal"
+      }
+    },
+    {
+      "id": "number-line-fourths",
+      "type": "task",
+      "instruction": "Tap the mark that shows 1/4 + 2/4.",
+      "supportingText": "The marks are evenly spaced fourths.",
+      "hint": "One fourth plus two fourths lands on the third mark after zero.",
+      "explanation": "1/4 plus 2/4 equals 3/4. That is the mark three fourths of the way from 0 to 1.",
+      "answerLabel": "3/4",
+      "readAloud": "Tap the mark that shows 1 fourth plus 2 fourths. The marks are evenly spaced fourths.",
+      "interaction": {
+        "type": "number-line",
+        "prompt": "Tap the mark that shows 1/4 + 2/4.",
+        "start": { "numerator": 0, "denominator": 1 },
+        "end": { "numerator": 1, "denominator": 1 },
+        "partitions": 4,
+        "correct": { "numerator": 3, "denominator": 4 }
+      }
+    },
+    {
+      "id": "add-tenths",
+      "type": "task",
+      "instruction": "Which bar shows 4/10 + 3/10?",
+      "supportingText": "Gold and blue pieces are the same size.",
+      "hint": "Add 4 and 3. Do not add the two 10s together.",
+      "explanation": "4 tenths plus 3 tenths is 7 tenths. The denominator stays 10 because every piece is the same size.",
+      "answerLabel": "7/10",
+      "readAloud": "Gold and blue pieces are the same size. Which bar shows 4 tenths plus 3 tenths?",
+      "visual": {
+        "type": "fraction-bars",
+        "bars": [
+          { "segments": 10, "shaded": 4, "color": "gold", "caption": "4 tenths in gold" },
+          { "segments": 10, "shaded": 3, "color": "blue", "caption": "3 tenths in blue" }
+        ]
+      },
+      "interaction": {
+        "type": "multiple-choice",
+        "prompt": "Which bar shows 4/10 + 3/10?",
+        "correctOptionId": "seven-tenths",
+        "options": [
+          {
+            "id": "seven-tenths",
+            "label": "7/10",
+            "accessibleLabel": "7 out of 10",
+            "visual": { "segments": 10, "shaded": 7, "color": "gold", "caption": "7 of 10 pieces" }
+          },
+          {
+            "id": "seven-twentieths",
+            "label": "7/20",
+            "accessibleLabel": "7 out of 20",
+            "visual": { "segments": 20, "shaded": 7, "color": "gold", "caption": "7 of 20 pieces" }
+          },
+          {
+            "id": "one-tenth",
+            "label": "1/10",
+            "accessibleLabel": "1 out of 10",
+            "visual": { "segments": 10, "shaded": 1, "color": "gold", "caption": "1 of 10 pieces" }
+          },
+          {
+            "id": "eight-tenths",
+            "label": "8/10",
+            "accessibleLabel": "8 out of 10",
+            "visual": { "segments": 10, "shaded": 8, "color": "gold", "caption": "8 of 10 pieces" }
+          }
+        ]
+      }
+    },
+    {
+      "id": "outro",
+      "type": "outro",
+      "title": "The stars are shining again!",
+      "message": "You helped Astro gather the star pieces.",
+      "conceptSummary": "When fractions have the same denominator, the pieces are the same size. Add the numerators. The denominator stays the same.",
+      "badgeName": "Star Keeper",
+      "readAloud": "The stars are shining again! You helped Astro gather the star pieces. When fractions have the same denominator, the pieces are the same size. Add the numerators. The denominator stays the same."
+    }
+  ]
+}
