@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { useSearchParams } from 'react-router'
+import { motion, useReducedMotion } from 'framer-motion'
 import { characterMood } from '../../components/characters/mood.ts'
 import { Character } from '../../components/characters/Character.tsx'
 import { MissionProgress } from '../../components/progress/MissionProgress.tsx'
@@ -15,6 +16,7 @@ export function LessonPlayer({ lesson, hasMoreLessons }: { lesson: Lesson; hasMo
   const session = useLessonSession(lesson)
   const [searchParams, setSearchParams] = useSearchParams()
   const sound = useSoundPreference()
+  const reduceMotion = useReducedMotion()
   const slide = getSlide(lesson, session.state.slideId) ?? lesson.slides[0]
   const headingRef = useRef<HTMLDivElement>(null)
   const score = scoreLesson(lesson, session.state.tasks)
@@ -58,7 +60,14 @@ export function LessonPlayer({ lesson, hasMoreLessons }: { lesson: Lesson; hasMo
       ) : null}
       <div className="grid items-start gap-6 lg:grid-cols-[220px_minmax(0,1fr)]">
         <Character theme={lesson.theme} mood={mood} />
-        <div ref={headingRef} className="rounded-[var(--wq-radius-card)] bg-white/75 p-4 shadow-[var(--wq-shadow)] sm:p-6">
+        <motion.div
+          key={slide.id}
+          ref={headingRef}
+          className="rounded-[var(--wq-radius-card)] bg-white/80 p-4 shadow-[var(--wq-shadow)] sm:p-6"
+          initial={reduceMotion ? false : { opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={reduceMotion ? { duration: 0 } : { duration: 0.35 }}
+        >
           {slide.type === 'intro' ? <IntroView slide={slide} onStart={() => session.dispatch({ type: 'next' })} /> : null}
           {slide.type === 'task' && task ? (
             <TaskView
@@ -85,7 +94,7 @@ export function LessonPlayer({ lesson, hasMoreLessons }: { lesson: Lesson; hasMo
               onReplay={() => session.dispatch({ type: 'restart' })}
             />
           ) : null}
-        </div>
+        </motion.div>
       </div>
     </div>
   )

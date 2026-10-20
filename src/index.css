@@ -76,6 +76,33 @@ input {
   animation: wave 1.6s ease-in-out infinite;
 }
 
+.character-float {
+  animation: bob 2.8s ease-in-out infinite;
+}
+
+.float-slow {
+  animation: bob 4s ease-in-out infinite;
+}
+
+.piece-pop {
+  animation: pop 0.45s ease both;
+}
+
+.feedback-pop {
+  animation: pop 0.35s ease both;
+}
+
+@keyframes bob {
+  0%,
+  100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes pop {
+  from { transform: scale(0.86); }
+  to { transform: scale(1); }
+}
+
 @keyframes wave {
   0%,
   100% { transform: rotate(0deg); }

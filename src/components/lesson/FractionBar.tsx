@@ -13,8 +13,11 @@ export function FractionBar({ bar }: { bar: FractionBarModel }) {
         {Array.from({ length: bar.segments }, (_, index) => (
           <span
             key={index}
-            className="h-7 rounded-md border-2 border-ink sm:h-9"
-            style={{ background: index < bar.shaded ? fills[bar.color] : 'transparent' }}
+            className="piece-pop h-7 rounded-md border-2 border-ink sm:h-9"
+            style={{
+              background: index < bar.shaded ? fills[bar.color] : 'transparent',
+              animationDelay: `${index * 45}ms`,
+            }}
           />
         ))}
       </div>

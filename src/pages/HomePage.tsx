@@ -3,11 +3,13 @@ import { Link } from 'react-router'
 import { ThemedScreen } from '../components/layout/Screens.tsx'
 import { Character } from '../components/characters/Character.tsx'
 import { Button } from '../components/ui/Button.tsx'
+import { themeToStyle } from '../components/theme/theme-style.ts'
+import { adventures, getAdventure } from '../features/lesson-library/adventures.ts'
 import { bundledLessons, mergeLessons } from '../features/lesson-library/catalog.ts'
 import { createInitialState } from '../features/lesson-player/lesson-reducer.ts'
 import { reconcileProgress } from '../lib/progress-reconcile.ts'
 import { scoreLesson } from '../lib/scoring.ts'
-import { readLocalProgress } from '../lib/storage.ts'
+import { readAdventureId, readLocalProgress, writeAdventureId } from '../lib/storage.ts'
 import { isSupabaseConfigured } from '../services/supabase/client.ts'
 import { fetchPublishedLessons } from '../services/supabase/lessons.repository.ts'
 import type { Lesson } from '../schemas/lesson.schema.ts'
@@ -15,7 +17,15 @@ import type { Lesson } from '../schemas/lesson.schema.ts'
 export function HomePage() {
   const [lessons, setLessons] = useState<Lesson[]>(bundledLessons)
   const [confirmId, setConfirmId] = useState<string | null>(null)
+  const [adventureId, setAdventureId] = useState(() => readAdventureId() ?? 'space')
+  const adventure = getAdventure(adventureId)
   const lesson = lessons[0]
+
+  function chooseAdventure(id: string) {
+    const next = getAdventure(id)
+    setAdventureId(next.id)
+    writeAdventureId(next.id)
+  }
 
   useEffect(() => {
     document.title = 'WonderQuest Math'
@@ -39,7 +49,7 @@ export function HomePage() {
   }
 
   return (
-    <ThemedScreen theme={lesson.theme}>
+    <ThemedScreen theme={adventure.theme}>
       <div className="mx-auto grid w-full max-w-5xl gap-8 px-4 py-6 sm:px-6">
         <header className="flex items-center justify-between gap-3">
           <div>
@@ -51,18 +61,49 @@ export function HomePage() {
           </p>
         </header>
         <div className="grid items-center gap-6 lg:grid-cols-[240px_minmax(0,1fr)]">
-          <Character theme={lesson.theme} mood="welcome" />
+          <Character theme={adventure.theme} mood="welcome" />
           <div className="grid gap-4">
-            <h1 className="font-display text-4xl text-ink sm:text-6xl">Hi, explorer!</h1>
-            <p className="max-w-xl text-xl leading-relaxed text-ink">
-              The stars broke into pieces. Want to help {lesson.theme.character.name} put them back together?
-            </p>
+            <h1 className="font-display text-4xl text-ink sm:text-6xl">{adventure.story.welcomeTitle}</h1>
+            <p className="max-w-xl text-xl leading-relaxed text-ink">{adventure.story.welcomeBody}</p>
           </div>
         </div>
+        <section className="grid gap-3" aria-labelledby="world-heading">
+          <h2 id="world-heading" className="font-display text-2xl text-ink">
+            Pick your world
+          </h2>
+          <div className="grid gap-3 sm:grid-cols-3" role="group" aria-label="Choose your world">
+            {adventures.map((item) => {
+              const selected = item.id === adventure.id
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  data-testid={`theme-${item.id}`}
+                  aria-pressed={selected}
+                  onClick={() => chooseAdventure(item.id)}
+                  style={themeToStyle(item.theme)}
+                  className={`grid min-h-28 justify-items-center gap-1 rounded-[var(--wq-radius-card)] border-4 bg-surface px-3 py-4 text-ink shadow-[var(--wq-shadow)] transition active:scale-[0.98] ${selected ? 'border-primary' : 'border-transparent'}`}
+                >
+                  <Character theme={item.theme} mood="welcome" compact />
+                  <span className="font-display text-2xl">{item.theme.character.name}</span>
+                  <span className="text-sm font-bold text-muted">{item.story.lessonTitle}</span>
+                </button>
+              )
+            })}
+          </div>
+        </section>
         <ul className="grid gap-4">
           {lessons.map((item) => (
             <li key={item.id}>
-              <LessonCard lesson={item} confirmId={confirmId} onAskReplay={() => setConfirmId(item.id)} onCancel={() => setConfirmId(null)} />
+              <LessonCard
+                lesson={item}
+                adventureId={adventure.id}
+                title={adventure.story.lessonTitle}
+                description={adventure.story.lessonDescription}
+                confirmId={confirmId}
+                onAskReplay={() => setConfirmId(item.id)}
+                onCancel={() => setConfirmId(null)}
+              />
             </li>
           ))}
         </ul>
@@ -78,11 +119,17 @@ function badgeName(lesson: Lesson): string {
 
 function LessonCard({
   lesson,
+  adventureId,
+  title,
+  description,
   confirmId,
   onAskReplay,
   onCancel,
 }: {
   lesson: Lesson
+  adventureId: string
+  title: string
+  description: string
   confirmId: string | null
   onAskReplay: () => void
   onCancel: () => void
@@ -96,8 +143,8 @@ function LessonCard({
   return (
     <article className="grid gap-4 rounded-[var(--wq-radius-card)] bg-surface p-5 shadow-[var(--wq-shadow)]">
       <p className="font-bold text-muted">Grade {lesson.grade} · {lesson.topic}</p>
-      <h2 className="font-display text-3xl text-ink">{lesson.title}</h2>
-      <p className="max-w-2xl text-lg text-ink">{lesson.description}</p>
+      <h2 className="font-display text-3xl text-ink">{title}</h2>
+      <p className="max-w-2xl text-lg text-ink">{description}</p>
       {started ? (
         <div className="grid gap-1">
           <p className="font-bold text-ink">
@@ -112,7 +159,7 @@ function LessonCard({
       <div className="flex flex-col gap-3 sm:flex-row">
         {finished ? (
           <>
-            <Link to={`/lesson/${lesson.id}`} className="inline-flex min-h-12 items-center justify-center rounded-[var(--wq-radius-button)] bg-primary px-5 font-bold text-on-primary">
+            <Link to={`/lesson/${lesson.id}?adventure=${adventureId}`} className="inline-flex min-h-12 items-center justify-center rounded-[var(--wq-radius-button)] bg-primary px-5 font-bold text-on-primary">
               Review Mission
             </Link>
             <Button variant="accent" onClick={onAskReplay}>
@@ -121,7 +168,7 @@ function LessonCard({
           </>
         ) : (
           <Link
-            to={`/lesson/${lesson.id}`}
+            to={`/lesson/${lesson.id}?adventure=${adventureId}`}
             data-testid="start-learning"
             className="inline-flex min-h-12 items-center justify-center rounded-[var(--wq-radius-button)] bg-accent px-5 text-lg font-bold text-on-accent"
           >
@@ -136,7 +183,7 @@ function LessonCard({
           </h3>
           <p>Your stars from this mission will reset.</p>
           <div className="flex flex-col gap-3 sm:flex-row">
-            <Link to={`/lesson/${lesson.id}?restart=1`} className="inline-flex min-h-12 items-center justify-center rounded-[var(--wq-radius-button)] bg-accent px-5 font-bold text-on-accent">
+            <Link to={`/lesson/${lesson.id}?adventure=${adventureId}&restart=1`} className="inline-flex min-h-12 items-center justify-center rounded-[var(--wq-radius-button)] bg-accent px-5 font-bold text-on-accent">
               Start over
             </Link>
             <Button variant="ghost" onClick={onCancel}>

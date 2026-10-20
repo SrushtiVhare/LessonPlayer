@@ -1,0 +1,251 @@
+[
+  {
+    "id": "space",
+    "theme": {
+      "id": "space",
+      "colors": {
+        "primary": "#3C3489",
+        "onPrimary": "#FFFFFF",
+        "secondary": "#2A5BD7",
+        "background": "#F4F0FF",
+        "surface": "#FFFFFF",
+        "accent": "#E6B325",
+        "onAccent": "#1A2340",
+        "text": "#1A2340",
+        "textMuted": "#3E4C6E",
+        "success": "#0D6A36",
+        "successSurface": "#E7F6EC",
+        "hint": "#6F4700",
+        "hintSurface": "#FFF3D0",
+        "reveal": "#14396E",
+        "revealSurface": "#E8F1FB",
+        "incorrect": "#8A3412",
+        "incorrectSurface": "#FDE7DC"
+      },
+      "character": {
+        "name": "Astro",
+        "description": "A small astronaut with a round helmet, a yellow star badge, and a friendly smile.",
+        "illustration": "astronaut"
+      },
+      "decorations": ["stars", "planets"],
+      "background": "starfield",
+      "buttons": { "radius": "pill" },
+      "cards": { "radius": "xl", "shadow": "soft" },
+      "celebration": { "style": "stars" },
+      "sound": { "celebration": true },
+      "phrases": {
+        "welcome": "Let's solve this together!",
+        "thinking": "Let's solve this together!",
+        "encourage": "Good try! Let's look at the pieces again.",
+        "celebrate": "Amazing! You figured it out.",
+        "proud": "Ready for your next space mission?"
+      }
+    },
+    "story": {
+      "welcomeTitle": "Hi, explorer!",
+      "welcomeBody": "The stars broke into pieces. Pick a world, then help your friend put equal pieces back together.",
+      "lessonTitle": "Star Pieces",
+      "lessonDescription": "Help Astro gather broken star pieces by adding fractions with the same denominator.",
+      "introTitle": "Star Pieces",
+      "introStory": "Welcome, Space Explorer! The stars have broken into pieces. Let's help Astro put them back together by learning about fractions!",
+      "objective": "Add fractions that have the same denominator.",
+      "introReadAloud": "Welcome, Space Explorer! The stars have broken into pieces. Let's help Astro put them back together by learning about fractions. Today we will add fractions that have the same denominator.",
+      "outroTitle": "The stars are shining again!",
+      "outroMessage": "You helped Astro gather the star pieces.",
+      "badgeName": "Star Keeper",
+      "outroReadAloud": "The stars are shining again! You helped Astro gather the star pieces. When fractions have the same denominator, the pieces are the same size. Add the numerators. The denominator stays the same.",
+      "slides": {
+        "identify-fraction": {
+          "instruction": "One piece of this star is glowing. Which fraction matches it?",
+          "supportingText": "The star is split into equal pieces.",
+          "readAloud": "One piece of this star is glowing. The star is split into equal pieces. Which fraction matches it?"
+        },
+        "add-fifths": {
+          "instruction": "Astro has 1/5 of a star and finds 2/5 more. How much is that altogether?",
+          "readAloud": "Astro has 1 fifth of a star and finds 2 fifths more. How much is that altogether?"
+        },
+        "type-eighths": {
+          "instruction": "Type the sum of 2/8 and 3/8.",
+          "supportingText": "You can type a fraction or a decimal.",
+          "readAloud": "Type the sum of 2 eighths and 3 eighths. You can type a fraction or a decimal."
+        },
+        "number-line-fourths": {
+          "instruction": "Tap the mark that shows 1/4 + 2/4.",
+          "supportingText": "The marks are evenly spaced fourths.",
+          "readAloud": "Tap the mark that shows 1 fourth plus 2 fourths. The marks are evenly spaced fourths."
+        },
+        "add-tenths": {
+          "instruction": "Which bar shows 4/10 + 3/10?",
+          "supportingText": "Gold and blue pieces are the same size.",
+          "readAloud": "Gold and blue pieces are the same size. Which bar shows 4 tenths plus 3 tenths?"
+        }
+      }
+    }
+  },
+  {
+    "id": "dino",
+    "theme": {
+      "id": "dino",
+      "colors": {
+        "primary": "#1B6B3A",
+        "onPrimary": "#FFFFFF",
+        "secondary": "#2E7D4F",
+        "background": "#E5F6DF",
+        "surface": "#FFFFFF",
+        "accent": "#F4A24A",
+        "onAccent": "#1A2340",
+        "text": "#142418",
+        "textMuted": "#2F4A38",
+        "success": "#0E5C32",
+        "successSurface": "#E5F6EC",
+        "hint": "#6F4700",
+        "hintSurface": "#FFF3D0",
+        "reveal": "#14396E",
+        "revealSurface": "#E8F1FB",
+        "incorrect": "#8A3412",
+        "incorrectSurface": "#FDE7DC"
+      },
+      "character": {
+        "name": "Rex",
+        "description": "A small smiling dinosaur with orange spikes and a round green face.",
+        "illustration": "dino"
+      },
+      "decorations": ["ferns", "bones"],
+      "background": "jungle",
+      "buttons": { "radius": "pill" },
+      "cards": { "radius": "xl", "shadow": "soft" },
+      "celebration": { "style": "confetti" },
+      "sound": { "celebration": true },
+      "phrases": {
+        "welcome": "Let's count these eggs together!",
+        "thinking": "Look closely at the equal pieces.",
+        "encourage": "Good try! Let's look at the pieces again.",
+        "celebrate": "Amazing! You figured it out.",
+        "proud": "The eggs are safe again!"
+      }
+    },
+    "story": {
+      "welcomeTitle": "Hi, dino friend!",
+      "welcomeBody": "Rex's eggs cracked into equal pieces. Count the pieces and put each egg back together.",
+      "lessonTitle": "Egg Pieces",
+      "lessonDescription": "Help Rex rebuild cracked eggs by adding fractions with the same denominator.",
+      "introTitle": "Egg Pieces",
+      "introStory": "Welcome, Dino Explorer! The eggs cracked into equal pieces. Let's help Rex put them back together by learning about fractions!",
+      "objective": "Add fractions that have the same denominator.",
+      "introReadAloud": "Welcome, Dino Explorer! The eggs cracked into equal pieces. Let's help Rex put them back together by learning about fractions. Today we will add fractions that have the same denominator.",
+      "outroTitle": "The eggs are whole again!",
+      "outroMessage": "You helped Rex count every egg piece.",
+      "badgeName": "Egg Keeper",
+      "outroReadAloud": "The eggs are whole again! You helped Rex count every egg piece. When fractions have the same denominator, the pieces are the same size. Add the numerators. The denominator stays the same.",
+      "slides": {
+        "identify-fraction": {
+          "instruction": "One piece of this egg is glowing. Which fraction matches it?",
+          "supportingText": "The egg is split into equal pieces.",
+          "readAloud": "One piece of this egg is glowing. The egg is split into equal pieces. Which fraction matches it?"
+        },
+        "add-fifths": {
+          "instruction": "Rex has 1/5 of an egg and finds 2/5 more. How much is that altogether?",
+          "readAloud": "Rex has 1 fifth of an egg and finds 2 fifths more. How much is that altogether?"
+        },
+        "type-eighths": {
+          "instruction": "Type the sum of 2/8 and 3/8.",
+          "supportingText": "You can type a fraction or a decimal.",
+          "readAloud": "Type the sum of 2 eighths and 3 eighths. You can type a fraction or a decimal."
+        },
+        "number-line-fourths": {
+          "instruction": "Tap the mark that shows 1/4 + 2/4.",
+          "supportingText": "The marks are evenly spaced fourths.",
+          "readAloud": "Tap the mark that shows 1 fourth plus 2 fourths. The marks are evenly spaced fourths."
+        },
+        "add-tenths": {
+          "instruction": "Which bar shows 4/10 + 3/10?",
+          "supportingText": "Gold and blue pieces are the same size.",
+          "readAloud": "Gold and blue pieces are the same size. Which bar shows 4 tenths plus 3 tenths?"
+        }
+      }
+    }
+  },
+  {
+    "id": "soccer",
+    "theme": {
+      "id": "soccer",
+      "colors": {
+        "primary": "#0F5C45",
+        "onPrimary": "#FFFFFF",
+        "secondary": "#1D4E89",
+        "background": "#E7F8EC",
+        "surface": "#FFFFFF",
+        "accent": "#F5C518",
+        "onAccent": "#1A2340",
+        "text": "#102418",
+        "textMuted": "#2C4A38",
+        "success": "#0E5C32",
+        "successSurface": "#E5F6EC",
+        "hint": "#6F4700",
+        "hintSurface": "#FFF3D0",
+        "reveal": "#14396E",
+        "revealSurface": "#E8F1FB",
+        "incorrect": "#8A3412",
+        "incorrectSurface": "#FDE7DC"
+      },
+      "character": {
+        "name": "Kick",
+        "description": "A small soccer player in a green jersey with a yellow ball.",
+        "illustration": "player"
+      },
+      "decorations": ["balls", "goals"],
+      "background": "pitch",
+      "buttons": { "radius": "pill" },
+      "cards": { "radius": "xl", "shadow": "soft" },
+      "celebration": { "style": "confetti" },
+      "sound": { "celebration": true },
+      "phrases": {
+        "welcome": "Let's play this puzzle together!",
+        "thinking": "Look closely at the equal pieces.",
+        "encourage": "Good try! Let's look at the pieces again.",
+        "celebrate": "Amazing! You figured it out.",
+        "proud": "What a great match!"
+      }
+    },
+    "story": {
+      "welcomeTitle": "Hi, soccer star!",
+      "welcomeBody": "Kick's ball is painted in equal pieces. Figure out the fractions and finish the picture.",
+      "lessonTitle": "Ball Pieces",
+      "lessonDescription": "Help Kick finish the ball by adding fractions with the same denominator.",
+      "introTitle": "Ball Pieces",
+      "introStory": "Welcome, Soccer Star! The ball is painted in equal pieces. Let's help Kick put the picture together by learning about fractions!",
+      "objective": "Add fractions that have the same denominator.",
+      "introReadAloud": "Welcome, Soccer Star! The ball is painted in equal pieces. Let's help Kick put the picture together by learning about fractions. Today we will add fractions that have the same denominator.",
+      "outroTitle": "Goal! The ball is finished!",
+      "outroMessage": "You helped Kick paint every piece.",
+      "badgeName": "Goal Keeper",
+      "outroReadAloud": "Goal! The ball is finished! You helped Kick paint every piece. When fractions have the same denominator, the pieces are the same size. Add the numerators. The denominator stays the same.",
+      "slides": {
+        "identify-fraction": {
+          "instruction": "One piece of this ball is glowing. Which fraction matches it?",
+          "supportingText": "The ball is split into equal pieces.",
+          "readAloud": "One piece of this ball is glowing. The ball is split into equal pieces. Which fraction matches it?"
+        },
+        "add-fifths": {
+          "instruction": "Kick paints 1/5 of a ball and then 2/5 more. How much is painted altogether?",
+          "readAloud": "Kick paints 1 fifth of a ball and then 2 fifths more. How much is painted altogether?"
+        },
+        "type-eighths": {
+          "instruction": "Type the sum of 2/8 and 3/8.",
+          "supportingText": "You can type a fraction or a decimal.",
+          "readAloud": "Type the sum of 2 eighths and 3 eighths. You can type a fraction or a decimal."
+        },
+        "number-line-fourths": {
+          "instruction": "Tap the mark that shows 1/4 + 2/4.",
+          "supportingText": "The marks are evenly spaced fourths.",
+          "readAloud": "Tap the mark that shows 1 fourth plus 2 fourths. The marks are evenly spaced fourths."
+        },
+        "add-tenths": {
+          "instruction": "Which bar shows 4/10 + 3/10?",
+          "supportingText": "Gold and blue pieces are the same size.",
+          "readAloud": "Gold and blue pieces are the same size. Which bar shows 4 tenths plus 3 tenths?"
+        }
+      }
+    }
+  }
+]

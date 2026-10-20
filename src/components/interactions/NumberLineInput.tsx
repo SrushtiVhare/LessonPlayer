@@ -37,7 +37,7 @@ export function NumberLineInput({
               <button
                 key={tick.index}
                 type="button"
-                className={`flex min-h-16 min-w-12 flex-1 flex-col items-center gap-2 rounded-2xl px-1 py-1 ${selected ? 'bg-surface shadow-[var(--wq-shadow)]' : ''}`}
+                className={`flex min-h-16 min-w-12 flex-1 flex-col items-center gap-2 rounded-2xl px-1 py-1 transition active:scale-95 ${selected ? 'bg-surface shadow-[var(--wq-shadow)]' : ''}`}
                 aria-pressed={selected}
                 disabled={disabled}
                 data-testid={`tick-${tick.index}`}

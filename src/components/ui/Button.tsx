@@ -14,7 +14,7 @@ export function Button({ variant = 'primary', className = '', type = 'button', .
   return (
     <button
       type={type}
-      className={`inline-flex min-h-12 items-center justify-center gap-2 rounded-[var(--wq-radius-button)] border-2 border-transparent px-5 py-3 text-lg font-bold shadow-[var(--wq-shadow)] disabled:cursor-not-allowed disabled:border-ink/15 disabled:bg-surface disabled:text-muted disabled:shadow-none ${variants[variant]} ${className}`}
+      className={`inline-flex min-h-12 items-center justify-center gap-2 rounded-[var(--wq-radius-button)] border-2 border-transparent px-5 py-3 text-lg font-bold shadow-[var(--wq-shadow)] transition active:scale-95 disabled:cursor-not-allowed disabled:border-ink/15 disabled:bg-surface disabled:text-muted disabled:shadow-none disabled:active:scale-100 ${variants[variant]} ${className}`}
       {...props}
     />
   )

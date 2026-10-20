@@ -28,7 +28,7 @@ export function MultipleChoice({
         return (
           <label
             key={option.id}
-            className={`flex min-h-16 cursor-pointer items-center gap-3 rounded-[var(--wq-radius-card)] border-4 bg-surface px-4 py-3 shadow-[var(--wq-shadow)] has-[:focus-visible]:outline has-[:focus-visible]:outline-4 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-secondary ${selected ? 'border-primary' : 'border-transparent'} ${disabled ? 'cursor-default' : ''}`}
+            className={`flex min-h-16 cursor-pointer items-center gap-3 rounded-[var(--wq-radius-card)] border-4 bg-surface px-4 py-3 shadow-[var(--wq-shadow)] transition active:scale-[0.98] has-[:focus-visible]:outline has-[:focus-visible]:outline-4 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-secondary ${selected ? 'border-primary' : 'border-transparent'} ${disabled ? 'cursor-default active:scale-100' : ''}`}
             data-testid={`choice-${option.id}`}
           >
             <input

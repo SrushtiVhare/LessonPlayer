@@ -6,7 +6,7 @@ Astro, a friendly astronaut, asks the child to put broken star pieces back toget
 
 ## What you will see
 
-1. **Home.** The WonderQuest name, Astro, a short welcome, and one mission card with the title, grade, and any saved progress.
+1. **Home.** The WonderQuest name, three worlds to choose (space, dinosaurs, or soccer), a short welcome, and one mission card with the title, grade, and any saved progress. The math stays the same. The colors, friend, and story change with the world.
 2. **Mission briefing.** The story, the learning goal, and **Start Mission**.
 3. **Challenges.** A progress label such as “Challenge 2 of 5”, the question, a large interaction, **Check Answer**, **Need a clue?**, **Back**, and **Next**. Next stays locked until that challenge is finished.
 4. **Mission complete.** A short celebration, first-try stars such as “4 out of 5”, the number of finished challenges, the idea in one or two sentences, **Play Again**, and a way back to Adventures.
@@ -150,11 +150,17 @@ Raise `version` when you change a lesson that people may already have saved. Mat
 
 ## Themes
 
-Theme values live in the lesson JSON, not in the player. `ThemedScreen` copies validated colors and radius tokens onto CSS variables such as `--wq-primary`. Tailwind utilities read those variables, so a new palette updates buttons, cards, feedback, and the page background together.
+The home screen offers three worlds: **space**, **dinosaurs**, and **soccer**. The choice is saved on this device. Colors, the friend’s name and drawing, the background, and the story sentences all come from `src/themes/adventures.json`. The fraction questions, correct answers, hints, and explanations stay in `src/lessons/space-fractions.json`.
+
+`applyAdventure` copies the chosen story onto a clone of the lesson and checks it with the same schema. A bad story cannot reach the player.
+
+`ThemedScreen` copies validated colors and radius tokens onto CSS variables such as `--wq-primary`. Tailwind utilities read those variables, so a new palette updates buttons, cards, feedback, and the page background together.
 
 Colors must be `#RRGGBB`. Text pairs must reach a contrast ratio of at least 4.5. The schema rejects other strings, so a lesson cannot inject CSS, HTML, or scripts through a color.
 
-`character.illustration` must be `astronaut` or `dino`. `background` is `starfield` or `plain`. Decorations are `stars` and `planets`. To add a dinosaur mission, change those fields and the phrases. The player code stays the same. Artwork for a new character is added once, in `src/components/characters/Character.tsx` and the `illustrationIds` list.
+`character.illustration` must be `astronaut`, `dino`, or `player`. `background` is `starfield`, `jungle`, `pitch`, or `plain`. Decorations are `stars`, `planets`, `ferns`, `bones`, `balls`, and `goals`. To add another world, add an adventure object and, if it needs a new drawing, one component in `src/components/characters/` plus its id in `illustrationIds`. The player and the grader stay the same.
+
+Motion is short: the friend bobs, fraction pieces pop in, and each slide slides up. If the device asks for reduced motion, those animations stop.
 
 ## Add an interaction
 
@@ -210,13 +216,14 @@ npx playwright install chromium
 - Anonymous sign-ins must be enabled or online save stays unavailable. Local save still works.
 - A lesson downloaded from Supabase replaces the bundled copy on the next visit, not in the middle of a mission.
 - Numeric answers accept equivalent fractions. The sample lesson does not ask children to simplify, and it does not teach mixed numbers.
-- The dinosaur drawing is only there so a theme can switch characters. There is no dinosaur lesson yet.
+- Space, dinosaurs, and soccer are three looks for the same fraction lesson. They are not three different math topics.
 - There is no teacher dashboard, class roster, or account screen.
 
 ## Project map
 
 ```text
 src/lessons/space-fractions.json      mission content
+src/themes/adventures.json            space, dinosaur, and soccer looks
 src/schemas                           Zod lesson, theme, and progress checks
 src/lib                               fractions, grading, attempts, scoring, storage
 src/components/interactions           choice, typing, and number line

@@ -4,6 +4,7 @@ import { parseLesson, type Lesson } from '../schemas/lesson.schema.ts'
 const PROGRESS_PREFIX = 'wonderquest.progress.'
 const LESSON_CACHE_PREFIX = 'wonderquest.lesson.'
 const SOUND_KEY = 'wonderquest.sound'
+const ADVENTURE_KEY = 'wonderquest.adventure'
 
 function memory(): Storage | null {
   try {
@@ -71,6 +72,27 @@ export function writeSoundEnabled(enabled: boolean): void {
     store.setItem(SOUND_KEY, enabled ? 'on' : 'off')
   } catch {
     // Sound preference is optional.
+  }
+}
+
+export function readAdventureId(): string | null {
+  const store = memory()
+  if (!store) return null
+  try {
+    const value = store.getItem(ADVENTURE_KEY)
+    return value && /^[a-z0-9-]+$/.test(value) ? value : null
+  } catch {
+    return null
+  }
+}
+
+export function writeAdventureId(id: string): void {
+  const store = memory()
+  if (!store) return
+  try {
+    store.setItem(ADVENTURE_KEY, id)
+  } catch {
+    // The chosen adventure still applies for this visit.
   }
 }
 

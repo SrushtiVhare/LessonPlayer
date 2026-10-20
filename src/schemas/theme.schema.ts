@@ -1,8 +1,8 @@
 import { z } from 'zod'
 import { contrastRatio, MINIMUM_TEXT_CONTRAST } from '../lib/contrast.ts'
 
-export const illustrationIds = ['astronaut', 'dino'] as const
-export const decorationIds = ['stars', 'planets'] as const
+export const illustrationIds = ['astronaut', 'dino', 'player'] as const
+export const decorationIds = ['stars', 'planets', 'ferns', 'bones', 'balls', 'goals'] as const
 
 const hexColor = z.string().regex(/^#[0-9A-Fa-f]{6}$/, 'Use a #RRGGBB color.')
 
@@ -36,7 +36,7 @@ export const themeSchema = z
       illustration: z.enum(illustrationIds),
     }),
     decorations: z.array(z.enum(decorationIds)).max(4),
-    background: z.enum(['starfield', 'plain']),
+    background: z.enum(['starfield', 'jungle', 'pitch', 'plain']),
     buttons: z.object({
       radius: z.enum(['md', 'lg', 'pill']),
     }),
