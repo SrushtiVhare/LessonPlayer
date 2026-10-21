@@ -58,12 +58,14 @@ export function LessonPlayer({ lesson, hasMoreLessons }: { lesson: Lesson; hasMo
           </button>
         </div>
       ) : null}
-      <div className="grid items-start gap-6 lg:grid-cols-[220px_minmax(0,1fr)]">
-        <Character theme={lesson.theme} mood={mood} />
+      <div className="grid items-start gap-4 lg:grid-cols-[200px_minmax(0,1fr)]">
+        <div className="mx-auto w-44 rounded-[2rem] border-4 border-ink bg-surface p-3 shadow-[var(--wq-shadow)]">
+          <Character theme={lesson.theme} mood={mood} />
+        </div>
         <motion.div
           key={slide.id}
           ref={headingRef}
-          className="rounded-[var(--wq-radius-card)] bg-white/80 p-4 shadow-[var(--wq-shadow)] sm:p-6"
+          className="rounded-[var(--wq-radius-card)] border-4 border-ink bg-surface p-4 shadow-[var(--wq-shadow)] sm:p-6"
           initial={reduceMotion ? false : { opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={reduceMotion ? { duration: 0 } : { duration: 0.35 }}

@@ -1,4 +1,15 @@
 import { expect, test, type Page } from '@playwright/test'
+import rawLesson from '../../src/lessons/space-fractions.json' with { type: 'json' }
+
+test.beforeEach(async ({ page }) => {
+  await page.route('**/api/generate-lesson', async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify(rawLesson),
+    })
+  })
+})
 
 async function start(page: Page) {
   await page.goto('/')

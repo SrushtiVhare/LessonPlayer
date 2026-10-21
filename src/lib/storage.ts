@@ -5,6 +5,7 @@ const PROGRESS_PREFIX = 'wonderquest.progress.'
 const LESSON_CACHE_PREFIX = 'wonderquest.lesson.'
 const SOUND_KEY = 'wonderquest.sound'
 const ADVENTURE_KEY = 'wonderquest.adventure'
+const LATEST_LESSON_KEY = 'wonderquest.latest-lesson'
 
 function memory(): Storage | null {
   try {
@@ -93,6 +94,27 @@ export function writeAdventureId(id: string): void {
     store.setItem(ADVENTURE_KEY, id)
   } catch {
     // The chosen adventure still applies for this visit.
+  }
+}
+
+export function readLatestLessonId(): string | null {
+  const store = memory()
+  if (!store) return null
+  try {
+    const value = store.getItem(LATEST_LESSON_KEY)
+    return value && /^[a-z0-9-]+$/.test(value) ? value : null
+  } catch {
+    return null
+  }
+}
+
+export function writeLatestLessonId(id: string): void {
+  const store = memory()
+  if (!store) return
+  try {
+    store.setItem(LATEST_LESSON_KEY, id)
+  } catch {
+    // The mission can still open from the lesson cache.
   }
 }
 

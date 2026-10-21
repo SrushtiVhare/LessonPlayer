@@ -147,7 +147,7 @@ export const lessonSchema = z
     topic: shortText(80),
     objectives: z.array(shortText(160)).min(1).max(4),
     theme: themeSchema,
-    slides: z.array(slideSchema).min(6).max(7),
+    slides: z.array(slideSchema).min(6).max(12),
   })
   .superRefine((lesson, ctx) => {
     const [first] = lesson.slides
@@ -163,8 +163,8 @@ export const lessonSchema = z
       })
     }
     const tasks = lesson.slides.filter((slide) => slide.type === 'task')
-    if (tasks.length < 4 || tasks.length > 5) {
-      ctx.addIssue({ code: 'custom', message: 'A lesson needs 4 or 5 challenges.', path: ['slides'] })
+    if (tasks.length < 4 || tasks.length > 10) {
+      ctx.addIssue({ code: 'custom', message: 'A lesson needs 4 to 10 challenges.', path: ['slides'] })
     }
     const middle = lesson.slides.slice(1, -1)
     if (middle.some((slide) => slide.type !== 'task')) {

@@ -34,6 +34,6 @@ export function themeToStyle(theme: Theme): CSSProperties {
     '--wq-incorrect-surface': colors.incorrectSurface,
     '--wq-radius-button': buttonRadius[theme.buttons.radius],
     '--wq-radius-card': cardRadius[theme.cards.radius],
-    '--wq-shadow': theme.cards.shadow === 'none' ? 'none' : '0 16px 40px rgb(26 35 64 / 0.08)',
+    '--wq-shadow': theme.cards.shadow === 'none' ? 'none' : '6px 6px 0 var(--wq-primary)',
   } as CSSProperties
 }

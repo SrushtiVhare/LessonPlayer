@@ -150,7 +150,13 @@ Raise `version` when you change a lesson that people may already have saved. Mat
 
 ## Themes
 
-The home screen offers three worlds: **space**, **dinosaurs**, and **soccer**. The choice is saved on this device. Colors, the friend’s name and drawing, the background, and the story sentences all come from `src/themes/adventures.json`. The fraction questions, correct answers, hints, and explanations stay in `src/lessons/space-fractions.json`.
+The home screen offers three worlds: **space**, **dinosaurs**, and **soccer**. The choice is saved on this device. Colors, the friend’s name, and the drawing come from `src/themes/adventures.json`.
+
+**New puzzles come from Gemini, not from a fixed worksheet.** Start Learning asks the dev server for 10 fresh Grade 4 questions about adding fractions with the same denominator. The server checks the math before the child sees anything: the pictured bar must match, sums must be right, and the “added the denominators” trap must be present. A failed draft is sent back to the model once. The key stays in `.env` as `GEMINI_API_KEY` and is never put in the browser.
+
+The model is **Gemini 3.5 Flash-Lite** (`gemini-3.5-flash-lite`). It is the current low-cost Gemini model with a free tier and structured JSON. Get a key at [Google AI Studio](https://aistudio.google.com/apikey), add it to `.env`, and restart `npm run dev`. Set `GEMINI_MODEL` only if you want a different Gemini model.
+
+`src/lessons/space-fractions.json` is the sample used by tests. It is not what a child plays after the key is set.
 
 `applyAdventure` copies the chosen story onto a clone of the lesson and checks it with the same schema. A bad story cannot reach the player.
 
@@ -216,7 +222,8 @@ npx playwright install chromium
 - Anonymous sign-ins must be enabled or online save stays unavailable. Local save still works.
 - A lesson downloaded from Supabase replaces the bundled copy on the next visit, not in the middle of a mission.
 - Numeric answers accept equivalent fractions. The sample lesson does not ask children to simplify, and it does not teach mixed numbers.
-- Space, dinosaurs, and soccer are three looks for the same fraction lesson. They are not three different math topics.
+- Space, dinosaurs, and soccer change the look and the story voice. The math topic stays “add fractions with the same denominator,” with a new set of 10 questions each time Start Learning is pressed.
+- Generating questions needs `npm run dev` (or `npm run preview`) so the Gemini key stays on the server. A static file host cannot call the model by itself.
 - There is no teacher dashboard, class roster, or account screen.
 
 ## Project map

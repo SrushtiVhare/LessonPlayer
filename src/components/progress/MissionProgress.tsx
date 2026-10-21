@@ -17,14 +17,20 @@ export function MissionProgress({
         </p>
       </div>
       <div
-        className="h-3 overflow-hidden rounded-full bg-white/80"
+        className="flex gap-1.5"
         role="progressbar"
         aria-valuemin={0}
         aria-valuemax={total}
         aria-valuenow={completed}
         aria-label="Challenges finished"
       >
-        <div className="h-full rounded-full bg-accent transition-[width]" style={{ width: `${percent}%` }} />
+        {Array.from({ length: Math.max(total, 1) }, (_, index) => (
+          <span
+            key={index}
+            className={`h-4 flex-1 rounded-full border-2 border-ink ${index < completed ? 'bg-accent' : 'bg-surface'}`}
+          />
+        ))}
+        <span className="sr-only">{percent} percent</span>
       </div>
     </div>
   )

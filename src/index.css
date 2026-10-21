@@ -42,7 +42,7 @@
   --wq-incorrect-surface: #fde7dc;
   --wq-radius-button: 1.25rem;
   --wq-radius-card: 1.75rem;
-  --wq-shadow: 0 16px 40px rgb(26 35 64 / 0.08);
+  --wq-shadow: 6px 6px 0 #3c3489;
   color: var(--wq-text);
   background: var(--wq-background);
   font-family: var(--font-body);

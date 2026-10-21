@@ -2,7 +2,9 @@ import { useEffect, useMemo, useState } from 'react'
 import { useParams, useSearchParams } from 'react-router'
 import { LoadingMission, MissingAdventure, ThemedScreen } from '../components/layout/Screens.tsx'
 import { LessonPlayer } from '../features/lesson-player/LessonPlayer.tsx'
-import { lessonWithAdventure } from '../features/lesson-library/adventures.ts'
+import { getAdventure, lessonWithAdventure } from '../features/lesson-library/adventures.ts'
+import { LIVE_LESSON_ID } from '../server/prepare-lesson.ts'
+import { parseLesson } from '../schemas/lesson.schema.ts'
 import { bundledLessons, resolveLesson } from '../features/lesson-library/catalog.ts'
 import { readAdventureId, writeAdventureId } from '../lib/storage.ts'
 import { isSupabaseConfigured } from '../services/supabase/client.ts'
@@ -25,7 +27,12 @@ export function LessonPage() {
     writeAdventureId(adventureId)
   }, [adventureId])
 
-  const skinned = useMemo(() => (lesson ? lessonWithAdventure(lesson, adventureId) : null), [adventureId, lesson])
+  const skinned = useMemo(() => {
+    if (!lesson) return null
+    if (lesson.id !== LIVE_LESSON_ID) return lessonWithAdventure(lesson, adventureId)
+    const themed = parseLesson({ ...lesson, theme: getAdventure(adventureId).theme })
+    return themed.ok ? themed.lesson : lesson
+  }, [adventureId, lesson])
 
   useEffect(() => {
     if (!id) return
