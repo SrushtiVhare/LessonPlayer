@@ -9,13 +9,23 @@ export type RemoteProgressResult =
   | { status: 'disabled' }
   | { status: 'error' }
 
+let anonymousSignInBlocked = false
+
 async function ensureUserId(): Promise<string | null> {
-  if (!supabase) return null
-  const existing = await supabase.auth.getSession()
-  if (existing.data.session?.user.id) return existing.data.session.user.id
-  const signedIn = await supabase.auth.signInAnonymously()
-  if (signedIn.error || !signedIn.data.user) return null
-  return signedIn.data.user.id
+  if (!supabase || anonymousSignInBlocked) return null
+  try {
+    const existing = await supabase.auth.getSession()
+    if (existing.data.session?.user.id) return existing.data.session.user.id
+    const signedIn = await supabase.auth.signInAnonymously()
+    if (signedIn.error || !signedIn.data.user) {
+      anonymousSignInBlocked = true
+      return null
+    }
+    return signedIn.data.user.id
+  } catch {
+    anonymousSignInBlocked = true
+    return null
+  }
 }
 
 export async function pullRemoteProgress(lessonId: string): Promise<RemoteProgressResult> {

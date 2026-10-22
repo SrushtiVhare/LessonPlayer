@@ -165,7 +165,6 @@ function cleanChoices(
     const accessibleLabel = text(row?.accessibleLabel, 80, `Challenge ${index} choice ${optionIndex + 1} label`, errors)
     return { label, accessibleLabel }
   })
-  const target = `${facts.answerNumerator}/${facts.denominator}`
   const matches = matchChoices(cleaned, facts, instruction, errors, index)
   if (!matches) return null
   if (facts.kind === 'mistake' && matches.some((match, optionIndex) => match && sameFraction(cleaned[optionIndex]?.label ?? '', facts.answerNumerator, facts.denominator))) {

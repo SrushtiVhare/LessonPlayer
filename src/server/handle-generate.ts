@@ -1,3 +1,4 @@
+import { buildFreshLesson } from '../lib/fresh-lesson.ts'
 import { buildLessonPrompt, prepareForAdventure } from './prepare-lesson.ts'
 import { getAdventure } from '../features/lesson-library/adventures.ts'
 
@@ -20,6 +21,7 @@ async function callModel(key: string, model: string, prompt: string): Promise<{ 
   try {
     response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
       method: 'POST',
+      signal: AbortSignal.timeout(20000),
       headers: {
         'content-type': 'application/json',
         'x-goog-api-key': key,
@@ -44,7 +46,11 @@ async function callModel(key: string, model: string, prompt: string): Promise<{ 
   const text = modelText(payload)
   if (!text) return { ok: false, error: 'The AI service returned an empty lesson.' }
   try {
-    return { ok: true, raw: JSON.parse(text) }
+    const trimmed = text.trim().replace(/^```(?:json)?/i, '').replace(/```$/i, '').trim()
+    const start = trimmed.indexOf('{')
+    const end = trimmed.lastIndexOf('}')
+    const json = start >= 0 && end > start ? trimmed.slice(start, end + 1) : trimmed
+    return { ok: true, raw: JSON.parse(json) }
   } catch {
     return { ok: false, error: 'The AI service returned text that was not JSON.' }
   }
@@ -67,16 +73,10 @@ export async function handleGenerateLesson(body: unknown, env: Record<string, st
 
   const model = env.GEMINI_MODEL?.trim() || DEFAULT_MODEL
   const variation = crypto.randomUUID()
-  let errors: string[] = []
-  for (let attempt = 0; attempt < 2; attempt += 1) {
-    const called = await callModel(key, model, buildLessonPrompt(adventure, variation, errors))
-    if (!called.ok) return { status: 502, body: { error: called.error } }
+  const called = await callModel(key, model, buildLessonPrompt(adventure, variation))
+  if (called.ok) {
     const prepared = prepareForAdventure(called.raw, adventure.id)
     if (prepared.ok) return { status: 200, body: prepared.lesson }
-    errors = prepared.errors.slice(0, 12)
   }
-  return {
-    status: 422,
-    body: { error: `The new puzzles did not pass the math check. ${errors.slice(0, 3).join(' ')}` },
-  }
+  return { status: 200, body: buildFreshLesson(adventure, Date.now()) }
 }

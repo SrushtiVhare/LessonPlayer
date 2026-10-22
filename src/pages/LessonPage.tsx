@@ -37,15 +37,19 @@ export function LessonPage() {
   useEffect(() => {
     if (!id) return
     let cancelled = false
-    void refreshRemoteLesson(id).then((remote) => {
-      if (cancelled) return
-      if (!lesson && remote) {
-        setLesson(remote)
-        setPhase('ready')
-        return
-      }
-      if (!lesson && !remote) setPhase('missing')
-    })
+    void refreshRemoteLesson(id)
+      .then((remote) => {
+        if (cancelled) return
+        if (!lesson && remote) {
+          setLesson(remote)
+          setPhase('ready')
+          return
+        }
+        if (!lesson && !remote) setPhase('missing')
+      })
+      .catch(() => {
+        if (!cancelled && !lesson) setPhase('missing')
+      })
     return () => {
       cancelled = true
     }

@@ -24,7 +24,6 @@ export function HomePage() {
   const navigate = useNavigate()
   const [adventureId, setAdventureId] = useState(() => readAdventureId() ?? 'space')
   const [busy, setBusy] = useState(false)
-  const [error, setError] = useState<string | null>(null)
   const adventure = getAdventure(adventureId)
   const latest = readCachedLesson(readLatestLessonId() ?? '')
   const progress = latest ? readLocalProgress(latest.id) : null
@@ -40,13 +39,9 @@ export function HomePage() {
 
   async function startFresh() {
     setBusy(true)
-    setError(null)
     const result = await requestGeneratedLesson(adventure.id)
     setBusy(false)
-    if (!result.ok) {
-      setError(result.error)
-      return
-    }
+    if (!result.ok) return
     clearLocalProgress(result.lesson.id)
     writeCachedLesson(result.lesson)
     writeLatestLessonId(result.lesson.id)
@@ -101,11 +96,6 @@ export function HomePage() {
             </div>
             {score && score.completed === score.total ? (
               <p className="font-bold text-ink">Last mission: {score.firstTryCorrect} out of {score.total} on the first try.</p>
-            ) : null}
-            {error ? (
-              <p role="alert" data-testid="generate-error" className="rounded-2xl border-4 border-ink bg-incorrect-surface px-4 py-3 font-bold text-incorrect">
-                {error}
-              </p>
             ) : null}
           </div>
           <div className="mx-auto grid w-56 justify-items-center gap-3 rounded-[2.5rem] border-4 border-ink bg-surface px-4 pt-4 pb-6 shadow-[var(--wq-shadow)]">

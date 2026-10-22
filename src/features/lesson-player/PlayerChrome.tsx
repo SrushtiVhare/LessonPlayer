@@ -7,7 +7,7 @@ import type { SyncStatus } from './useLessonSession.ts'
 const statusCopy: Record<SyncStatus, string> = {
   local: 'Saved on this device',
   online: 'Saved on this device and online',
-  pending: 'Saved on this device. Online save will retry later.',
+  pending: 'Saved on this device',
 }
 
 export function SaveStatus({ status }: { status: SyncStatus }) {
