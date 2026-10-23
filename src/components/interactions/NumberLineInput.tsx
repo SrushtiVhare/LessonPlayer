@@ -27,36 +27,33 @@ export function NumberLineInput({
   })
 
   return (
-    <div className="grid gap-4">
-      <div role="group" aria-label={interaction.prompt} className="relative px-1 pt-2">
-        <div className="absolute top-7 right-6 left-6 h-1.5 rounded-full bg-ink/20" aria-hidden="true" />
+    <div className="grid gap-2 overflow-x-auto pb-1">
+      <div role="group" aria-label={interaction.prompt} className="relative min-w-[30rem] px-1 pt-12">
+        <div className="absolute top-[4.6rem] right-7 left-7 h-3 rounded-full bg-primary" aria-hidden="true" />
         <div className="relative flex items-start justify-between gap-1">
           {ticks.map((tick) => {
             const selected = value === String(tick.index)
+            const shown = selected || (revealed && tick.isAnswer)
             return (
               <button
                 key={tick.index}
                 type="button"
-                className={`flex min-h-16 min-w-12 flex-1 flex-col items-center gap-2 rounded-2xl px-1 py-1 transition active:scale-95 ${selected ? 'bg-surface shadow-[var(--wq-shadow)]' : ''}`}
+                className="relative flex min-h-20 min-w-12 flex-1 flex-col items-center gap-2 rounded-2xl px-1 py-1 transition active:scale-95"
                 aria-pressed={selected}
                 disabled={disabled}
                 data-testid={`tick-${tick.index}`}
                 onClick={() => onChange(String(tick.index))}
               >
-                <span className={`h-6 w-6 rounded-full border-4 ${selected || (revealed && tick.isAnswer) ? 'border-primary bg-accent' : 'border-ink bg-surface'}`} />
-                <span className="text-sm font-bold text-ink">{tick.label}</span>
-                {selected ? <span className="text-xs font-bold text-primary">Selected</span> : null}
+                {shown ? <span className="emoji-marker piece-pop absolute -top-11 text-4xl" aria-hidden="true" /> : null}
+                <span className={`h-9 w-9 rounded-full border-[5px] ${shown ? 'border-primary bg-accent' : 'border-primary bg-surface'}`} />
+                <span className="font-display text-lg text-ink">{tick.label}</span>
+                {selected ? <span className="sr-only">Selected</span> : null}
                 {revealed && tick.isAnswer ? <span className="text-xs font-bold text-reveal">Answer</span> : null}
               </button>
             )
           })}
         </div>
       </div>
-      {!disabled && value !== null ? (
-        <button type="button" className="min-h-12 justify-self-start font-bold text-primary underline" onClick={() => onChange(null)}>
-          Change mark
-        </button>
-      ) : null}
     </div>
   )
 }

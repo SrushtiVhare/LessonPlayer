@@ -1,0 +1,291 @@
+{
+  "id": "subtracting-fractions-with-the-same-deno",
+  "version": 1,
+  "title": "Rex's Star Snacks",
+  "description": "Help Rex the T-Rex subtract fractions with the same denominator by taking away star-shaped snacks!",
+  "grade": 4,
+  "topic": "Subtracting fractions with the same denominator",
+  "objectives": [
+    "Subtract fractions with the same denominator",
+    "Understand that the denominator stays the same during subtraction"
+  ],
+  "theme": {
+    "id": "dino",
+    "colors": {
+      "primary": "#1B6B3A",
+      "onPrimary": "#FFFFFF",
+      "secondary": "#2E7D4F",
+      "background": "#E5F6DF",
+      "surface": "#FFFFFF",
+      "accent": "#F4A24A",
+      "onAccent": "#1A2340",
+      "text": "#142418",
+      "textMuted": "#2F4A38",
+      "success": "#0E5C32",
+      "successSurface": "#E5F6EC",
+      "hint": "#6F4700",
+      "hintSurface": "#FFF3D0",
+      "reveal": "#14396E",
+      "revealSurface": "#E8F1FB",
+      "incorrect": "#8A3412",
+      "incorrectSurface": "#FDE7DC"
+    },
+    "character": {
+      "name": "Rex",
+      "description": "A small smiling dinosaur with orange spikes and a round green face.",
+      "illustration": "dino",
+      "emoji": "🦖"
+    },
+    "decorations": [
+      "ferns",
+      "bones"
+    ],
+    "background": "jungle",
+    "buttons": {
+      "radius": "pill"
+    },
+    "cards": {
+      "radius": "xl",
+      "shadow": "soft"
+    },
+    "celebration": {
+      "style": "confetti"
+    },
+    "sound": {
+      "celebration": true
+    },
+    "phrases": {
+      "welcome": "Let's count these eggs together!",
+      "thinking": "Look closely at the equal pieces.",
+      "encourage": "Good try! Let's look at the pieces again.",
+      "celebrate": "Amazing! You figured it out.",
+      "proud": "The eggs are safe again!"
+    }
+  },
+  "slides": [
+    {
+      "id": "intro",
+      "type": "intro",
+      "title": "Rex is Hungry",
+      "story": "Rex the T-Rex has a pan of delicious star snacks cut into equal pieces. Let's help Rex subtract fractions as he eats some snacks!",
+      "objective": "Subtract fractions that have the same denominator.",
+      "startLabel": "Let's Go!",
+      "readAloud": "Rex the T Rex has a pan of delicious star snacks cut into equal pieces. Let's help Rex subtract fractions as he eats some snacks!"
+    },
+    {
+      "id": "identify-snack-fraction",
+      "type": "task",
+      "instruction": "Rex starts with 4/5 of a star snack pan. He eats 1/5. What fraction is left?",
+      "supportingText": "The pan is split into 5 equal pieces.",
+      "hint": "Subtract the top numbers: 4 minus 1.",
+      "secondHint": "The bottom number 5 stays the same.",
+      "explanation": "4/5 minus 1/5 equals 3/5. The denominator stays 5 because the piece sizes do not change.",
+      "answerLabel": "3/5",
+      "readAloud": "Rex starts with 4 fifths of a star snack pan. He eats 1 fifth. What fraction is left?",
+      "visual": {
+        "type": "fraction-bars",
+        "bars": [
+          {
+            "segments": 5,
+            "shaded": 4,
+            "color": "gold",
+            "caption": "4 pieces out of 5"
+          }
+        ]
+      },
+      "interaction": {
+        "type": "multiple-choice",
+        "prompt": "Rex starts with 4/5 of a star snack pan. He eats 1/5. What fraction is left?",
+        "options": [
+          {
+            "id": "three-fifths",
+            "label": "3/5",
+            "accessibleLabel": "3 out of 5"
+          },
+          {
+            "id": "four-fifths",
+            "label": "4/5",
+            "accessibleLabel": "4 out of 5"
+          },
+          {
+            "id": "two-fifths",
+            "label": "2/5",
+            "accessibleLabel": "2 out of 5"
+          },
+          {
+            "id": "three-tenths",
+            "label": "3/10",
+            "accessibleLabel": "3 out of 10"
+          }
+        ],
+        "correctOptionId": "three-fifths"
+      }
+    },
+    {
+      "id": "type-sixths-subtraction",
+      "type": "task",
+      "instruction": "Type the result of 5/6 - 2/6.",
+      "supportingText": "You can type a fraction or a decimal.",
+      "hint": "Subtract the top numbers: 5 minus 2.",
+      "secondHint": "The denominator stays 6.",
+      "explanation": "5 sixths minus 2 sixths is 3 sixths. The denominator stays 6.",
+      "answerLabel": "3/6",
+      "readAloud": "Type the result of 5 sixth minus 2 sixths. You can type a fraction or a decimal.",
+      "visual": {
+        "type": "fraction-bars",
+        "bars": [
+          {
+            "segments": 6,
+            "shaded": 5,
+            "color": "gold",
+            "caption": "5 sixths"
+          }
+        ]
+      },
+      "interaction": {
+        "type": "numeric-input",
+        "prompt": "Type the result of 5/6 - 2/6.",
+        "acceptedFormats": [
+          "fraction",
+          "decimal"
+        ],
+        "allowNegative": false,
+        "correct": {
+          "numerator": 3,
+          "denominator": 6
+        },
+        "placeholder": "Fraction or decimal"
+      }
+    },
+    {
+      "id": "number-line-subtraction",
+      "type": "task",
+      "instruction": "Tap the mark that shows 4/4 - 3/4.",
+      "supportingText": "The marks are evenly spaced fourths.",
+      "hint": "Start at 4/4 and hop backward 3 steps.",
+      "secondHint": "You will land on the first mark after zero.",
+      "explanation": "4/4 minus 3/4 equals 1/4. That is the mark one fourth of the way from 0 to 1.",
+      "answerLabel": "1/4",
+      "readAloud": "Tap the mark that shows 4 fourths minus 3 fourths. The marks are evenly spaced fourths.",
+      "interaction": {
+        "type": "number-line",
+        "prompt": "Tap the mark that shows 4/4 - 3/4.",
+        "start": {
+          "numerator": 0,
+          "denominator": 1
+        },
+        "end": {
+          "numerator": 1,
+          "denominator": 1
+        },
+        "partitions": 4,
+        "correct": {
+          "numerator": 1,
+          "denominator": 4
+        }
+      }
+    },
+    {
+      "id": "shade-subtraction-task",
+      "type": "task",
+      "instruction": "Rex has 7/8 of a star pan and gives away 3/8. Shade the remaining pieces to show 7/8 - 3/8.",
+      "supportingText": "Shade the correct number of segments.",
+      "hint": "Start with 7 shaded pieces and remove 3.",
+      "secondHint": "7 minus 3 equals 4. Shade 4 pieces.",
+      "explanation": "7 eighths minus 3 eighths leaves 4 eighths shaded.",
+      "answerLabel": "4/8",
+      "readAloud": "Rex has 7 eighths of a star pan and gives away 3 eighths. Shade the remaining pieces to show 7 eighths minus 3 eighths.",
+      "interaction": {
+        "type": "shade",
+        "prompt": "Shade the remaining pieces to show 7/8 - 3/8.",
+        "segments": 8,
+        "correct": {
+          "numerator": 4,
+          "denominator": 8
+        }
+      }
+    },
+    {
+      "id": "select-correct-bar",
+      "type": "task",
+      "instruction": "Which fraction shows 6/10 - 4/10?",
+      "supportingText": "Look at the remaining shaded pieces.",
+      "hint": "Subtract 6 minus 4 on the top numbers.",
+      "secondHint": "The bottom number remains 10.",
+      "explanation": "6 tenths minus 4 tenths is 2 tenths. The denominator stays 10.",
+      "answerLabel": "2/10",
+      "readAloud": "Which fraction shows 6 tenths minus 4 tenths?",
+      "visual": {
+        "type": "fraction-bars",
+        "bars": [
+          {
+            "segments": 10,
+            "shaded": 6,
+            "color": "gold",
+            "caption": "6 tenths"
+          }
+        ]
+      },
+      "interaction": {
+        "type": "multiple-choice",
+        "prompt": "Which fraction shows 6/10 - 4/10?",
+        "options": [
+          {
+            "id": "two-tenths",
+            "label": "2/10",
+            "accessibleLabel": "2 out of 10",
+            "visual": {
+              "segments": 10,
+              "shaded": 2,
+              "color": "gold",
+              "caption": "2 of 10 pieces"
+            }
+          },
+          {
+            "id": "four-tenths",
+            "label": "4/10",
+            "accessibleLabel": "4 out of 10",
+            "visual": {
+              "segments": 10,
+              "shaded": 4,
+              "color": "gold",
+              "caption": "4 of 10 pieces"
+            }
+          },
+          {
+            "id": "six-tenths",
+            "label": "6/10",
+            "accessibleLabel": "6 out of 10",
+            "visual": {
+              "segments": 10,
+              "shaded": 6,
+              "color": "gold",
+              "caption": "6 of 10 pieces"
+            }
+          },
+          {
+            "id": "two-zeros",
+            "label": "2/0",
+            "accessibleLabel": "2 out of 0",
+            "visual": {
+              "segments": 10,
+              "shaded": 0,
+              "color": "gold",
+              "caption": "0 of 10 pieces"
+            }
+          }
+        ],
+        "correctOptionId": "two-tenths"
+      }
+    },
+    {
+      "id": "outro",
+      "type": "outro",
+      "title": "Snack Time Success!",
+      "message": "Rex is full and happy! You mastered subtracting fractions with the same denominator.",
+      "conceptSummary": "When subtracting fractions with the same denominator, subtract the numerators and keep the denominator the same.",
+      "badgeName": "Fraction Snacker",
+      "readAloud": "Snack time success! Rex is full and happy! You mastered subtracting fractions with the same denominator. When subtracting fractions with the same denominator, subtract the numerators and keep the denominator the same."
+    }
+  ]
+}

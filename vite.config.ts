@@ -24,7 +24,7 @@ type LessonServer = ViteDevServer | PreviewServer
 function attachLessonApi(server: LessonServer, env: Record<string, string>) {
   server.middlewares.use(async (req: IncomingMessage, res: ServerResponse, next: Connect.NextFunction) => {
     const path = req.url?.split('?')[0]
-    if (path !== '/api/generate-lesson' || req.method !== 'POST') {
+    if ((path !== '/api/generate-lesson' && path !== '/api/next-question') || req.method !== 'POST') {
       next()
       return
     }
@@ -35,8 +35,9 @@ function attachLessonApi(server: LessonServer, env: Record<string, string>) {
       }
       const loaded = await server.ssrLoadModule('/src/server/handle-generate.ts') as {
         handleGenerateLesson: (input: unknown, runtimeEnv: Record<string, string>) => Promise<{ status: number; body: unknown }>
+        handleNextQuestion: (input: unknown, runtimeEnv: Record<string, string>) => Promise<{ status: number; body: unknown }>
       }
-      const result = await loaded.handleGenerateLesson(body, env)
+      const result = path === '/api/next-question' ? await loaded.handleNextQuestion(body, env) : await loaded.handleGenerateLesson(body, env)
       res.statusCode = result.status
       res.setHeader('content-type', 'application/json')
       res.end(JSON.stringify(result.body))

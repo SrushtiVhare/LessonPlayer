@@ -15,7 +15,7 @@ async function start(page: Page) {
   await page.goto('/')
   await page.getByTestId('start-learning').click()
   await page.getByTestId('start-mission').click()
-  await expect(page.getByText('Challenge 1 of 5')).toBeVisible()
+  await expect(page.getByText('Slide 2 of 7')).toBeVisible()
 }
 
 async function choose(page: Page, optionId: string) {
@@ -69,7 +69,7 @@ test('reveals the answer after three mistakes and lets the child continue', asyn
   }
   await expect(page.getByTestId('feedback')).toContainText('The answer is 1/4.')
   await page.getByTestId('next').click()
-  await expect(page.getByText('Challenge 2 of 5')).toBeVisible()
+  await expect(page.getByText('Slide 3 of 7')).toBeVisible()
 })
 
 test('keeps progress after a browser refresh', async ({ page }) => {
@@ -77,9 +77,9 @@ test('keeps progress after a browser refresh', async ({ page }) => {
   await choose(page, 'one-fourth')
   await page.getByTestId('check-answer').click()
   await page.getByTestId('next').click()
-  await expect(page.getByText('Challenge 2 of 5')).toBeVisible()
+  await expect(page.getByText('Slide 3 of 7')).toBeVisible()
   await page.reload()
-  await expect(page.getByText('Challenge 2 of 5')).toBeVisible()
+  await expect(page.getByText('Slide 3 of 7')).toBeVisible()
   await page.getByRole('button', { name: 'Back' }).click()
   await expect(page.getByTestId('feedback')).toContainText('Amazing! You figured it out.')
 })

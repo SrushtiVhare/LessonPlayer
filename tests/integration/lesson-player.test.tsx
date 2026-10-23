@@ -27,7 +27,7 @@ async function startMission() {
   expect(screen.getByText(/stars have broken into pieces/i)).toBeInTheDocument()
   await user.click(screen.getByRole('button', { name: 'Start Mission' }))
   expect(screen.getByRole('heading', { name: /which fraction matches it/i })).toBeInTheDocument()
-  expect(screen.getByText('Challenge 1 of 5')).toBeInTheDocument()
+  expect(screen.getByText('Slide 2 of 7')).toBeInTheDocument()
   return user
 }
 
@@ -63,7 +63,7 @@ describe('lesson player', () => {
     expect(screen.getByTestId('feedback')).toHaveTextContent('The answer is 1/4.')
     expect(screen.getByRole('button', { name: 'Next' })).toBeEnabled()
     await user.click(screen.getByRole('button', { name: 'Next' }))
-    expect(screen.getByText('Challenge 2 of 5')).toBeInTheDocument()
+    expect(screen.getByText('Slide 3 of 7')).toBeInTheDocument()
   })
 
   it('keeps a finished challenge finished when going back', async () => {

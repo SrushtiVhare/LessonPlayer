@@ -5,6 +5,7 @@ export const COPY = {
   correctRetry: 'You found another way to learn!',
   chooseAnswer: 'Choose an answer first.',
   tapMark: 'Tap one of the marks on the line.',
+  tapPieces: 'Tap the pieces to color them.',
   typeAnswer: 'Type an answer first.',
 } as const
 

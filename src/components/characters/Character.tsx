@@ -14,10 +14,12 @@ export function Character({
   theme,
   mood,
   compact = false,
+  size,
 }: {
   theme: Theme
   mood: CharacterMood
   compact?: boolean
+  size?: string
 }) {
   const Art = illustrations[theme.character.illustration]
   return (
@@ -26,7 +28,7 @@ export function Character({
         role={compact ? undefined : 'img'}
         aria-hidden={compact ? true : undefined}
         aria-label={compact ? undefined : theme.character.description}
-        className={compact ? 'h-24 w-24' : 'h-36 w-36 sm:h-44 sm:w-44'}
+        className={size ?? (compact ? 'h-24 w-24' : 'h-36 w-36 sm:h-44 sm:w-44')}
       >
         <Art mood={mood} />
       </div>

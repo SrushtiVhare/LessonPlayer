@@ -5,7 +5,7 @@ import { LessonPlayer } from '../features/lesson-player/LessonPlayer.tsx'
 import { getAdventure, lessonWithAdventure } from '../features/lesson-library/adventures.ts'
 import { LIVE_LESSON_ID } from '../server/prepare-lesson.ts'
 import { parseLesson } from '../schemas/lesson.schema.ts'
-import { bundledLessons, resolveLesson } from '../features/lesson-library/catalog.ts'
+import { bundledLessons, keepsOwnStory, resolveLesson } from '../features/lesson-library/catalog.ts'
 import { readAdventureId, writeAdventureId } from '../lib/storage.ts'
 import { isSupabaseConfigured } from '../services/supabase/client.ts'
 import { refreshRemoteLesson } from '../services/supabase/lessons.repository.ts'
@@ -29,6 +29,7 @@ export function LessonPage() {
 
   const skinned = useMemo(() => {
     if (!lesson) return null
+    if (keepsOwnStory(lesson.id)) return lesson
     if (lesson.id !== LIVE_LESSON_ID) return lessonWithAdventure(lesson, adventureId)
     const themed = parseLesson({ ...lesson, theme: getAdventure(adventureId).theme })
     return themed.ok ? themed.lesson : lesson

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router'
-import { AudioLines, Volume2, VolumeX } from 'lucide-react'
+import { Cloud, CloudCheck, Volume2, VolumeX, X } from 'lucide-react'
 import { speak, speechSupported, stopSpeaking } from '../../lib/speech.ts'
 import type { SyncStatus } from './useLessonSession.ts'
 
@@ -10,15 +10,20 @@ const statusCopy: Record<SyncStatus, string> = {
   pending: 'Saved on this device',
 }
 
+const roundButton =
+  'inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full border-2 border-b-4 border-black/15 bg-surface text-ink active:translate-y-0.5 active:border-b-2 disabled:opacity-50'
+
 export function SaveStatus({ status }: { status: SyncStatus }) {
+  const Icon = status === 'online' ? CloudCheck : Cloud
   return (
-    <p data-testid="save-status" className="text-sm font-semibold text-muted">
-      {statusCopy[status]}
+    <p data-testid="save-status" className="on-world inline-flex items-center" title={statusCopy[status]}>
+      <Icon aria-hidden="true" size={22} />
+      <span className="sr-only">{statusCopy[status]}</span>
     </p>
   )
 }
 
-export function SoundControls({ text, enabled, onToggle }: { text: string; enabled: boolean; onToggle: () => void }) {
+export function ReadAloudButton({ text, large = false }: { text: string; large?: boolean }) {
   const [spokenFor, setSpokenFor] = useState<string | null>(null)
   const speaking = spokenFor === text
   const supported = speechSupported()
@@ -28,43 +33,49 @@ export function SoundControls({ text, enabled, onToggle }: { text: string; enabl
   }, [text])
 
   return (
-    <div className="flex gap-2">
-      <button
-        type="button"
-        className="inline-flex min-h-12 min-w-12 items-center justify-center rounded-2xl bg-surface px-3 font-bold text-ink shadow-[var(--wq-shadow)] disabled:text-muted"
-        aria-pressed={speaking}
-        disabled={!supported}
-        aria-label={supported ? (speaking ? 'Stop read aloud' : 'Read aloud') : 'Read aloud is not available in this browser'}
-        onClick={() => {
-          if (speaking) {
-            stopSpeaking()
-            setSpokenFor(null)
-            return
-          }
-          speak(text)
-          setSpokenFor(text)
-          window.setTimeout(() => setSpokenFor(null), Math.min(15000, text.length * 70))
-        }}
-      >
-        <AudioLines aria-hidden="true" />
-      </button>
-      <button
-        type="button"
-        className="inline-flex min-h-12 min-w-12 items-center justify-center rounded-2xl bg-surface px-3 font-bold text-ink shadow-[var(--wq-shadow)]"
-        aria-pressed={enabled}
-        aria-label={enabled ? 'Turn celebration sound off' : 'Turn celebration sound on'}
-        onClick={onToggle}
-      >
-        {enabled ? <Volume2 aria-hidden="true" /> : <VolumeX aria-hidden="true" />}
-      </button>
-    </div>
+    <button
+      type="button"
+      data-testid="read-aloud"
+      className={`${roundButton} ${large ? 'h-14 w-14 bg-secondary text-white' : ''} ${speaking ? 'pulse-ring' : ''}`}
+      aria-pressed={speaking}
+      disabled={!supported}
+      aria-label={supported ? (speaking ? 'Stop reading' : 'Read aloud') : 'Read aloud is not available in this browser'}
+      onClick={() => {
+        if (speaking) {
+          stopSpeaking()
+          setSpokenFor(null)
+          return
+        }
+        speak(text)
+        setSpokenFor(text)
+        window.setTimeout(() => setSpokenFor(null), Math.min(15000, text.length * 70))
+      }}
+    >
+      <span aria-hidden="true" className={large ? 'text-2xl' : 'text-xl'}>
+        🔊
+      </span>
+    </button>
+  )
+}
+
+export function SoundToggle({ enabled, onToggle }: { enabled: boolean; onToggle: () => void }) {
+  return (
+    <button
+      type="button"
+      className={roundButton}
+      aria-pressed={enabled}
+      aria-label={enabled ? 'Turn celebration sound off' : 'Turn celebration sound on'}
+      onClick={onToggle}
+    >
+      {enabled ? <Volume2 aria-hidden="true" /> : <VolumeX aria-hidden="true" />}
+    </button>
   )
 }
 
 export function AdventuresLink() {
   return (
-    <Link to="/" className="inline-flex min-h-12 items-center font-bold text-ink">
-      Adventures
+    <Link to="/" className={roundButton} aria-label="Back to Adventures">
+      <X aria-hidden="true" size={26} strokeWidth={3} />
     </Link>
   )
 }

@@ -6,7 +6,7 @@ import type { Theme } from '../../schemas/theme.schema.ts'
 
 export function ThemedScreen({ theme, children }: { theme: Theme; children: ReactNode }) {
   return (
-    <div style={themeToStyle(theme)} className="relative min-h-dvh bg-canvas text-ink">
+    <div style={themeToStyle(theme)} data-world={theme.background} className="world-sky relative min-h-dvh text-ink">
       <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-20 focus:rounded-xl focus:bg-surface focus:px-4 focus:py-3">
         Skip to the mission
       </a>
@@ -21,10 +21,11 @@ export function ThemedScreen({ theme, children }: { theme: Theme; children: Reac
 export function MissingAdventure() {
   return (
     <div className="mx-auto grid min-h-dvh max-w-xl place-items-center px-4 text-center">
-      <div className="grid gap-4">
+      <div className="grid gap-4 rounded-[2rem] bg-white p-6 text-[#1A2340] shadow-xl">
+        <p className="text-6xl" aria-hidden="true">🧭</p>
         <h1 className="font-display text-4xl">That adventure is not ready</h1>
-        <p className="text-lg">Let's go back and pick a mission that is ready to play.</p>
-        <Link to="/" className="inline-flex min-h-12 items-center justify-center rounded-2xl bg-primary px-5 font-bold text-on-primary">
+        <p className="text-lg">Let's go back and pick one that is.</p>
+        <Link to="/" className="inline-flex min-h-14 items-center justify-center rounded-2xl bg-[#3C3489] px-5 text-lg font-bold text-white">
           Back to Adventures
         </Link>
       </div>
@@ -34,10 +35,13 @@ export function MissingAdventure() {
 
 export function LoadingMission() {
   return (
-    <div className="grid min-h-dvh place-items-center px-4">
-      <p className="font-display text-3xl" role="status">
-        Getting your mission ready...
-      </p>
+    <div className="grid min-h-dvh place-items-center bg-[#3C3489] px-4 text-white">
+      <div className="grid justify-items-center gap-4">
+        <span className="character-float text-7xl" aria-hidden="true">✨</span>
+        <p className="font-display text-3xl" role="status">
+          Getting your mission ready...
+        </p>
+      </div>
     </div>
   )
 }

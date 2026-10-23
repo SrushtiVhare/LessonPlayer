@@ -13,9 +13,9 @@ export function FractionBar({ bar }: { bar: FractionBarModel }) {
         {Array.from({ length: bar.segments }, (_, index) => (
           <span
             key={index}
-            className="piece-pop h-7 rounded-md border-2 border-ink sm:h-9"
+            className="piece-pop h-10 rounded-xl border-2 border-black/10 sm:h-12"
             style={{
-              background: index < bar.shaded ? fills[bar.color] : 'transparent',
+              background: index < bar.shaded ? fills[bar.color] : 'rgb(26 35 64 / 0.06)',
               animationDelay: `${index * 45}ms`,
             }}
           />

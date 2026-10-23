@@ -3,6 +3,7 @@ import type { Interaction } from '../../schemas/lesson.schema.ts'
 import { MultipleChoice } from './MultipleChoice.tsx'
 import { NumberLineInput } from './NumberLineInput.tsx'
 import { NumericInput } from './NumericInput.tsx'
+import { ShadeInput } from './ShadeInput.tsx'
 
 export type InteractionBindings = {
   interaction: Interaction
@@ -25,6 +26,7 @@ const interactionRegistry: Registry = {
   'multiple-choice': (props) => <MultipleChoice {...props} />,
   'numeric-input': (props) => <NumericInput {...props} />,
   'number-line': (props) => <NumberLineInput {...props} />,
+  shade: (props) => <ShadeInput {...props} />,
 }
 
 export function InteractionHost(props: InteractionBindings) {
@@ -32,6 +34,7 @@ export function InteractionHost(props: InteractionBindings) {
   if (type === 'multiple-choice') return interactionRegistry[type]({ ...props, interaction: props.interaction })
   if (type === 'numeric-input') return interactionRegistry[type]({ ...props, interaction: props.interaction })
   if (type === 'number-line') return interactionRegistry[type]({ ...props, interaction: props.interaction })
+  if (type === 'shade') return interactionRegistry[type]({ ...props, interaction: props.interaction })
   const unreachable: never = type
   return unreachable
 }

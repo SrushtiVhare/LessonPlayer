@@ -12,6 +12,7 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "seed": "node --env-file=.env scripts/seed-lesson.mjs",
+    "generate:lesson": "node --use-system-ca --env-file=.env scripts/generate-lesson.ts",
     "preview": "vite preview"
   },
   "dependencies": {

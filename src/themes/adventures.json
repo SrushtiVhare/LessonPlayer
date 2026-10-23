@@ -25,7 +25,8 @@
       "character": {
         "name": "Astro",
         "description": "A small astronaut with a round helmet, a yellow star badge, and a friendly smile.",
-        "illustration": "astronaut"
+        "illustration": "astronaut",
+        "emoji": "🚀"
       },
       "decorations": ["stars", "planets"],
       "background": "starfield",
@@ -108,7 +109,8 @@
       "character": {
         "name": "Rex",
         "description": "A small smiling dinosaur with orange spikes and a round green face.",
-        "illustration": "dino"
+        "illustration": "dino",
+        "emoji": "🦖"
       },
       "decorations": ["ferns", "bones"],
       "background": "jungle",
@@ -191,7 +193,8 @@
       "character": {
         "name": "Kick",
         "description": "A small soccer player in a green jersey with a yellow ball.",
-        "illustration": "player"
+        "illustration": "player",
+        "emoji": "⚽"
       },
       "decorations": ["balls", "goals"],
       "background": "pitch",

@@ -23,7 +23,7 @@ describe('lesson navigation', () => {
     let state = createInitialState(lesson)
     expect(canGoNext(lesson, state)).toBe(true)
     state = lessonReducer(lesson, state, { type: 'next' })
-    expect(progressLabel(lesson, state.slideId)).toBe('Challenge 1 of 5')
+    expect(progressLabel(lesson, state.slideId)).toBe('Slide 2 of 7')
     expect(canGoNext(lesson, state)).toBe(false)
     state = finish(state, state.slideId, 'one-fourth')
     expect(state.tasks['identify-fraction']?.firstTryCorrect).toBe(true)

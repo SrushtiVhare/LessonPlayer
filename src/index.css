@@ -42,7 +42,7 @@
   --wq-incorrect-surface: #fde7dc;
   --wq-radius-button: 1.25rem;
   --wq-radius-card: 1.75rem;
-  --wq-shadow: 6px 6px 0 #3c3489;
+  --wq-shadow: 0 12px 28px rgb(26 35 64 / 0.12);
   color: var(--wq-text);
   background: var(--wq-background);
   font-family: var(--font-body);
@@ -71,6 +71,10 @@ input {
   outline-offset: 3px;
 }
 
+[tabindex='-1']:focus-visible {
+  outline: none;
+}
+
 .astro-arm {
   transform-origin: 112px 112px;
   animation: wave 1.6s ease-in-out infinite;
@@ -90,6 +94,85 @@ input {
 
 .feedback-pop {
   animation: pop 0.35s ease both;
+}
+
+.world-sky {
+  background-color: var(--wq-primary);
+  background-image:
+    radial-gradient(circle at 12% 8%, color-mix(in srgb, var(--wq-accent) 35%, transparent) 0, transparent 28%),
+    radial-gradient(circle at 92% 30%, color-mix(in srgb, var(--wq-secondary) 70%, transparent) 0, transparent 40%),
+    linear-gradient(180deg, var(--wq-primary) 0%, color-mix(in srgb, var(--wq-primary) 70%, var(--wq-secondary)) 100%);
+  background-attachment: fixed;
+}
+
+.world-sky[data-world="starfield"] {
+  background-image:
+    radial-gradient(2px 2px at 20% 30%, #ffffff 50%, transparent 51%),
+    radial-gradient(2px 2px at 70% 12%, #ffffff 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 42% 66%, #ffffff 50%, transparent 51%),
+    radial-gradient(2px 2px at 88% 78%, #ffffff 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 8% 86%, #ffffff 50%, transparent 51%),
+    radial-gradient(circle at 12% 8%, color-mix(in srgb, var(--wq-accent) 35%, transparent) 0, transparent 28%),
+    radial-gradient(circle at 92% 30%, color-mix(in srgb, var(--wq-secondary) 70%, transparent) 0, transparent 40%),
+    linear-gradient(180deg, var(--wq-primary) 0%, color-mix(in srgb, var(--wq-primary) 70%, var(--wq-secondary)) 100%);
+  background-size: 260px 260px, 320px 320px, 200px 200px, 380px 380px, 240px 240px, auto, auto, auto;
+}
+
+.world-sky[data-world="pitch"] {
+  background-image:
+    repeating-linear-gradient(90deg, rgb(255 255 255 / 0.05) 0 80px, transparent 80px 160px),
+    radial-gradient(circle at 12% 8%, color-mix(in srgb, var(--wq-accent) 30%, transparent) 0, transparent 28%),
+    linear-gradient(180deg, var(--wq-primary) 0%, color-mix(in srgb, var(--wq-primary) 75%, var(--wq-secondary)) 100%);
+}
+
+.world-sky[data-world="jungle"] {
+  background-image:
+    radial-gradient(ellipse 40% 25% at 0% 100%, rgb(255 255 255 / 0.08) 0, transparent 70%),
+    radial-gradient(ellipse 35% 20% at 100% 0%, rgb(255 255 255 / 0.08) 0, transparent 70%),
+    radial-gradient(circle at 85% 15%, color-mix(in srgb, var(--wq-accent) 40%, transparent) 0, transparent 25%),
+    linear-gradient(180deg, var(--wq-primary) 0%, color-mix(in srgb, var(--wq-primary) 70%, var(--wq-secondary)) 100%);
+}
+
+.emoji-marker::before {
+  content: var(--wq-emoji, "⭐");
+}
+
+.on-world {
+  color: var(--wq-on-primary);
+  text-shadow: 0 2px 0 rgb(0 0 0 / 0.25);
+}
+
+.scene-sky {
+  background:
+    radial-gradient(circle at 80% 20%, color-mix(in srgb, var(--wq-accent) 55%, transparent) 0, transparent 30%),
+    linear-gradient(135deg, var(--wq-primary) 0%, color-mix(in srgb, var(--wq-primary) 55%, var(--wq-secondary)) 100%);
+}
+
+.chunky {
+  box-shadow: 0 6px 0 color-mix(in srgb, var(--wq-text) 22%, transparent);
+}
+
+.chunky-primary {
+  box-shadow: 0 6px 0 color-mix(in srgb, var(--wq-primary) 60%, #000000);
+}
+
+.pulse-ring {
+  animation: ring 1.6s ease-out infinite;
+}
+
+.twinkle {
+  animation: twinkle 2.4s ease-in-out infinite;
+}
+
+@keyframes ring {
+  0% { box-shadow: 0 6px 0 color-mix(in srgb, var(--wq-text) 22%, transparent), 0 0 0 0 color-mix(in srgb, var(--wq-accent) 70%, transparent); }
+  100% { box-shadow: 0 6px 0 color-mix(in srgb, var(--wq-text) 22%, transparent), 0 0 0 18px transparent; }
+}
+
+@keyframes twinkle {
+  0%,
+  100% { opacity: 1; }
+  50% { opacity: 0.35; }
 }
 
 @keyframes bob {

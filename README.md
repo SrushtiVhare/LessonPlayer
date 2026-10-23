@@ -6,10 +6,12 @@ Astro, a friendly astronaut, asks the child to put broken star pieces back toget
 
 ## What you will see
 
-1. **Home.** The WonderQuest name, three worlds to choose (space, dinosaurs, or soccer), a short welcome, and one mission card with the title, grade, and any saved progress. The math stays the same. The colors, friend, and story change with the world.
-2. **Mission briefing.** The story, the learning goal, and **Start Mission**.
-3. **Challenges.** A progress label such as “Challenge 2 of 5”, the question, a large interaction, **Check Answer**, **Need a clue?**, **Back**, and **Next**. Next stays locked until that challenge is finished.
-4. **Mission complete.** A short celebration, first-try stars such as “4 out of 5”, the number of finished challenges, the idea in one or two sentences, **Play Again**, and a way back to Adventures.
+1. **Home.** A big **Start Learning** button, three worlds to choose (space 🚀, dinosaurs 🦖, or soccer ⚽), a **More lessons** row for any extra lesson files, and a story path that shows how far the child got. The math stays the same. The colors, friend, emoji, and story change with the world.
+2. **Story start.** The friend, the story (typed out like a book, with a 🔊 read-aloud button), the goal, and a big start button.
+3. **Chapters.** A progress bar with the friend's emoji running along it and “Slide 3 of 7”. The friend says one short line, then the question card shows the prompt, a 🔊 button, a picture, and one of four puzzles: tap a colored answer tile, type on a big number keypad, tap a mark on a number line, or tap pieces to color them. A bottom bar holds **Back**, 💡 **Clue**, and **Check Answer**. A correct answer throws confetti and unlocks **Next**. A clue can be followed by “🔎 One more clue”.
+4. **Mission complete.** A trophy, stars, a big score such as “4/5”, “You solved 4 out of 5 on your first try”, the idea in one sentence, a badge, **Play Again**, and a way back to Adventures.
+
+Everything is sized for fingers: buttons are at least 56px tall, there is little text per screen, and nothing needs dragging.
 
 Progress is saved on this device. If Supabase is not configured, the screen says **Saved on this device** and the bundled lesson still runs. It does not pretend to be online.
 
@@ -103,7 +105,16 @@ The seed script reads `src/lessons/space-fractions.json` and upserts one publish
 
 Lessons are data. React components do not contain the questions. Zod checks the file before it is shown.
 
-A lesson has an id, version, title, description, grade, topic, objectives, theme, one intro slide, four or five task slides, and one outro slide. Task interactions are a discriminated union: `multiple-choice`, `numeric-input`, or `number-line`.
+A lesson has an id, version, title, description, grade, topic, objectives, theme, one intro slide, task slides, and one outro slide (6–12 slides in total; the bundled lessons have 5 tasks, the live AI story has 10). Task interactions are a discriminated union:
+
+| `type` | What the child does | Correct answer field |
+| --- | --- | --- |
+| `multiple-choice` | Taps one tile | `correctOptionId` |
+| `numeric-input` | Types `1/2`, `.5`, or `0.5` (all equal) | `correct` (a fraction) |
+| `number-line` | Taps a mark on the line | `correct` (must sit on a mark) |
+| `shade` | Taps pieces to color them | `correct` (e.g. 3/8 of `segments: 8`; any 3 pieces count) |
+
+Each task also has `instruction`, `hint` (shown after the second miss), an optional `secondHint` (behind “One more clue”), `explanation` and `answerLabel` (shown after the third miss), and optional `supportingText` (what the friend says), `chapterTitle`, `story`, and `readAloud`. `theme.character.emoji` sets the emoji used on the progress bar, buttons, and number line.
 
 Shortened shape:
 
@@ -140,13 +151,23 @@ The real file has the full theme, five challenges, and an outro: `src/lessons/sp
 
 ### Add a lesson
 
-1. Copy the JSON file and give it a new `id`.
+1. Copy the JSON file into `src/lessons/` and give it a new `id`.
 2. Keep the math honest. Distractors should be mistakes a child might really make, such as adding the denominators.
-3. Import it in `src/features/lesson-library/catalog.ts` and add it to `bundledLessons`.
-4. Run `npm test`. Schema checks cover ids, slide order, contrast, and number-line answers that miss the marks.
+3. That is all. `src/features/lesson-library/catalog.ts` loads every `src/lessons/*.json`, validates it, and the home page lists it under **More lessons**. An invalid file is skipped with a console warning instead of breaking the app. Extra lessons keep their own story and world; the world picker only re-skins the main lesson.
+4. Run `npm test`. Schema checks cover ids, slide order, contrast, number-line answers that miss the marks, and shade answers that are not whole pieces.
 5. Seed it the same way if you want it in Supabase, or extend `scripts/seed-lesson.mjs`.
 
 Raise `version` when you change a lesson that people may already have saved. Matching task ids keep their progress. Unknown saved slides are ignored.
+
+### Generate a lesson with AI
+
+```bash
+npm run generate:lesson -- --topic "Subtracting fractions with the same denominator" --grade 4 --theme dino
+```
+
+`scripts/generate-lesson.ts` sends the topic, grade, chosen world, and the sample lesson as an example to Gemini. It asks for 5 tasks using at least 3 puzzle types, then runs the result through the same `parseLesson` schema the player uses. If the schema rejects it, the errors go back to the model for one retry. Only a valid lesson is written to `src/lessons/<id>.json`, and the script prints the URL to open. Add `--out file.json` to write somewhere else.
+
+The schema checks structure (the answer is one of the options, sits on a number-line mark, is a whole number of pieces). It cannot prove the story math is right, so read a generated lesson before you ship it. `src/lessons/subtracting-fractions-with-the-same-deno.json` is one the script produced; every answer was checked by hand.
 
 ## Themes
 
@@ -168,14 +189,17 @@ Colors must be `#RRGGBB`. Text pairs must reach a contrast ratio of at least 4.5
 
 Motion is short: the friend bobs, fraction pieces pop in, and each slide slides up. If the device asks for reduced motion, those animations stop.
 
-## Add an interaction
+## Add a new slide type
 
-1. Add a branch to the interaction union in `src/schemas/lesson.schema.ts`.
-2. Teach `checkAnswer` in `src/lib/answer-checker.ts` how to grade it.
-3. Build a component and add it to `interactionRegistry` in `src/components/interactions/registry.tsx`.
-4. Add unit tests for the grader and a component test for the screen.
+`shade` (tap pieces to color them) was added this way, so it is a working example to copy.
 
-The lesson player asks the registry for a component. It should not grow a new `if` for every future question type.
+1. **Schema.** Add a Zod object with a new `type` literal to the `interactionSchema` union in `src/schemas/lesson.schema.ts` (see `shadeSchema`). Add a `.refine` for anything that would make the task impossible.
+2. **Grading.** Add a `case` to `checkAnswer` in `src/lib/answer-checker.ts`. Return `invalid` for empty or unreadable input so it does not cost an attempt.
+3. **Component.** Build it in `src/components/interactions/` (see `ShadeInput.tsx`). It gets the interaction, the current response string, `onChange`, and whether the task is finished or revealed.
+4. **Registry.** Add it to `interactionRegistry` in `src/components/interactions/registry.tsx`. The registry type is mapped over every interaction `type`, so TypeScript fails the build until you do.
+5. **Tests.** Add grader tests (see `tests/unit/shade.test.ts`) and use it in a lesson JSON.
+
+The lesson player asks the registry for a component. It never grows a new `if` for every question type, and attempts, hints, reveal, and scoring work for the new type with no extra code.
 
 ## Answer checking and scoring
 
@@ -217,7 +241,6 @@ npx playwright install chromium
 
 ## Known limitations
 
-- Only one bundled lesson ships. The home screen is already a list, so another JSON lesson can be added without a new page design.
 - This repository was not pointed at a live Supabase project, so the SQL and seed script are included and reviewed, but online save was not executed against a real database here.
 - Anonymous sign-ins must be enabled or online save stays unavailable. Local save still works.
 - A lesson downloaded from Supabase replaces the bundled copy on the next visit, not in the middle of a mission.
@@ -229,11 +252,12 @@ npx playwright install chromium
 ## Project map
 
 ```text
-src/lessons/space-fractions.json      mission content
+src/lessons/*.json                    lesson content (all files are loaded)
+scripts/generate-lesson.ts            AI lesson generator
 src/themes/adventures.json            space, dinosaur, and soccer looks
 src/schemas                           Zod lesson, theme, and progress checks
 src/lib                               fractions, grading, attempts, scoring, storage
-src/components/interactions           choice, typing, and number line
+src/components/interactions           choice, typing keypad, number line, shade
 src/features/lesson-player           state machine and screens
 src/services/supabase                 optional database access
 supabase/migrations                   tables, triggers, and RLS

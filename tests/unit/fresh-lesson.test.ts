@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { getAdventure } from '../../src/features/lesson-library/adventures.ts'
-import { buildFreshLesson } from '../../src/lib/fresh-lesson.ts'
+import { buildFreshLesson, createTaskSlide, pickTaskNumbers, swapTask } from '../../src/lib/fresh-lesson.ts'
 import { checkAnswer } from '../../src/lib/answer-checker.ts'
 import { taskSlides } from '../../src/schemas/lesson.schema.ts'
 
@@ -17,7 +17,7 @@ describe('fresh lessons', () => {
     expect(firstTasks.map((task) => task.interaction.type)).toEqual([
       'multiple-choice',
       'multiple-choice',
-      'multiple-choice',
+      'shade',
       'multiple-choice',
       'numeric-input',
       'number-line',
@@ -36,5 +36,22 @@ describe('fresh lessons', () => {
     const tick = line.interaction.correct.numerator
     expect(checkAnswer(line.interaction, String(tick)).status).toBe('correct')
     expect(firstTasks[4]?.instruction).not.toBe(secondTasks[4]?.instruction)
+  })
+
+  it('builds a new solvable puzzle that skips one the child already saw', () => {
+    const adventure = getAdventure('dino')
+    const lesson = buildFreshLesson(adventure, 4)
+    for (const step of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) {
+      const numbers = pickTaskNumbers(step * 17, step, [], false)
+      const slide = createTaskSlide(adventure, step, numbers, step * 17, `q${step}`)
+      const swapped = swapTask(lesson, `q${step}`, slide)
+      const task = swapped.slides.find((item) => item.id === `q${step}`)
+      expect(task?.type).toBe('task')
+      if (task?.type === 'task') expect(task.instruction).toBe(slide.instruction)
+    }
+    const first = createTaskSlide(adventure, 4, pickTaskNumbers(5, 4, [], false), 5, 'q4')
+    const second = createTaskSlide(adventure, 4, pickTaskNumbers(5, 4, [first.instruction], false), 6, 'q4')
+    expect(second.instruction).not.toBe(first.instruction)
+    expect(pickTaskNumbers(8, 6, [], true).denominator).toBeLessThanOrEqual(5)
   })
 })

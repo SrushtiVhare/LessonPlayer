@@ -10,7 +10,25 @@ function loadBundled(data: unknown, name: string): Lesson {
   return parsed.lesson
 }
 
-export const bundledLessons: Lesson[] = [loadBundled(rawLesson, 'space-fractions')]
+const extraFiles = import.meta.glob<{ default: unknown }>(['../../lessons/*.json', '!../../lessons/space-fractions.json'], { eager: true })
+
+function loadExtras(): Lesson[] {
+  return Object.entries(extraFiles).flatMap(([path, module]) => {
+    const parsed = parseLesson(module.default)
+    if (parsed.ok) return [parsed.lesson]
+    console.warn(`Skipped ${path} because it is not a valid lesson:\n${parsed.errors.join('\n')}`)
+    return []
+  })
+}
+
+const mainLesson = loadBundled(rawLesson, 'space-fractions')
+export const extraLessons: Lesson[] = loadExtras()
+export const bundledLessons: Lesson[] = [mainLesson, ...extraLessons]
+
+/** Extra lesson files bring their own story, so world skins written for the main lesson must not cover them. */
+export function keepsOwnStory(id: string): boolean {
+  return extraLessons.some((lesson) => lesson.id === id)
+}
 
 export function getBundledLesson(id: string): Lesson | undefined {
   return bundledLessons.find((lesson) => lesson.id === id)

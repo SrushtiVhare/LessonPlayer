@@ -38,6 +38,7 @@ export function useLessonSession(lesson: Lesson) {
     [lesson],
   )
   const [state, dispatchBase] = useReducer(reduce, boot.state)
+  const lessonRef = useRef(lesson)
 
   const dispatch = useCallback((action: LessonAction) => {
     if (action.type !== 'hydrate') userEdited.current = true
@@ -65,10 +66,15 @@ export function useLessonSession(lesson: Lesson) {
   }, [lesson, state])
 
   useEffect(() => {
+    lessonRef.current = lesson
+  }, [lesson])
+
+  useEffect(() => {
     if (!isSupabaseConfigured) return
     let cancelled = false
     void (async () => {
-      const remote = await pullRemoteProgress(lesson.id)
+      const currentLesson = lessonRef.current
+      const remote = await pullRemoteProgress(currentLesson.id)
       if (cancelled) return
       pullSettled.current = true
       if (remote.status === 'disabled') {
@@ -80,19 +86,19 @@ export function useLessonSession(lesson: Lesson) {
         setSyncStatus('pending')
         return
       }
-      const local = readLocalProgress(lesson.id)
+      const local = readLocalProgress(currentLesson.id)
       const localTime = local.status === 'ok' ? local.progress.updatedAt : null
       const remoteTime = remote.status === 'ok' ? remote.progress.updatedAt : null
       const choice = chooseProgressSource(localTime, remoteTime, userEdited.current)
       if (choice === 'remote' && remote.status === 'ok') {
-        const reconciled = reconcileProgress(lesson, remote.progress)
+        const reconciled = reconcileProgress(currentLesson, remote.progress)
         dispatchBase({ type: 'hydrate', state: reconciled.state })
         if (reconciled.notice) setNotice(reconciled.notice)
         setSyncStatus('online')
         return
       }
       if (local.status === 'ok') {
-        const ok = await pushRemoteProgress(lesson, local.progress)
+        const ok = await pushRemoteProgress(currentLesson, local.progress)
         if (!cancelled) setSyncStatus(ok ? 'online' : 'pending')
         return
       }
@@ -101,7 +107,7 @@ export function useLessonSession(lesson: Lesson) {
     return () => {
       cancelled = true
     }
-  }, [dispatchBase, lesson])
+  }, [dispatchBase, lesson.id])
 
   return {
     state,

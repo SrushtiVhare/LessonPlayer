@@ -5,16 +5,16 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 }
 
 const variants = {
-  primary: 'bg-primary text-on-primary',
-  accent: 'bg-accent text-on-accent',
-  ghost: 'bg-surface text-ink',
+  primary: 'border-black/25 bg-primary text-on-primary',
+  accent: 'border-black/20 bg-accent text-on-accent',
+  ghost: 'border-black/10 bg-surface text-ink',
 } as const
 
 export function Button({ variant = 'primary', className = '', type = 'button', ...props }: ButtonProps) {
   return (
     <button
       type={type}
-      className={`inline-flex min-h-12 items-center justify-center gap-2 rounded-[var(--wq-radius-button)] border-4 border-ink px-5 py-3 text-lg font-bold shadow-[var(--wq-shadow)] transition active:translate-x-1 active:translate-y-1 active:shadow-none disabled:cursor-not-allowed disabled:border-ink/15 disabled:bg-surface disabled:text-muted disabled:shadow-none ${variants[variant]} ${className}`}
+      className={`inline-flex min-h-14 items-center justify-center gap-2 rounded-2xl border-2 border-b-[6px] px-5 py-3 text-lg font-extrabold transition active:translate-y-0.5 active:border-b-2 disabled:cursor-not-allowed disabled:border-black/10 disabled:bg-black/5 disabled:text-muted ${variants[variant]} ${className}`}
       {...props}
     />
   )

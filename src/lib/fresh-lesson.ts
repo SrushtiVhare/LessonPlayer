@@ -72,28 +72,270 @@ function choices(numerator: number, denominator: number, random: () => number) {
   }
 }
 
+export type Chapter = { title: string; story: string }
+
+const NUMBER_WORDS =
+  /\b(zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|half|halves|thirds?|quarters?|fourths?|fifths?|sixths?|sevenths?|eighths?|ninths?|tenths?)\b/i
+
+/** AI story text never carries numbers, so it cannot disagree with the checked math. */
+export function cleanChapter(raw: unknown): Chapter | null {
+  if (!raw || typeof raw !== 'object') return null
+  const row = raw as Record<string, unknown>
+  const title = typeof row.chapterTitle === 'string' ? row.chapterTitle.trim() : ''
+  const story = typeof row.story === 'string' ? row.story.trim().replace(/\s+/g, ' ') : ''
+  if (title.length < 2 || title.length > 40 || story.length < 10 || story.length > 240) return null
+  if (/\d/.test(title + story) || NUMBER_WORDS.test(title + ' ' + story)) return null
+  return { title, story }
+}
+
+export function fallbackChapter(adventure: Adventure, step: number): Chapter {
+  const name = adventure.theme.character.name
+  const thing = pieceName(adventure.id)
+  const chapters: Chapter[] = [
+    { title: 'The Glowing Clue', story: `${name} spots a glowing ${thing} split into equal pieces. "Can you read it like a fraction?"` },
+    { title: 'Counting the Whole', story: `${name} wants to rebuild the ${thing}. First we need to know how many equal pieces make the whole.` },
+    { title: 'The Lit-Up Pieces', story: `Some pieces are shining brighter than the rest. ${name} asks which number counts them.` },
+    { title: 'Pieces Together', story: `${name} found more pieces of the same size. Snap them together to see how much you have!` },
+    { title: 'The Secret Code', story: `A locked door blocks the path. ${name} says the code is the total of the pieces. Type it in!` },
+    { title: 'The Path of Marks', story: `A trail of evenly spaced marks leads onward. Hop along it to the right spot!` },
+    { title: 'A Helping Hand', story: `A new friend brings extra pieces for ${name}. How much do they have together?` },
+    { title: 'The Tricky Mistake', story: `Uh oh! Someone added the pieces the wrong way. Can you be the fraction detective?` },
+    { title: 'Almost There', story: `The ${thing} is nearly whole again. ${name} needs one more code to keep going.` },
+    { title: 'The Final Piece', story: `This is the last piece! Solve it and the ${thing} will shine like new.` },
+  ]
+  return chapters[Math.min(chapters.length, Math.max(1, step)) - 1]!
+}
+
 function taskShell(input: {
   index: number
+  id?: string
+  chapter?: Chapter
   instruction: string
   supportingText: string
   hint: string
+  secondHint?: string
   explanation: string
   answerLabel: string
   interaction: Record<string, unknown>
   visual?: Record<string, unknown>
 }) {
   return {
-    id: `q${input.index}`,
-    type: 'task',
+    id: input.id ?? `q${input.index}`,
+    type: 'task' as const,
+    ...(input.chapter ? { chapterTitle: input.chapter.title, story: input.chapter.story } : {}),
     instruction: input.instruction,
     supportingText: input.supportingText,
     hint: input.hint,
+    ...(input.secondHint ? { secondHint: input.secondHint } : {}),
     explanation: input.explanation,
     answerLabel: input.answerLabel,
     readAloud: input.instruction,
     visual: input.visual,
     interaction: { ...input.interaction, prompt: input.instruction },
   }
+}
+
+function shadeTask(denominator: number, shaded: number) {
+  const count = Math.max(1, shaded)
+  return {
+    instruction: `Tap to color pieces and show ${count}/${denominator}.`,
+    supportingText: 'The top number tells how many pieces to color.',
+    hint: `The bottom number ${denominator} is all the pieces. The top number tells how many to color.`,
+    secondHint: `Color ${count} pieces.`,
+    explanation: `The numerator ${count} means ${count} of the ${denominator} equal pieces are colored.`,
+    answerLabel: `${count}/${denominator}`,
+    interaction: {
+      type: 'shade',
+      segments: denominator,
+      correct: { numerator: count, denominator },
+    },
+  }
+}
+
+export type TaskNumbers = { denominator: number; left: number; right: number; shaded: number }
+
+function pictureKey(numbers: TaskNumbers): string {
+  return `${numbers.shaded} glowing pieces out of ${numbers.denominator}`
+}
+
+function additionKeys(numbers: TaskNumbers): string[] {
+  const { left, right, denominator } = numbers
+  return [`${left}/${denominator} + ${right}/${denominator}`, `${right}/${denominator} + ${left}/${denominator}`]
+}
+
+function seen(used: string[], step: number, numbers: TaskNumbers): boolean {
+  const keys = step <= 3 ? [pictureKey(numbers), `show ${numbers.shaded}/${numbers.denominator}.`] : additionKeys(numbers)
+  return used.some((item) => keys.some((key) => item.includes(key)))
+}
+
+/** Numbers for one new puzzle. They skip problems the child has already seen. */
+export function pickTaskNumbers(seed: number, step: number, used: string[], easy: boolean): TaskNumbers {
+  const random = randomFrom(seed || 1)
+  for (let attempt = 0; attempt < 40; attempt += 1) {
+    const denominator = easy ? 2 + Math.floor(random() * 4) : 5 + Math.floor(random() * 8)
+    const left = 1 + Math.floor(random() * Math.max(1, denominator - 1))
+    const rightRoom = denominator - left
+    if (rightRoom < 1) continue
+    const right = 1 + Math.floor(random() * rightRoom)
+    const shaded = 1 + Math.floor(random() * Math.max(1, denominator - 1))
+    const numbers = { denominator, left, right, shaded }
+    if (seen(used, step, numbers)) continue
+    return numbers
+  }
+  for (const denominator of [4, 5, 6, 7, 8, 3]) {
+    const numbers = { denominator, left: 1, right: 1, shaded: 1 }
+    if (!seen(used, step, numbers)) return numbers
+  }
+  return { denominator: 6, left: 1, right: 2, shaded: 2 }
+}
+
+export function usedFromLesson(lesson: Lesson): string[] {
+  return lesson.slides.flatMap((slide) => (slide.type === 'task' ? [slide.instruction] : []))
+}
+
+function safeNumbers(numbers: TaskNumbers): TaskNumbers {
+  const denominator = Math.min(12, Math.max(2, Math.trunc(numbers.denominator) || 4))
+  const left = Math.min(denominator - 1, Math.max(1, Math.trunc(numbers.left) || 1))
+  const right = Math.min(denominator - left, Math.max(1, Math.trunc(numbers.right) || 1))
+  const shaded = Math.min(denominator - 1, Math.max(1, Math.trunc(numbers.shaded) || 1))
+  return { denominator, left, right, shaded }
+}
+
+/** One checked puzzle. The step keeps the teaching order, and the numbers are new. */
+export function createTaskSlide(
+  adventure: Adventure,
+  step: number,
+  raw: TaskNumbers,
+  seed: number,
+  slideId?: string,
+  chapter: Chapter = fallbackChapter(adventure, step),
+) {
+  const numbers = safeNumbers(raw)
+  const random = randomFrom(seed || 1)
+  const name = adventure.theme.character.name
+  const { denominator, left, right, shaded } = numbers
+  const sum = left + right
+  const picture = pictureKey(numbers)
+  const addition = `${left}/${denominator} + ${right}/${denominator}`
+  const answer = `${sum}/${denominator}`
+  const bars = {
+    type: 'fraction-bars',
+    bars: [
+      { segments: denominator, shaded: left, color: 'gold', caption: `${left} pieces` },
+      { segments: denominator, shaded: right, color: 'blue', caption: `${right} more` },
+    ],
+  }
+  const shared = {
+    index: step,
+    id: slideId,
+    chapter,
+  }
+  if (step === 1) {
+    return taskShell({
+      ...shared,
+      instruction: `Which fraction matches ${picture}?`,
+      supportingText: 'The pieces are the same size.',
+      hint: 'Count every equal piece first. That number is the denominator.',
+      explanation: `${picture} is ${shaded}/${denominator}.`,
+      answerLabel: `${shaded}/${denominator}`,
+      visual: {
+        type: 'fraction-bars',
+        bars: [{ segments: denominator, shaded, color: 'gold', caption: `${shaded} glowing pieces` }],
+      },
+      interaction: choices(shaded, denominator, random),
+    })
+  }
+  if (step === 2) {
+    return taskShell({
+      ...shared,
+      instruction: `${picture}. What does the denominator tell us?`,
+      supportingText: 'Look at the bottom number.',
+      hint: 'The denominator counts the equal pieces in the whole.',
+      explanation: 'The denominator tells how many equal pieces the whole is split into.',
+      answerLabel: 'Total pieces',
+      visual: {
+        type: 'fraction-bars',
+        bars: [{ segments: denominator, shaded, color: 'lavender', caption: `${denominator} equal pieces` }],
+      },
+      interaction: {
+        type: 'multiple-choice',
+        correctOptionId: 'answer',
+        options: [
+          { id: 'answer', label: 'Total pieces', accessibleLabel: 'Total pieces' },
+          { id: 'choice-2', label: 'Shaded pieces', accessibleLabel: 'Shaded pieces' },
+          { id: 'choice-3', label: 'The color', accessibleLabel: 'The color' },
+        ],
+      },
+    })
+  }
+  if (step === 3) return taskShell({ ...shared, ...shadeTask(denominator, shaded) })
+  if (step === 5 || step === 9) {
+    return taskShell({
+      ...shared,
+      instruction: `Type the sum of ${addition}.`,
+      supportingText: 'A fraction or a decimal is fine.',
+      hint: `Add the top numbers. Keep ${denominator} on the bottom.`,
+      explanation: `${left} plus ${right} is ${sum}. The denominator stays ${denominator}.`,
+      answerLabel: answer,
+      visual: bars,
+      interaction: {
+        type: 'numeric-input',
+        acceptedFormats: ['fraction', 'decimal'],
+        allowNegative: false,
+        correct: { numerator: sum, denominator },
+        placeholder: 'Type 3/4 or 0.75',
+      },
+    })
+  }
+  if (step === 6) {
+    return taskShell({
+      ...shared,
+      instruction: `Tap the mark that shows ${addition}.`,
+      supportingText: 'The marks are evenly spaced.',
+      hint: `Start at 0 and move ${sum} equal steps.`,
+      secondHint: `Hop ${left}, then hop ${right} more.`,
+      explanation: `${addition} lands on ${answer}.`,
+      answerLabel: answer,
+      interaction: {
+        type: 'number-line',
+        start: { numerator: 0, denominator: 1 },
+        end: { numerator: 1, denominator: 1 },
+        partitions: denominator,
+        correct: { numerator: sum, denominator },
+      },
+    })
+  }
+  if (step === 8) {
+    return taskShell({
+      ...shared,
+      instruction: `A friend added ${addition} and wrote ${sum}/${denominator * 2}. Which fraction is right?`,
+      supportingText: 'Do not add the bottom numbers.',
+      hint: 'The denominator stays the same when the pieces are the same size.',
+      explanation: `Adding the denominators makes ${sum}/${denominator * 2}. The denominator should stay ${denominator}.`,
+      answerLabel: answer,
+      visual: bars,
+      interaction: choices(sum, denominator, random),
+    })
+  }
+  const word = step === 7
+  return taskShell({
+    ...shared,
+    instruction: word ? `${name} puts together ${addition}. How much is that?` : `What is ${addition}?`,
+    supportingText: word ? 'Put the pieces together.' : 'The pieces are the same size.',
+    hint: `Add the top numbers. The bottom number stays ${denominator}.`,
+    secondHint: `${left} + ${right} = ${sum}.`,
+    explanation: `Add the numerators. The denominator stays ${denominator}, so the sum is ${answer}.`,
+    answerLabel: answer,
+    visual: bars,
+    interaction: choices(sum, denominator, random),
+  })
+}
+
+export function swapTask(lesson: Lesson, slideId: string, replacement: unknown): Lesson {
+  if (!replacement || typeof replacement !== 'object') return lesson
+  const slides = lesson.slides.map((slide) => (slide.id === slideId ? replacement : slide))
+  const parsed = parseLesson({ ...lesson, slides })
+  return parsed.ok ? parsed.lesson : lesson
 }
 
 /** A new 10-question mission. The numbers change with the seed, and the math is already checked. */
@@ -157,24 +399,7 @@ export function buildFreshLesson(adventure: Adventure, seed: number): Lesson {
         ],
       },
     }),
-    taskShell({
-      index: 3,
-      instruction: 'What does the numerator tell us?',
-      supportingText: 'Look at the top number.',
-      hint: 'The numerator counts the pieces we are using.',
-      explanation: 'The numerator tells how many of the equal pieces are shaded.',
-      answerLabel: 'Shaded pieces',
-      visual: bar(vocabDenominator, vocabShaded, `${vocabShaded} shaded pieces`),
-      interaction: {
-        type: 'multiple-choice',
-        correctOptionId: 'answer',
-        options: [
-          { id: 'choice-1', label: 'Total pieces', accessibleLabel: 'Total pieces' },
-          { id: 'answer', label: 'Shaded pieces', accessibleLabel: 'Shaded pieces' },
-          { id: 'choice-3', label: 'The color', accessibleLabel: 'The color' },
-        ],
-      },
-    }),
+    taskShell({ index: 3, ...shadeTask(vocabDenominator, Math.min(vocabShaded, vocabDenominator - 1)) }),
     taskShell({
       index: 4,
       instruction: `What is ${show(mc)}?`,
@@ -267,6 +492,14 @@ export function buildFreshLesson(adventure: Adventure, seed: number): Lesson {
     },
   ]
 
+  let step = 0
+  const storied = slides.map((slide) => {
+    if (slide.type !== 'task') return slide
+    step += 1
+    const chapter = fallbackChapter(adventure, step)
+    return { ...slide, chapterTitle: chapter.title, story: chapter.story }
+  })
+
   const parsed = parseLesson({
     id: LIVE_LESSON_ID,
     version: 1,
@@ -276,7 +509,7 @@ export function buildFreshLesson(adventure: Adventure, seed: number): Lesson {
     topic: 'Adding fractions with the same denominator',
     objectives: [adventure.story.objective],
     theme: adventure.theme,
-    slides,
+    slides: storied,
   })
   if (!parsed.ok) throw new Error(parsed.errors.join('\n'))
   return parsed.lesson

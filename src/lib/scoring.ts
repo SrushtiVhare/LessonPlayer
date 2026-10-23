@@ -20,9 +20,6 @@ export function scoreLesson(lesson: Lesson, tasks: Record<string, TaskState | un
 
 export function progressLabel(lesson: Lesson, slideId: string): string {
   const slide = lesson.slides.find((item) => item.id === slideId)
-  if (!slide || slide.type === 'intro') return 'Mission briefing'
-  if (slide.type === 'outro') return 'Mission complete'
-  const tasks = taskSlides(lesson)
-  const index = tasks.findIndex((item) => item.id === slide.id)
-  return `Challenge ${index + 1} of ${tasks.length}`
+  const index = Math.max(0, lesson.slides.findIndex((item) => item.id === slide?.id))
+  return `Slide ${index + 1} of ${lesson.slides.length}`
 }

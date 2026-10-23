@@ -96,10 +96,29 @@ const numberLineSchema = z
     }
   })
 
+const shadeSchema = z
+  .object({
+    type: z.literal('shade'),
+    prompt: shortText(180),
+    segments: z.number().int().min(2).max(12),
+    correct: rationalSchema,
+  })
+  .superRefine((interaction, ctx) => {
+    const pieces = (interaction.correct.numerator * interaction.segments) / interaction.correct.denominator
+    if (!Number.isInteger(pieces) || pieces < 1 || pieces > interaction.segments) {
+      ctx.addIssue({
+        code: 'custom',
+        message: 'The shade answer must be a whole number of pieces.',
+        path: ['correct'],
+      })
+    }
+  })
+
 export const interactionSchema = z.discriminatedUnion('type', [
   multipleChoiceSchema,
   numericSchema,
   numberLineSchema,
+  shadeSchema,
 ])
 
 const introSchema = z.object({
@@ -115,9 +134,12 @@ const introSchema = z.object({
 const taskSchema = z.object({
   id: idSchema,
   type: z.literal('task'),
+  chapterTitle: shortText(40).optional(),
+  story: shortText(240).optional(),
   instruction: shortText(180),
   supportingText: shortText(180).optional(),
   hint: shortText(200),
+  secondHint: shortText(200).optional(),
   explanation: shortText(240),
   answerLabel: shortText(24),
   readAloud: shortText(420),

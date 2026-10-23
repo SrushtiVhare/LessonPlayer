@@ -34,6 +34,7 @@ export const themeSchema = z
       name: z.string().trim().min(1).max(24),
       description: z.string().trim().min(1).max(180),
       illustration: z.enum(illustrationIds),
+      emoji: z.string().trim().min(1).max(8).optional(),
     }),
     decorations: z.array(z.enum(decorationIds)).max(4),
     background: z.enum(['starfield', 'jungle', 'pitch', 'plain']),

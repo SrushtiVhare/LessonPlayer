@@ -20,6 +20,8 @@ export function checkAnswer(interaction: Interaction, response: string): AnswerV
       return checkNumeric(interaction, response)
     case 'number-line':
       return checkNumberLine(interaction, response)
+    case 'shade':
+      return checkShade(interaction, response)
     default:
       return assertNever(interaction)
   }
@@ -61,4 +63,15 @@ function checkNumberLine(
   const tick = rationalAtTick(interaction.start, interaction.end, interaction.partitions, index)
   if (!tick) return { status: 'invalid', message: COPY.tapMark }
   return rationalsEqual(tick, interaction.correct) ? { status: 'correct' } : { status: 'incorrect' }
+}
+
+/** The response marks each piece with 1 (colored) or 0, so 2 of 4 pieces also counts as 1/2. */
+function checkShade(interaction: Extract<Interaction, { type: 'shade' }>, response: string): AnswerVerdict {
+  const marks = response.trim()
+  if (marks.length !== interaction.segments || !/^[01]+$/.test(marks)) return { status: 'invalid', message: COPY.tapPieces }
+  const colored = [...marks].filter((mark) => mark === '1').length
+  if (colored === 0) return { status: 'invalid', message: COPY.tapPieces }
+  return rationalsEqual({ numerator: colored, denominator: interaction.segments }, interaction.correct)
+    ? { status: 'correct' }
+    : { status: 'incorrect' }
 }
