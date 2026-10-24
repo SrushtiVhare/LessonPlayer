@@ -35,8 +35,8 @@ export function MissingAdventure() {
 
 export function LoadingMission() {
   return (
-    <div className="grid min-h-dvh place-items-center bg-[#3C3489] px-4 text-white">
-      <div className="grid justify-items-center gap-4">
+    <div className="world-sky grid min-h-dvh place-items-center px-4">
+      <div className="grid justify-items-center gap-4 rounded-[2rem] border-b-8 border-black/10 bg-white px-8 py-6 text-[#1A2340] shadow-xl">
         <span className="character-float text-7xl" aria-hidden="true">✨</span>
         <p className="font-display text-3xl" role="status">
           Getting your mission ready...

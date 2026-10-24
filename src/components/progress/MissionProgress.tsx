@@ -20,7 +20,7 @@ export function MissionProgress({
     <div className="grid flex-1 gap-1">
       <div className="flex items-center gap-3">
         <div
-          className="relative h-7 flex-1 rounded-full bg-black/25"
+          className="relative h-8 flex-1 rounded-full border-4 border-white bg-white/60 shadow-md"
           role="progressbar"
           aria-valuemin={0}
           aria-valuemax={total}
@@ -52,7 +52,7 @@ export function MissionProgress({
           </span>
         ) : null}
       </div>
-      <p className="on-world text-sm font-bold">{label}</p>
+      <p className="w-fit rounded-full bg-white/90 px-3 text-sm font-extrabold text-ink">{label}</p>
     </div>
   )
 }

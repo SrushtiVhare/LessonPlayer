@@ -59,7 +59,7 @@ export function HomePage() {
 
   return (
     <ThemedScreen theme={adventure.theme}>
-      <div className="mx-auto grid w-full max-w-5xl gap-8 px-4 py-5 sm:px-6">
+      <div className="mx-auto grid w-full max-w-5xl gap-8 px-4 pt-5 pb-28 sm:px-6">
         <header className="flex items-center justify-between gap-3">
           <p className="on-world font-display text-3xl leading-none">
             <span className="emoji-marker mr-1" aria-hidden="true" />
@@ -83,7 +83,7 @@ export function HomePage() {
         <section className="grid items-center gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
           <div className="order-2 grid gap-5 text-center lg:order-1 lg:text-left">
             <h1 className="on-world font-display text-6xl leading-none sm:text-7xl">{adventure.story.welcomeTitle}</h1>
-            <p className="on-world mx-auto max-w-xl text-xl leading-relaxed font-semibold lg:mx-0">{adventure.story.welcomeBody}</p>
+            <p className="mx-auto max-w-xl rounded-3xl bg-white/90 px-5 py-3 text-xl leading-relaxed font-bold text-ink shadow-lg lg:mx-0">{adventure.story.welcomeBody}</p>
             <div className="flex flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start">
               <button
                 type="button"
@@ -139,7 +139,7 @@ export function HomePage() {
                   onClick={() => chooseAdventure(item.id)}
                   style={themeToStyle(item.theme)}
                   className={`relative grid justify-items-center gap-1 rounded-[2rem] border-b-8 px-2 pt-4 pb-3 transition active:translate-y-1 active:border-b-2 ${
-                    selected ? 'border-black/25 bg-accent text-on-accent ring-4 ring-white' : 'border-black/10 bg-surface text-ink hover:-translate-y-1'
+                    selected ? 'border-black/25 bg-accent text-on-accent ring-4 ring-white' : 'wiggle-hover border-black/10 bg-surface text-ink hover:-translate-y-1'
                   }`}
                 >
                   <span className="absolute top-2 right-3 text-3xl" aria-hidden="true">

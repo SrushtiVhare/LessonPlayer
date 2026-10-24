@@ -37,7 +37,7 @@ export function IntroView({ slide, theme, onStart, busy = false }: { slide: Intr
         </div>
         <p className="w-fit rounded-full bg-hint-surface px-4 py-1.5 font-bold text-hint">🎯 {slide.objective}</p>
       </div>
-      <Button variant="accent" data-testid="start-mission" className="min-h-18 w-full text-2xl" onClick={onStart} disabled={busy}>
+      <Button variant="accent" data-testid="start-mission" className="min-h-18 w-full font-display text-3xl!" onClick={onStart} disabled={busy}>
         {busy ? 'Writing chapter one...' : slide.startLabel}
         {busy ? null : <span className="emoji-marker" aria-hidden="true" />}
       </Button>
@@ -167,7 +167,7 @@ export function TaskView({
               Check Answer
             </Button>
           ) : (
-            <Button variant="accent" data-testid="next" onClick={onNext} disabled={!canNext} className="min-h-16 flex-1 text-xl">
+            <Button variant="accent" data-testid="next" onClick={onNext} disabled={!canNext} className="min-h-16 flex-1 font-display text-2xl!">
               {nextLabel}
             </Button>
           )}
