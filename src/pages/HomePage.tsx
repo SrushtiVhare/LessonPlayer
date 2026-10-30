@@ -24,9 +24,16 @@ import {
 } from '../lib/storage.ts'
 import { QUESTION_COUNT } from '../server/prepare-lesson.ts'
 
+function helloFor(hour: number): string {
+  if (hour < 12) return 'Good morning'
+  if (hour < 17) return 'Good afternoon'
+  return 'Good evening'
+}
+
 export function HomePage() {
   const navigate = useNavigate()
   const reduce = useReducedMotion()
+  const [hello] = useState(() => helloFor(new Date().getHours()))
   const [adventureId, setAdventureId] = useState(() => readAdventureId() ?? 'space')
   const [busy, setBusy] = useState(false)
   const adventure = getAdventure(adventureId)
@@ -82,6 +89,7 @@ export function HomePage() {
 
         <section className="grid items-center gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
           <div className="order-2 grid gap-5 text-center lg:order-1 lg:text-left">
+            <p className="mx-auto w-fit rounded-full bg-white/90 px-4 py-1 font-display text-xl text-ink shadow-md lg:mx-0">{hello}!</p>
             <h1 className="on-world font-display text-6xl leading-none sm:text-7xl">{adventure.story.welcomeTitle}</h1>
             <p className="mx-auto max-w-xl rounded-3xl bg-white/90 px-5 py-3 text-xl leading-relaxed font-bold text-ink shadow-lg lg:mx-0">{adventure.story.welcomeBody}</p>
             <div className="flex flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start">
