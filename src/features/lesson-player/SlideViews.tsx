@@ -159,7 +159,7 @@ export function TaskView({
               <span aria-hidden="true" className="text-2xl">
                 💡
               </span>
-              <span className="hidden sm:inline">Clue</span>
+              Clue
             </Button>
           ) : null}
           {!task.completed ? (
