@@ -24,7 +24,8 @@ type LessonServer = ViteDevServer | PreviewServer
 function attachLessonApi(server: LessonServer, env: Record<string, string>) {
   server.middlewares.use(async (req: IncomingMessage, res: ServerResponse, next: Connect.NextFunction) => {
     const path = req.url?.split('?')[0]
-    if ((path !== '/api/generate-lesson' && path !== '/api/next-question') || req.method !== 'POST') {
+    const tutor = path === '/api/tutor'
+    if ((path !== '/api/generate-lesson' && path !== '/api/next-question' && !tutor) || req.method !== 'POST') {
       next()
       return
     }
@@ -33,21 +34,28 @@ function attachLessonApi(server: LessonServer, env: Record<string, string>) {
       if (!('ssrLoadModule' in server)) {
         throw new Error('New puzzles need npm run dev.')
       }
-      const loaded = await server.ssrLoadModule('/src/server/handle-generate.ts') as {
-        handleGenerateLesson: (input: unknown, runtimeEnv: Record<string, string>) => Promise<{ status: number; body: unknown }>
-        handleNextQuestion: (input: unknown, runtimeEnv: Record<string, string>) => Promise<{ status: number; body: unknown }>
-      }
-      const result = path === '/api/next-question' ? await loaded.handleNextQuestion(body, env) : await loaded.handleGenerateLesson(body, env)
+      const result = tutor
+        ? await (await server.ssrLoadModule('/src/server/handle-tutor.ts') as {
+            handleTutor: (input: unknown, runtimeEnv: Record<string, string>) => Promise<{ status: number; body: unknown }>
+          }).handleTutor(body, env)
+        : await (async () => {
+            const loaded = await server.ssrLoadModule('/src/server/handle-generate.ts') as {
+              handleGenerateLesson: (input: unknown, runtimeEnv: Record<string, string>) => Promise<{ status: number; body: unknown }>
+              handleNextQuestion: (input: unknown, runtimeEnv: Record<string, string>) => Promise<{ status: number; body: unknown }>
+            }
+            return path === '/api/next-question' ? loaded.handleNextQuestion(body, env) : loaded.handleGenerateLesson(body, env)
+          })()
       res.statusCode = result.status
       res.setHeader('content-type', 'application/json')
       res.end(JSON.stringify(result.body))
     } catch (error) {
-      console.error('generate-lesson failed', error)
+      console.error(tutor ? 'tutor failed' : 'generate-lesson failed', error)
       const detail = error instanceof Error ? error.message : 'Unknown error'
       const safe = env.GEMINI_API_KEY ? detail.replaceAll(env.GEMINI_API_KEY, '') : detail
       res.statusCode = 500
       res.setHeader('content-type', 'application/json')
-      res.end(JSON.stringify({ error: `The puzzle machine hit a problem. ${safe}`.slice(0, 240) }))
+      const lead = tutor ? 'The tutor needs a moment.' : 'The puzzle machine hit a problem.'
+      res.end(JSON.stringify({ error: `${lead} ${safe}`.slice(0, 240) }))
     }
   })
 }
