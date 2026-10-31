@@ -169,6 +169,14 @@ npm run generate:lesson -- --topic "Subtracting fractions with the same denomina
 
 The schema checks structure (the answer is one of the options, sits on a number-line mark, is a whole number of pieces). It cannot prove the story math is right, so read a generated lesson before you ship it. `src/lessons/subtracting-fractions-with-the-same-deno.json` is one the script produced; every answer was checked by hand.
 
+## Chat tutor
+
+Every slide has an **Ask** button named after the friend in that world. The chat follows the question on the screen: the prompt, the picture, the answer tiles, and how many tries the child has used. Moving to the next slide starts a fresh chat.
+
+The tutor gives one step at a time. **Give me a hint**, **Explain this**, and **Show an example** do not type the answer. A correct answer gets a cheer. After the lesson has already shown the answer, the tutor may repeat that explanation.
+
+The reply is written from the lesson first. Gemini may rephrase it through `POST /api/tutor`. If that rephrase says the answer too early, or uses a fraction that is not in the question, the app drops it and shows the lesson reply instead. With no `GEMINI_API_KEY`, the lesson reply is used on its own. The key stays on the server.
+
 ## Themes
 
 The home screen offers three worlds: **space**, **dinosaurs**, and **soccer**. The choice is saved on this device. Colors, the friend’s name, and the drawing come from `src/themes/adventures.json`.
@@ -258,7 +266,7 @@ src/themes/adventures.json            space, dinosaur, and soccer looks
 src/schemas                           Zod lesson, theme, and progress checks
 src/lib                               fractions, grading, attempts, scoring, storage
 src/components/interactions           choice, typing keypad, number line, shade
-src/features/lesson-player           state machine and screens
+src/features/lesson-player           state machine, screens, and the chat tutor
 src/services/supabase                 optional database access
 supabase/migrations                   tables, triggers, and RLS
 tests                                 unit, integration, and end-to-end

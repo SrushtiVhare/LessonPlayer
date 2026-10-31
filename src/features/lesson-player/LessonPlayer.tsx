@@ -12,6 +12,7 @@ import { getSlide, canGoBack, canGoNext } from './lesson-reducer.ts'
 import { useSoundPreference } from '../../hooks/useSoundPreference.ts'
 import { AdventuresLink, SaveStatus, SoundToggle } from './PlayerChrome.tsx'
 import { IntroView, OutroView, TaskView } from './SlideViews.tsx'
+import { TutorChat } from './TutorChat.tsx'
 import { useLessonSession } from './useLessonSession.ts'
 import { taskSlides, type Lesson } from '../../schemas/lesson.schema.ts'
 
@@ -175,6 +176,7 @@ export function LessonPlayer({ lesson, hasMoreLessons }: { lesson: Lesson; hasMo
           </button>
         </div>
       ) : null}
+      <TutorChat lesson={liveLesson} slide={slide} task={task} />
       <motion.div
         key={slide.id}
         ref={headingRef}
