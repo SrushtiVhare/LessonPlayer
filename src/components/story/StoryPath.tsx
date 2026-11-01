@@ -23,7 +23,10 @@ export function StoryPath({ total, completed, solved }: { total: number; complet
               {done ? (
                 <Star aria-hidden="true" size={24} fill={index < solved ? 'var(--wq-accent)' : 'none'} />
               ) : current ? (
-                index + 1
+                <span className="grid leading-none">
+                  <span className="text-[10px] font-extrabold">Now</span>
+                  {index + 1}
+                </span>
               ) : (
                 <Lock aria-hidden="true" size={18} />
               )}
