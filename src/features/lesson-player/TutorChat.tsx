@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { buildTutorContext } from '../../lib/tutor-context.ts'
 import { localTutorReply } from '../../lib/tutor-reply.ts'
 import { requestTutorReply } from '../../lib/tutor-client.ts'
+import { speak, speechSupported } from '../../lib/speech.ts'
 import type { TutorAction } from '../../lib/tutor-context.ts'
 import type { Lesson, Slide } from '../../schemas/lesson.schema.ts'
 import type { TaskState } from '../../schemas/progress.schema.ts'
@@ -104,13 +105,19 @@ export function TutorChat({ lesson, slide, task }: { lesson: Lesson; slide: Slid
       </div>
       <div className="grid max-h-52 gap-2 overflow-y-auto" aria-live="polite">
         {lines.map((line, index) => (
-          <p
-            key={`${line.from}-${index}`}
-            data-testid={line.from === 'tutor' ? 'tutor-reply' : 'tutor-child'}
-            className={`max-w-[95%] rounded-3xl px-4 py-2 text-lg font-bold ${line.from === 'tutor' ? 'justify-self-start bg-hint-surface text-hint' : 'justify-self-end bg-primary text-on-primary'}`}
-          >
-            {line.text}
-          </p>
+          <div key={`${line.from}-${index}`} className={`flex items-end gap-2 ${line.from === 'tutor' ? 'justify-self-start' : 'justify-self-end'}`}>
+            <p
+              data-testid={line.from === 'tutor' ? 'tutor-reply' : 'tutor-child'}
+              className={`max-w-[95%] rounded-3xl px-4 py-2 text-lg font-bold ${line.from === 'tutor' ? 'bg-hint-surface text-hint' : 'bg-primary text-on-primary'}`}
+            >
+              {line.text}
+            </p>
+            {line.from === 'tutor' && index === lines.length - 1 && speechSupported() ? (
+              <button type="button" className="min-h-12 min-w-12 rounded-full bg-canvas text-xl" aria-label="Hear that" onClick={() => speak(line.text)}>
+                🔊
+              </button>
+            ) : null}
+          </div>
         ))}
         {busy ? <p className="text-base font-bold text-muted">Let me think with you...</p> : null}
         <div ref={endRef} />
