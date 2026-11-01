@@ -54,6 +54,9 @@ export function NumberLineInput({
           })}
         </div>
       </div>
+      <p className="text-center text-lg font-extrabold text-ink" aria-live="polite">
+        {value !== null && ticks[Number(value)] ? `You picked ${ticks[Number(value)]?.label}` : 'Tap a mark'}
+      </p>
     </div>
   )
 }
