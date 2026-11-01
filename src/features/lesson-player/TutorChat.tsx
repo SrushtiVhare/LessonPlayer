@@ -75,23 +75,21 @@ export function TutorChat({ lesson, slide, task }: { lesson: Lesson; slide: Slid
     setBusy(false)
   }
 
-  if (!open) {
-    return (
-      <button
-        type="button"
-        data-testid="tutor-open"
-        className="inline-flex min-h-14 w-fit items-center gap-2 rounded-full border-b-8 border-black/15 bg-white px-5 font-display text-xl text-ink shadow-lg active:translate-y-1 active:border-b-2"
-        onClick={() => setOpen(true)}
-      >
-        <span aria-hidden="true" className="text-2xl">
-          {emoji}
-        </span>
-        Ask {name}
-      </button>
-    )
-  }
+  const launcher = (
+    <button
+      type="button"
+      data-testid="tutor-open"
+      className="inline-flex min-h-14 items-center gap-2 rounded-full border-b-8 border-black/15 bg-white px-5 font-display text-xl text-ink shadow-lg active:translate-y-1 active:border-b-2"
+      onClick={() => setOpen(true)}
+    >
+      <span aria-hidden="true" className="text-2xl">
+        {emoji}
+      </span>
+      Ask {name}
+    </button>
+  )
 
-  return (
+  const panel = (
     <section className="grid gap-3 rounded-[2rem] border-b-8 border-black/10 bg-white p-4 text-ink shadow-xl" aria-label={`${name} the tutor`} data-testid="tutor-panel">
       <div className="flex items-center justify-between gap-3">
         <p className="font-display text-2xl">
@@ -155,5 +153,9 @@ export function TutorChat({ lesson, slide, task }: { lesson: Lesson; slide: Slid
         </button>
       </form>
     </section>
+  )
+
+  return (
+    <div className={`fixed right-3 bottom-24 z-40 ${open ? 'w-[min(22rem,calc(100vw-1.5rem))]' : ''}`}>{open ? panel : launcher}</div>
   )
 }
