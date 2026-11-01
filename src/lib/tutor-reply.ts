@@ -74,8 +74,13 @@ function wantsTheAnswer(note: string): boolean {
   return /\b(answer|tell me|just (say|tell)|give (it|me) the)\b/i.test(note)
 }
 
+function asSentence(text: string): string {
+  const trimmed = text.trim()
+  return /[.!?]$/.test(trimmed) ? trimmed : `${trimmed}.`
+}
+
 function guiding(context: TutorContext): string {
-  if (context.picture) return `Look at the picture first. ${context.picture} What do you notice?`
+  if (context.picture) return `Look at the picture first. ${asSentence(context.picture)} What do you notice?`
   if (context.choices.length > 0) return 'Read each tile. Which one matches the story, and which ones are tricks?'
   return `Read it once more: ${context.prompt}`
 }

@@ -19,7 +19,7 @@ const missed: TaskState = {
 describe('tutor replies from the lesson', () => {
   it('starts with a guiding question and does not say the answer', () => {
     const reply = localTutorReply(fresh, 'hint')
-    expect(reply).toMatch(/picture/i)
+    expect(reply).toMatch(/pieces\. What do you notice/)
     expect(reply).not.toContain('1/4')
     expect(reply).not.toMatch(/one fourth/i)
   })
