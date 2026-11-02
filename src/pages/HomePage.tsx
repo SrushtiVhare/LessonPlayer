@@ -133,7 +133,7 @@ export function HomePage() {
 
         <section className="grid gap-3" aria-labelledby="world-heading">
           <h2 id="world-heading" className="on-world font-display text-3xl">
-            Pick your world
+            Choose your friend
           </h2>
           <div className="grid grid-cols-3 gap-3 sm:gap-4" role="group" aria-label="Choose your world">
             {adventures.map((item) => {
