@@ -115,7 +115,7 @@ function exampleFor(context: TutorContext): string {
 export function localTutorReply(context: TutorContext, action: TutorAction, note = ''): string {
   const name = context.characterName
   if (context.status === 'welcome') {
-    return `Hi! I'm ${name}. I'll help you think. I won't just tell you the answer.`
+    return `Hi! I'm ${name}. Ask me for a hint if you get stuck. I won't just tell you the answer.`
   }
   if (context.status === 'done') {
     return `You finished ${context.lessonTitle}! I loved solving it with you.`
