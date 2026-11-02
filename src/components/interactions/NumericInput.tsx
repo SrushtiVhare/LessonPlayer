@@ -84,7 +84,7 @@ export function NumericInput({
             aria-label="Delete last"
             onClick={() => onChange(text.slice(0, -1) || null)}
           >
-            <Delete aria-hidden="true" size={22} /> Undo
+            <Delete aria-hidden="true" size={22} /> Erase
           </button>
         </div>
       )}
