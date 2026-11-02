@@ -225,7 +225,7 @@ export function OutroView({
         <p className="text-lg font-semibold text-muted">You finished {score.completed} challenges.</p>
         <p className="rounded-2xl bg-canvas px-4 py-3 text-lg font-semibold text-ink">🧠 {slide.conceptSummary}</p>
         <p className="font-display text-2xl text-ink">
-          🏅 Badge earned: {slide.badgeName}
+          🏅 You earned: {slide.badgeName}
         </p>
       </div>
       <div className="grid w-full gap-3 sm:grid-cols-2">
