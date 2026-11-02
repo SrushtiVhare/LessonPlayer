@@ -203,7 +203,7 @@ export function LessonPlayer({ lesson, hasMoreLessons }: { lesson: Lesson; hasMo
               soundEnabled={sound.enabled}
               canBack={canGoBack(liveLesson, session.state)}
               canNext={canGoNext(liveLesson, session.state) && !waiting}
-              nextLabel={waiting ? 'Writing next chapter...' : nextIsOutro ? 'Finish Mission' : 'Next'}
+              nextLabel={waiting ? 'Making next chapter...' : nextIsOutro ? 'Finish Mission' : 'Next'}
               onChange={(response) => session.dispatch({ type: 'set-response', response })}
               onSubmit={() => session.dispatch({ type: 'submit' })}
               onHint={() => session.dispatch({ type: 'show-hint' })}
