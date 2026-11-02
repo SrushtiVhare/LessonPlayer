@@ -165,7 +165,7 @@ export function HomePage() {
         {extraLessons.length > 0 ? (
           <section className="grid gap-3" aria-labelledby="more-heading">
             <h2 id="more-heading" className="on-world font-display text-3xl">
-              More lessons
+              More adventures
             </h2>
             <div className="grid gap-3 sm:grid-cols-2">
               {extraLessons.map((lesson) => (
