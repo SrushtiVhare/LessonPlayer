@@ -140,7 +140,7 @@ export function TaskView({
                 <p className="flex gap-2 text-lg font-bold">🔎 {slide.secondHint}</p>
               ) : (
                 <button type="button" className="min-h-12 justify-self-start rounded-full bg-white px-4 font-bold" onClick={() => setMoreHelp(true)}>
-                  🔎 One more clue
+                  🔎 Need one more clue?
                 </button>
               )
             ) : null}
