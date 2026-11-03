@@ -151,7 +151,7 @@ export function TutorChat({ lesson, slide, task }: { lesson: Lesson; slide: Slid
           value={note}
           maxLength={200}
           disabled={busy}
-          placeholder="Ask about this question"
+          placeholder="Ask me anything here"
           className="min-h-12 min-w-0 flex-1 rounded-full border-2 border-black/10 px-4 text-lg font-bold outline-none focus:border-primary"
           onChange={(event) => setNote(event.target.value)}
         />
