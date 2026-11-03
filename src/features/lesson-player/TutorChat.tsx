@@ -100,7 +100,7 @@ export function TutorChat({ lesson, slide, task }: { lesson: Lesson; slide: Slid
           {name} is here
         </p>
         <button type="button" className="min-h-12 rounded-full bg-canvas px-4 font-extrabold" onClick={() => setOpen(false)} aria-label="Close tutor">
-          Close
+          All done
         </button>
       </div>
       <div className="grid max-h-52 gap-2 overflow-y-auto" aria-live="polite">
