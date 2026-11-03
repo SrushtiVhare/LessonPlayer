@@ -236,7 +236,7 @@ export function OutroView({
             <p>Your stars from this one will reset.</p>
             <div className="grid gap-3 sm:grid-cols-2">
               <Button variant="accent" data-testid="confirm-replay" onClick={onReplay}>
-                Start over
+                Yes, start over
               </Button>
               <Button variant="ghost" onClick={() => setConfirmReplay(false)}>
                 Keep my stars
