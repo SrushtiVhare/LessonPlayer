@@ -58,7 +58,9 @@ export function ShadeInput({
       <p className="text-center font-display text-3xl text-ink" aria-live="polite">
         {colored}/{interaction.segments}
       </p>
-      <p className="text-center text-lg font-bold text-muted">{colored === 1 ? '1 piece colored' : `${colored} pieces colored`}</p>
+      <p className="text-center text-lg font-bold text-muted">
+        {colored === 0 ? 'Tap a piece to color it' : colored === 1 ? '1 piece colored' : `${colored} pieces colored`}
+      </p>
     </div>
   )
 }
