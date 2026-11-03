@@ -23,8 +23,8 @@ export function MissingAdventure() {
     <div className="mx-auto grid min-h-dvh max-w-xl place-items-center px-4 text-center">
       <div className="grid gap-4 rounded-[2rem] bg-white p-6 text-[#1A2340] shadow-xl">
         <p className="text-6xl" aria-hidden="true">🧭</p>
-        <h1 className="font-display text-4xl">That adventure is not ready</h1>
-        <p className="text-lg">Let's go back and pick one that is.</p>
+        <h1 className="font-display text-4xl">We can't find that adventure</h1>
+        <p className="text-lg">Let's go home and pick another one.</p>
         <Link to="/" className="inline-flex min-h-14 items-center justify-center rounded-2xl bg-[#3C3489] px-5 text-lg font-bold text-white">
           Back to Adventures
         </Link>
