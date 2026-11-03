@@ -253,7 +253,7 @@ export function OutroView({
           data-testid="choose-adventure"
           className="inline-flex min-h-16 items-center justify-center rounded-2xl border-2 border-b-[6px] border-black/10 bg-surface px-5 text-xl font-extrabold text-ink active:translate-y-0.5"
         >
-          {hasMoreLessons ? 'Choose Another Adventure' : 'Back to Adventures'}
+          {hasMoreLessons ? 'Pick another adventure' : 'Back to Adventures'}
         </Link>
       </div>
     </section>
