@@ -42,7 +42,7 @@ export function MissionProgress({
         <span className="on-world inline-flex items-center gap-1 font-display text-2xl" title="Stars">
           <Star aria-hidden="true" size={26} fill="var(--wq-accent)" stroke="var(--wq-accent)" />
           {stars}
-          <span className="sr-only">stars</span>
+          <span className="text-base">stars</span>
         </span>
         {streak > 1 ? (
           <span className="on-world inline-flex items-center gap-1 font-display text-2xl" title="First-try streak">
