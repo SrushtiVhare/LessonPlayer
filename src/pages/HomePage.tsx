@@ -190,7 +190,7 @@ export function HomePage() {
 
         <section className="grid items-center gap-4 rounded-[2.5rem] bg-surface p-5 shadow-2xl md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
           <article className="grid gap-2">
-            <p className="font-bold text-muted">Grade 4 · Adding fractions with the same denominator</p>
+            <p className="font-bold text-muted">Grade 4 · Add fractions that share a bottom number</p>
             <h2 className="font-display text-4xl text-ink">{adventure.story.lessonTitle}</h2>
             <p className="text-lg text-ink">{adventure.story.lessonDescription}</p>
           </article>
