@@ -239,7 +239,7 @@ export function OutroView({
                 Yes, start over
               </Button>
               <Button variant="ghost" onClick={() => setConfirmReplay(false)}>
-                Keep my stars
+                Keep these stars
               </Button>
             </div>
           </div>
