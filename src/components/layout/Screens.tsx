@@ -26,7 +26,7 @@ export function MissingAdventure() {
         <h1 className="font-display text-4xl">We can't find that adventure</h1>
         <p className="text-lg">Let's go home and pick another one.</p>
         <Link to="/" className="inline-flex min-h-14 items-center justify-center rounded-2xl bg-[#3C3489] px-5 text-lg font-bold text-white">
-          Back to Adventures
+          Go home
         </Link>
       </div>
     </div>
