@@ -159,7 +159,7 @@ export function TaskView({
               <span aria-hidden="true" className="text-2xl">
                 💡
               </span>
-              Clue
+              Get a clue
             </Button>
           ) : null}
           {!task.completed ? (
