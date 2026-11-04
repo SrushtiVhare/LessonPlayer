@@ -156,7 +156,7 @@ export function TutorChat({ lesson, slide, task }: { lesson: Lesson; slide: Slid
           onChange={(event) => setNote(event.target.value)}
         />
         <button type="submit" disabled={busy || note.trim().length === 0} className="min-h-12 rounded-full bg-accent px-4 font-display text-lg text-on-accent disabled:opacity-60">
-          Send
+          Send it
         </button>
       </form>
     </section>
