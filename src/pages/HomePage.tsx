@@ -113,7 +113,7 @@ export function HomePage() {
               ) : null}
             </div>
             {score && score.completed === score.total ? (
-              <p className="on-world text-lg font-bold">Last story: {score.firstTryCorrect} out of {score.total} on the first try ⭐</p>
+              <p className="on-world text-lg font-bold">Your last story: {score.firstTryCorrect} out of {score.total} on the first try ⭐</p>
             ) : null}
           </div>
           <div className="order-1 grid justify-items-center gap-3 lg:order-2">
