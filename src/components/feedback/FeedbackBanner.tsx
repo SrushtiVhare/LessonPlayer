@@ -21,7 +21,7 @@ export function FeedbackBanner({ feedback }: { feedback: Feedback | null }) {
         <span>{feedback.message}</span>
       </p>
       {feedback.kind === 'correct' ? <p className="mt-1 font-display text-2xl text-accent" aria-hidden="true">★ ★ ★</p> : null}
-      {feedback.kind === 'incorrect' ? <p className="mt-1 text-base font-semibold">You can try again. I know you can.</p> : null}
+      {feedback.kind === 'incorrect' ? <p className="mt-1 text-base font-semibold">Have another go. You've got this.</p> : null}
       {feedback.kind === 'hint' ? <p className="mt-2 text-base font-semibold">{feedback.hint}</p> : null}
     </div>
   )
