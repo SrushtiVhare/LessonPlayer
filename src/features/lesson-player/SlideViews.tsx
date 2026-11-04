@@ -245,7 +245,7 @@ export function OutroView({
           </div>
         ) : (
           <Button variant="accent" data-testid="play-again" className="min-h-16 text-xl" onClick={() => setConfirmReplay(true)}>
-            Play Again
+            Play again!
           </Button>
         )}
         <Link
