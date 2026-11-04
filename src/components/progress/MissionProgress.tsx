@@ -48,7 +48,7 @@ export function MissionProgress({
           <span className="on-world inline-flex items-center gap-1 font-display text-2xl" title="First-try streak">
             <Flame aria-hidden="true" size={26} fill="#FF9F1C" stroke="#FF9F1C" />
             {streak}
-            <span className="sr-only">in a row</span>
+            <span className="text-base">in a row</span>
           </span>
         ) : null}
       </div>
