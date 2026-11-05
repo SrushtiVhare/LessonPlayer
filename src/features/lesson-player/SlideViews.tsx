@@ -216,7 +216,7 @@ export function OutroView({
         ))}
       </div>
       <div className="grid w-full gap-3 rounded-[2rem] bg-surface p-5 shadow-2xl">
-        <p className="font-display text-3xl text-accent">Great job!</p>
+        <p className="font-display text-3xl text-accent">Awesome work!</p>
         <p className="font-display text-6xl text-ink" aria-hidden="true">
           {score.firstTryCorrect}/{score.total}
         </p>
