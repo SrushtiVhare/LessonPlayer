@@ -224,7 +224,7 @@ export function OutroView({
           You solved {score.firstTryCorrect} out of {score.total} on your first try.
         </p>
         <p className="text-lg font-semibold text-muted">You finished {score.completed} challenges.</p>
-        <p className="rounded-2xl bg-canvas px-4 py-3 text-lg font-semibold text-ink">🧠 {slide.conceptSummary}</p>
+        <p className="rounded-2xl bg-canvas px-4 py-3 text-lg font-semibold text-ink">🧠 Today we learned: {slide.conceptSummary}</p>
         <p className="font-display text-2xl text-ink">
           🏅 You earned: {slide.badgeName}
         </p>
