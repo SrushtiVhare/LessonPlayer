@@ -58,7 +58,7 @@ export function MultipleChoice({
               {option.visual ? <FractionBar bar={option.visual} /> : null}
             </span>
             {selected ? <span className="rounded-full bg-primary px-3 py-1 text-sm font-bold text-on-primary">Your pick</span> : null}
-            {isAnswer ? <span className="rounded-full bg-success px-3 py-1 text-sm font-bold text-white">Answer</span> : null}
+            {isAnswer ? <span className="rounded-full bg-success px-3 py-1 text-sm font-bold text-white">That's it!</span> : null}
           </label>
         )
       })}
