@@ -22,7 +22,7 @@ export class ErrorBoundary extends Component<Props, State> {
             Try once more
           </button>
           <Link to="/" className="font-bold">
-            Back to Adventures
+            Go home
           </Link>
         </div>
       </div>
