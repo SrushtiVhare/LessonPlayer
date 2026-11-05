@@ -122,7 +122,7 @@ export function localTutorReply(context: TutorContext, action: TutorAction, note
   }
   if (context.status === 'correct') {
     const because = context.explanation ? ` ${context.explanation}` : ''
-    return `Yes! You found it.${because}`
+    return `Yes! You got it.${because}`
   }
   if (context.status === 'revealed') {
     return `We found this one together. ${context.explanation ?? 'Remember the step, and the next one will feel easier.'}`
