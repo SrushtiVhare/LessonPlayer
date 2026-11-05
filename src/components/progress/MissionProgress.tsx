@@ -25,7 +25,7 @@ export function MissionProgress({
           aria-valuemin={0}
           aria-valuemax={total}
           aria-valuenow={completed}
-          aria-label="Challenges finished"
+          aria-label="Puzzles finished"
         >
           <div className="h-full rounded-full bg-accent transition-[width] duration-500" style={{ width: `${Math.max(percent, 6)}%` }}>
             <div className="mx-3 mt-1.5 h-1.5 rounded-full bg-white/50" />
