@@ -233,7 +233,7 @@ export function OutroView({
         {confirmReplay ? (
           <div role="dialog" aria-labelledby="replay-title" className="grid gap-3 rounded-3xl bg-hint-surface p-4 text-hint sm:col-span-2">
             <h2 id="replay-title" className="font-display text-2xl">Want a new story?</h2>
-            <p>Your stars from this one will reset.</p>
+            <p>Your stars from this story will reset.</p>
             <div className="grid gap-3 sm:grid-cols-2">
               <Button variant="accent" data-testid="confirm-replay" onClick={onReplay}>
                 Yes, start over
