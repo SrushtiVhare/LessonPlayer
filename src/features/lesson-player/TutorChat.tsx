@@ -119,7 +119,7 @@ export function TutorChat({ lesson, slide, task }: { lesson: Lesson; slide: Slid
             ) : null}
           </div>
         ))}
-        {busy ? <p className="text-base font-bold text-muted">Let me think with you...</p> : null}
+        {busy ? <p className="text-base font-bold text-muted">Thinking with you...</p> : null}
         <div ref={endRef} />
       </div>
       <div className="flex flex-wrap gap-2">
