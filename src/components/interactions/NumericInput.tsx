@@ -56,10 +56,10 @@ export function NumericInput({
       </div>
       <p id="answer-format" className="text-center text-base font-semibold text-muted">
         {interaction.acceptedFormats.includes('fraction') && interaction.acceptedFormats.includes('decimal')
-          ? 'Like 3/4 or 0.75'
+          ? 'Try 3/4 or 0.75'
           : interaction.acceptedFormats.includes('fraction')
-            ? 'Like 3/4'
-            : 'Like 0.5'}
+            ? 'Try 3/4'
+            : 'Try 0.5'}
       </p>
       {disabled ? null : (
         <div className="mx-auto grid w-full max-w-sm grid-cols-3 gap-2" role="group" aria-label="Number pad">
