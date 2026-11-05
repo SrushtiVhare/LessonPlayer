@@ -86,7 +86,7 @@ export function TutorChat({ lesson, slide, task }: { lesson: Lesson; slide: Slid
       <span aria-hidden="true" className="text-2xl">
         {emoji}
       </span>
-      Ask {name}
+      Chat with {name}
     </button>
   )
 
