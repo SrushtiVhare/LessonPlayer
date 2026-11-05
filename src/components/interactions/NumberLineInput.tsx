@@ -48,7 +48,7 @@ export function NumberLineInput({
                 <span className={`h-9 w-9 rounded-full border-[5px] ${shown ? 'border-primary bg-accent' : 'border-primary bg-surface'}`} />
                 <span className="font-display text-lg text-ink">{tick.label}</span>
                 {selected ? <span className="sr-only">Selected</span> : null}
-                {revealed && tick.isAnswer ? <span className="text-xs font-bold text-reveal">Answer</span> : null}
+                {revealed && tick.isAnswer ? <span className="text-xs font-bold text-reveal">That's it!</span> : null}
               </button>
             )
           })}
