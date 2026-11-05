@@ -19,7 +19,7 @@ export class ErrorBoundary extends Component<Props, State> {
           <h1 className="font-display text-4xl">Oops, let's try again</h1>
           <p className="text-lg">Something unexpected happened. Your saved mission is still on this device.</p>
           <button type="button" className="min-h-12 rounded-2xl bg-[#3C3489] px-5 font-bold text-white" onClick={() => window.location.reload()}>
-            Try again
+            Try once more
           </button>
           <Link to="/" className="font-bold">
             Back to Adventures
