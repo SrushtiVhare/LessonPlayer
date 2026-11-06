@@ -172,7 +172,7 @@ export function LessonPlayer({ lesson, hasMoreLessons }: { lesson: Lesson; hasMo
         <div className="flex items-start justify-between gap-3 rounded-3xl bg-surface px-4 py-3 text-ink shadow-[var(--wq-shadow)]" role="status">
           <p>{session.notice}</p>
           <button type="button" className="min-h-12 font-bold" onClick={session.dismissNotice}>
-            OK
+            Got it
           </button>
         </div>
       ) : null}
