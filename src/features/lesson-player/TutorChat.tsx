@@ -113,7 +113,7 @@ export function TutorChat({ lesson, slide, task }: { lesson: Lesson; slide: Slid
               {line.text}
             </p>
             {line.from === 'tutor' && index === lines.length - 1 && speechSupported() ? (
-              <button type="button" className="min-h-12 min-w-12 rounded-full bg-canvas text-xl" aria-label="Hear that" onClick={() => speak(line.text)}>
+              <button type="button" className="min-h-12 min-w-12 rounded-full bg-canvas text-xl" aria-label="Hear this" onClick={() => speak(line.text)}>
                 🔊
               </button>
             ) : null}
