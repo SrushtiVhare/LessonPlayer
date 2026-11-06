@@ -62,7 +62,7 @@ export function NumericInput({
             : 'Try 0.5'}
       </p>
       {disabled ? null : (
-        <div className="mx-auto grid w-full max-w-sm grid-cols-3 gap-2" role="group" aria-label="Number pad">
+        <div className="mx-auto grid w-full max-w-sm grid-cols-3 gap-2" role="group" aria-label="Number keypad">
           {keys.map((key, index) =>
             key ? (
               <button
