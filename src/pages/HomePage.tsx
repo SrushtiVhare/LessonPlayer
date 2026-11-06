@@ -108,7 +108,7 @@ export function HomePage() {
                   to={`/lesson/${latest.id}?adventure=${latest.theme.id}`}
                   className="inline-flex min-h-20 items-center justify-center rounded-3xl border-b-8 border-black/15 bg-surface px-8 font-display text-2xl text-ink active:translate-y-1"
                 >
-                  Keep Going
+                  Keep playing
                 </Link>
               ) : null}
             </div>
