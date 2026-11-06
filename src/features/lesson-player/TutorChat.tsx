@@ -12,7 +12,7 @@ type ChatLine = { from: 'tutor' | 'child'; text: string }
 const QUICK: { action: TutorAction; label: string }[] = [
   { action: 'hint', label: 'Give me a hint' },
   { action: 'explain', label: 'Explain this' },
-  { action: 'example', label: 'Show an example' },
+  { action: 'example', label: 'Show me an example' },
 ]
 
 function opening(lesson: Lesson, slide: Slide, task: TaskState | undefined): ChatLine {
