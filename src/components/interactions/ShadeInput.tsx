@@ -59,7 +59,7 @@ export function ShadeInput({
         {colored}/{interaction.segments}
       </p>
       <p className="text-center text-lg font-bold text-muted">
-        {colored === 0 ? 'Tap a piece to color it' : colored === 1 ? '1 piece colored' : `${colored} pieces colored`}
+        {colored === 0 ? 'Tap pieces to color them' : colored === 1 ? '1 piece colored' : `${colored} pieces colored`}
       </p>
     </div>
   )
