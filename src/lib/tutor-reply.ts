@@ -128,7 +128,7 @@ export function localTutorReply(context: TutorContext, action: TutorAction, note
     return `We found this one together. ${context.explanation ?? 'Remember the step, and the next one will feel easier.'}`
   }
   if (action === 'chat' && wantsTheAnswer(note)) {
-    return `I want you to find it yourself. ${guiding(context)}`
+    return `Let's figure it out together. ${guiding(context)}`
   }
   if (action === 'explain') return explain(context)
   if (action === 'example') return exampleFor(context)
