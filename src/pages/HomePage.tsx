@@ -101,7 +101,7 @@ export function HomePage() {
                 onClick={() => void startFresh()}
               >
                 <Play aria-hidden="true" size={30} fill="currentColor" />
-                {busy ? 'Making your story...' : 'Start Learning'}
+                {busy ? 'Building your story...' : 'Start Learning'}
               </button>
               {unfinished && latest ? (
                 <Link
