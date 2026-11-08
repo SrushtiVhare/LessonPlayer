@@ -1,3 +1,5 @@
+type SpeakOptions = { onEnd?: () => void }
+
 export function speechSupported(): boolean {
   return typeof window !== 'undefined' && 'speechSynthesis' in window && typeof SpeechSynthesisUtterance !== 'undefined'
 }
@@ -7,11 +9,17 @@ export function stopSpeaking(): void {
   window.speechSynthesis.cancel()
 }
 
-export function speak(text: string): void {
-  if (!speechSupported() || text.trim() === '') return
+export function speak(text: string, options: SpeakOptions = {}): void {
+  if (!speechSupported() || text.trim() === '') {
+    options.onEnd?.()
+    return
+  }
   window.speechSynthesis.cancel()
   const utterance = new SpeechSynthesisUtterance(text)
   utterance.rate = 0.95
   utterance.pitch = 1
+  const finish = () => options.onEnd?.()
+  utterance.onend = finish
+  utterance.onerror = finish
   window.speechSynthesis.speak(utterance)
 }

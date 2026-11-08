@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router'
 import { Cloud, CloudCheck, Volume2, VolumeX, X } from 'lucide-react'
 import { speak, speechSupported, stopSpeaking } from '../../lib/speech.ts'
@@ -27,9 +27,22 @@ export function ReadAloudButton({ text, large = false }: { text: string; large?:
   const [spokenFor, setSpokenFor] = useState<string | null>(null)
   const speaking = spokenFor === text
   const supported = speechSupported()
+  const timer = useRef<number | null>(null)
+  const generation = useRef(0)
+
+  function clearTimer() {
+    if (timer.current === null) return
+    window.clearTimeout(timer.current)
+    timer.current = null
+  }
 
   useEffect(() => {
-    stopSpeaking()
+    setSpokenFor(null)
+    return () => {
+      generation.current += 1
+      clearTimer()
+      stopSpeaking()
+    }
   }, [text])
 
   return (
@@ -43,12 +56,19 @@ export function ReadAloudButton({ text, large = false }: { text: string; large?:
       onClick={() => {
         if (speaking) {
           stopSpeaking()
+          clearTimer()
           setSpokenFor(null)
           return
         }
-        speak(text)
+        const ticket = generation.current
         setSpokenFor(text)
-        window.setTimeout(() => setSpokenFor(null), Math.min(15000, text.length * 70))
+        timer.current = window.setTimeout(() => setSpokenFor(null), Math.min(60_000, Math.max(8_000, text.length * 90)))
+        speak(text, {
+          onEnd: () => {
+            clearTimer()
+            if (generation.current === ticket) setSpokenFor(null)
+          },
+        })
       }}
     >
       <span aria-hidden="true" className={large ? 'text-2xl' : 'text-xl'}>
