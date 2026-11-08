@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { bundledLessons } from '../../src/features/lesson-library/catalog.ts'
-import { adventures, lessonWithAdventure } from '../../src/features/lesson-library/adventures.ts'
+import { adventures, knownAdventureId, lessonWithAdventure } from '../../src/features/lesson-library/adventures.ts'
 
 const lesson = bundledLessons[0]!
 
@@ -25,6 +25,12 @@ describe('adventure skins', () => {
     expect(task.hint).toBe('The pieces are all fifths. Add how many pieces you have: 1 plus 2.')
     expect(task.explanation).toMatch(/denominator stays 5/)
     expect(task.interaction.correctOptionId).toBe('three-fifths')
+  })
+
+  it('only accepts an adventure that is on the list', () => {
+    expect(knownAdventureId('dino')).toBe('dino')
+    expect(knownAdventureId('nope')).toBeNull()
+    expect(knownAdventureId(null)).toBeNull()
   })
 
   it('keeps the space story as the default skin', () => {

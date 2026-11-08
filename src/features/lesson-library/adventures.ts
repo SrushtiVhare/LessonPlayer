@@ -18,6 +18,11 @@ export function getAdventure(id: string | null | undefined): Adventure {
   return adventures.find((adventure) => adventure.id === id) ?? adventures[0]!
 }
 
+export function knownAdventureId(id: string | null | undefined): string | null {
+  if (!id) return null
+  return adventures.some((adventure) => adventure.id === id) ? id : null
+}
+
 export function lessonWithAdventure(lesson: Lesson, adventureId: string | null | undefined): Lesson {
   return applyAdventure(lesson, getAdventure(adventureId))
 }

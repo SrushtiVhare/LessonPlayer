@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { useParams, useSearchParams } from 'react-router'
 import { LoadingMission, MissingAdventure, ThemedScreen } from '../components/layout/Screens.tsx'
 import { LessonPlayer } from '../features/lesson-player/LessonPlayer.tsx'
-import { getAdventure, lessonWithAdventure } from '../features/lesson-library/adventures.ts'
+import { getAdventure, knownAdventureId, lessonWithAdventure } from '../features/lesson-library/adventures.ts'
 import { LIVE_LESSON_ID } from '../server/prepare-lesson.ts'
 import { parseLesson } from '../schemas/lesson.schema.ts'
 import { bundledLessons, keepsOwnStory, resolveLesson } from '../features/lesson-library/catalog.ts'
@@ -15,7 +15,7 @@ export function LessonPage() {
   const { lessonId } = useParams()
   const [searchParams] = useSearchParams()
   const id = lessonId ?? ''
-  const adventureId = searchParams.get('adventure') ?? readAdventureId() ?? 'space'
+  const adventureId = knownAdventureId(searchParams.get('adventure')) ?? knownAdventureId(readAdventureId()) ?? 'space'
   const [lesson, setLesson] = useState<Lesson | null>(() => (id ? resolveLesson(id) : null))
   const [phase, setPhase] = useState<'ready' | 'loading' | 'missing'>(() => {
     if (!id) return 'missing'
