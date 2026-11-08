@@ -16,7 +16,8 @@ export function speak(text: string, options: SpeakOptions = {}): void {
   }
   window.speechSynthesis.cancel()
   const utterance = new SpeechSynthesisUtterance(text)
-  utterance.rate = 0.95
+  utterance.lang = 'en-US'
+  utterance.rate = 0.9
   utterance.pitch = 1
   const finish = () => options.onEnd?.()
   utterance.onend = finish
