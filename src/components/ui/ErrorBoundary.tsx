@@ -1,5 +1,4 @@
 import { Component, type ReactNode } from 'react'
-import { Link } from 'react-router'
 
 type Props = { children: ReactNode }
 type State = { failed: boolean }
@@ -21,9 +20,9 @@ export class ErrorBoundary extends Component<Props, State> {
           <button type="button" className="min-h-12 rounded-2xl bg-[#3C3489] px-5 font-bold text-white" onClick={() => window.location.reload()}>
             Try once more
           </button>
-          <Link to="/" className="font-bold">
+          <a href="/" className="font-bold">
             Go home
-          </Link>
+          </a>
         </div>
       </div>
     )
