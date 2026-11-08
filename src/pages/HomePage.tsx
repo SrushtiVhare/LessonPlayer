@@ -65,7 +65,7 @@ export function HomePage() {
   }, [])
 
   return (
-    <ThemedScreen theme={adventure.theme}>
+    <ThemedScreen theme={adventure.theme} skipLabel="Skip to the adventures">
       <div className="mx-auto grid w-full max-w-5xl gap-8 px-4 pt-5 pb-28 sm:px-6">
         <header className="flex items-center justify-between gap-3">
           <p className="on-world font-display text-3xl leading-none">
