@@ -48,7 +48,7 @@ export function MultipleChoice({
               type="radio"
               name={name}
               value={option.id}
-              aria-label={option.accessibleLabel}
+              aria-label={isAnswer ? `${option.accessibleLabel}. That's the answer.` : option.accessibleLabel}
               checked={selected}
               onChange={() => onChange(option.id)}
             />
