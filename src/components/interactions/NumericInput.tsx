@@ -1,4 +1,5 @@
 import { Delete } from 'lucide-react'
+import { sanitizeNumericAnswer } from '../../lib/numeric-answer.ts'
 import type { Interaction } from '../../schemas/lesson.schema.ts'
 
 type Numeric = Extract<Interaction, { type: 'numeric-input' }>
@@ -19,6 +20,13 @@ export function NumericInput({
   onChange: (value: string | null) => void
 }) {
   const text = value ?? ''
+  const apply = (next: string) => {
+    const clean = sanitizeNumericAnswer(next, {
+      allowFraction: interaction.acceptedFormats.includes('fraction'),
+      allowDecimal: interaction.acceptedFormats.includes('decimal'),
+    })
+    onChange(clean === '' ? null : clean)
+  }
   const keys = [
     '1', '2', '3',
     '4', '5', '6',
@@ -29,7 +37,7 @@ export function NumericInput({
   ]
   const press = (key: string) => {
     if (text.length >= MAX_LENGTH) return
-    onChange(text + key)
+    apply(text + key)
   }
 
   return (
@@ -51,7 +59,7 @@ export function NumericInput({
           value={text}
           disabled={disabled}
           aria-describedby="answer-format"
-          onChange={(event) => onChange(event.target.value)}
+          onChange={(event) => apply(event.target.value)}
         />
       </div>
       <p id="answer-format" className="text-center text-base font-semibold text-muted">
