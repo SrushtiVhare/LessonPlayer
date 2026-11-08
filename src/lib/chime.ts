@@ -1,7 +1,16 @@
-export function playSoftChime(): void {
+let shared: AudioContext | null = null
+
+function celebrationContext(): AudioContext | null {
   const AudioContextClass = window.AudioContext ?? window.webkitAudioContext
-  if (!AudioContextClass) return
-  const context = new AudioContextClass()
+  if (!AudioContextClass) return null
+  if (!shared || shared.state === 'closed') shared = new AudioContextClass()
+  return shared
+}
+
+export function playSoftChime(): void {
+  const context = celebrationContext()
+  if (!context) return
+  void context.resume()
   const now = context.currentTime
   const notes = [523.25, 659.25, 783.99]
   for (const [index, frequency] of notes.entries()) {
@@ -17,9 +26,6 @@ export function playSoftChime(): void {
     oscillator.start(now + index * 0.08)
     oscillator.stop(now + 0.32 + index * 0.08)
   }
-  window.setTimeout(() => {
-    void context.close()
-  }, 900)
 }
 
 declare global {
