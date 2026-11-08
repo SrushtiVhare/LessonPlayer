@@ -92,12 +92,16 @@ export function HomePage() {
             <p className="mx-auto w-fit rounded-full bg-white/90 px-4 py-1 font-display text-xl text-ink shadow-md lg:mx-0">{hello}!</p>
             <h1 className="on-world font-display text-6xl leading-none sm:text-7xl">{adventure.story.welcomeTitle}</h1>
             <p className="mx-auto max-w-xl rounded-3xl bg-white/90 px-5 py-3 text-xl leading-relaxed font-bold text-ink shadow-lg lg:mx-0">{adventure.story.welcomeBody}</p>
+            <p className="sr-only" aria-live="polite">
+              {busy ? 'Building your story' : ''}
+            </p>
             <div className="flex flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start">
               <button
                 type="button"
                 data-testid="start-learning"
                 className={`inline-flex min-h-20 items-center justify-center gap-3 rounded-3xl border-b-8 border-black/25 bg-accent px-10 font-display text-3xl text-on-accent transition active:translate-y-1 active:border-b-2 disabled:opacity-80 ${busy ? '' : 'pulse-ring'}`}
                 disabled={busy}
+                aria-busy={busy}
                 onClick={() => void startFresh()}
               >
                 <Play aria-hidden="true" size={30} fill="currentColor" />

@@ -37,7 +37,10 @@ export function IntroView({ slide, theme, onStart, busy = false }: { slide: Intr
         </div>
         <p className="w-fit rounded-full bg-hint-surface px-4 py-1.5 font-bold text-hint">🎯 Today: {slide.objective}</p>
       </div>
-      <Button variant="accent" data-testid="start-mission" className="min-h-18 w-full font-display text-3xl!" onClick={onStart} disabled={busy}>
+      <p className="sr-only" aria-live="polite">
+        {busy ? 'Building chapter one' : ''}
+      </p>
+      <Button variant="accent" data-testid="start-mission" className="min-h-18 w-full font-display text-3xl!" onClick={onStart} disabled={busy} aria-busy={busy}>
         {busy ? 'Building chapter one...' : slide.startLabel}
         {busy ? null : <span className="emoji-marker" aria-hidden="true" />}
       </Button>
