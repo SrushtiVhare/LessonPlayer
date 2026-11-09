@@ -40,6 +40,7 @@ export function NumberLineInput({
                 type="button"
                 className="relative flex min-h-20 min-w-12 flex-1 flex-col items-center gap-2 rounded-2xl px-1 py-1 transition active:scale-95"
                 aria-pressed={selected}
+                aria-label={`${selected ? 'Selected mark' : 'Mark'} ${tick.label}${revealed && tick.isAnswer ? ". That's the answer." : ''}`}
                 disabled={disabled}
                 data-testid={`tick-${tick.index}`}
                 onClick={() => onChange(String(tick.index))}
