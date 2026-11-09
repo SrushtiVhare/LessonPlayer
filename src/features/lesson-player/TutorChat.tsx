@@ -29,6 +29,7 @@ export function TutorChat({ lesson, slide, task }: { lesson: Lesson; slide: Slid
   const [lines, setLines] = useState<ChatLine[]>(() => [opening(lesson, slide, task)])
   const [trackedSlide, setTrackedSlide] = useState(slide.id)
   const endRef = useRef<HTMLDivElement>(null)
+  const noteRef = useRef<HTMLInputElement>(null)
   const asking = useRef(false)
   const alive = useRef(true)
   const solvedMark = task?.solved ? 'solved' : task?.revealed ? 'revealed' : ''
@@ -59,6 +60,10 @@ export function TutorChat({ lesson, slide, task }: { lesson: Lesson; slide: Slid
       alive.current = false
     }
   }, [])
+
+  useEffect(() => {
+    if (open) noteRef.current?.focus()
+  }, [open])
 
   useEffect(() => {
     if (!open) return
@@ -165,6 +170,7 @@ export function TutorChat({ lesson, slide, task }: { lesson: Lesson; slide: Slid
           Ask {name} about this question
         </label>
         <input
+          ref={noteRef}
           id="tutor-note"
           value={note}
           maxLength={200}
