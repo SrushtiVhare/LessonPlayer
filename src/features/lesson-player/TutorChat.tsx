@@ -29,6 +29,8 @@ export function TutorChat({ lesson, slide, task }: { lesson: Lesson; slide: Slid
   const [lines, setLines] = useState<ChatLine[]>(() => [opening(lesson, slide, task)])
   const [trackedSlide, setTrackedSlide] = useState(slide.id)
   const endRef = useRef<HTMLDivElement>(null)
+  const asking = useRef(false)
+  const alive = useRef(true)
   const solvedMark = task?.solved ? 'solved' : task?.revealed ? 'revealed' : ''
   const [celebrated, setCelebrated] = useState(solvedMark)
 
@@ -53,6 +55,12 @@ export function TutorChat({ lesson, slide, task }: { lesson: Lesson; slide: Slid
   }, [open, slide.id])
 
   useEffect(() => {
+    return () => {
+      alive.current = false
+    }
+  }, [])
+
+  useEffect(() => {
     if (!open) return
     function onKey(event: KeyboardEvent) {
       if (event.key === 'Escape') setOpen(false)
@@ -63,21 +71,27 @@ export function TutorChat({ lesson, slide, task }: { lesson: Lesson; slide: Slid
 
   async function ask(action: TutorAction) {
     const typed = note.trim()
-    if (busy) return
+    if (busy || asking.current) return
     if (action === 'chat' && !typed) return
     const childText = QUICK.find((item) => item.action === action)?.label ?? typed
     const usedHelp = helpCount
+    asking.current = true
     setLines((current) => [...current, { from: 'child', text: childText }])
     if (action === 'chat') setNote('')
     if (action === 'hint') setHelpCount((count) => count + 1)
     setBusy(true)
-    const reply = await requestTutorReply({
-      context: buildTutorContext(lesson, slide, task, usedHelp),
-      action,
-      note: action === 'chat' ? typed : '',
-    })
-    setLines((current) => [...current, { from: 'tutor', text: reply }])
-    setBusy(false)
+    try {
+      const reply = await requestTutorReply({
+        context: buildTutorContext(lesson, slide, task, usedHelp),
+        action,
+        note: action === 'chat' ? typed : '',
+      })
+      if (!alive.current) return
+      setLines((current) => [...current, { from: 'tutor', text: reply }])
+    } finally {
+      asking.current = false
+      if (alive.current) setBusy(false)
+    }
   }
 
   const launcher = (
