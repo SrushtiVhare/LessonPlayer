@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router'
 import { motion, useReducedMotion } from 'framer-motion'
 import { Cloud, Play, Star } from 'lucide-react'
@@ -36,6 +36,7 @@ export function HomePage() {
   const [hello] = useState(() => helloFor(new Date().getHours()))
   const [adventureId, setAdventureId] = useState(() => readAdventureId() ?? 'space')
   const [busy, setBusy] = useState(false)
+  const alive = useRef(true)
   const adventure = getAdventure(adventureId)
   const latest = readCachedLesson(readLatestLessonId() ?? '')
   const progress = latest ? readLocalProgress(latest.id) : null
@@ -52,6 +53,7 @@ export function HomePage() {
   async function startFresh() {
     setBusy(true)
     const result = await requestGeneratedLesson(adventure.id)
+    if (!alive.current) return
     setBusy(false)
     if (!result.ok) return
     clearLocalProgress(result.lesson.id)
@@ -62,6 +64,9 @@ export function HomePage() {
 
   useEffect(() => {
     document.title = 'WonderQuest Math'
+    return () => {
+      alive.current = false
+    }
   }, [])
 
   return (
