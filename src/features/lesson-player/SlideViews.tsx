@@ -211,6 +211,7 @@ export function OutroView({
       <h1 id="slide-heading" tabIndex={-1} className="on-world font-display text-4xl outline-none sm:text-5xl">
         {slide.title}
       </h1>
+      <p className="sr-only">You earned {score.solved} {score.solved === 1 ? 'star' : 'stars'}.</p>
       <div className="flex flex-wrap justify-center gap-1" aria-hidden="true">
         {tasks.map((task, index) => (
           <motion.span key={task.id} initial={reduce ? false : { scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.3 + index * 0.1 }}>
