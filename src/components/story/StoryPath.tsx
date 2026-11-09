@@ -12,6 +12,7 @@ export function StoryPath({ total, completed, solved }: { total: number; complet
           <li key={index} className="relative" style={{ transform: `translateY(${lift[index % lift.length]}px)` }}>
             {current ? <span className="emoji-marker character-float absolute -top-9 left-1/2 -translate-x-1/2 text-3xl" aria-hidden="true" /> : null}
             <span
+              aria-current={current ? 'step' : undefined}
               className={`grid h-14 w-14 place-items-center rounded-full border-b-[5px] font-display text-xl ${
                 done
                   ? 'border-black/25 bg-primary text-on-primary'
