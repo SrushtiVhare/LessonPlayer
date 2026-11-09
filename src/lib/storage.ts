@@ -87,7 +87,12 @@ export function readAdventureId(): string | null {
   }
 }
 
+function safeId(id: string): boolean {
+  return /^[a-z0-9-]+$/.test(id)
+}
+
 export function writeAdventureId(id: string): void {
+  if (!safeId(id)) return
   const store = memory()
   if (!store) return
   try {
@@ -109,6 +114,7 @@ export function readLatestLessonId(): string | null {
 }
 
 export function writeLatestLessonId(id: string): void {
+  if (!safeId(id)) return
   const store = memory()
   if (!store) return
   try {
