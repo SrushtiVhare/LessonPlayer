@@ -90,6 +90,7 @@ export function NumericInput({
             type="button"
             className="col-span-3 inline-flex min-h-12 items-center justify-center gap-2 rounded-2xl border-2 border-b-[5px] border-black/10 bg-incorrect-surface font-bold text-incorrect active:translate-y-0.5 active:border-b-2"
             aria-label="Delete last"
+            disabled={text.length === 0}
             onClick={() => onChange(text.slice(0, -1) || null)}
           >
             <Delete aria-hidden="true" size={22} /> Erase
