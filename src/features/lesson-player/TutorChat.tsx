@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { buildTutorContext } from '../../lib/tutor-context.ts'
 import { localTutorReply } from '../../lib/tutor-reply.ts'
 import { requestTutorReply } from '../../lib/tutor-client.ts'
-import { speak, speechSupported } from '../../lib/speech.ts'
+import { speak, speechSupported, stopSpeaking } from '../../lib/speech.ts'
 import type { TutorAction } from '../../lib/tutor-context.ts'
 import type { Lesson, Slide } from '../../schemas/lesson.schema.ts'
 import type { TaskState } from '../../schemas/progress.schema.ts'
@@ -47,6 +47,10 @@ export function TutorChat({ lesson, slide, task }: { lesson: Lesson; slide: Slid
   useEffect(() => {
     endRef.current?.scrollIntoView?.({ block: 'nearest' })
   }, [lines, open])
+
+  useEffect(() => {
+    return () => stopSpeaking()
+  }, [open, slide.id])
 
   useEffect(() => {
     if (!open) return
