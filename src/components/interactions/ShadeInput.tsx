@@ -45,7 +45,7 @@ export function ShadeInput({
               type="button"
               data-testid={`piece-${index}`}
               aria-pressed={on}
-              aria-label={`Piece ${index + 1}`}
+              aria-label={`Piece ${index + 1}, ${on ? 'colored' : 'not colored'}`}
               disabled={disabled}
               onClick={() => toggle(index)}
               className={`min-h-24 rounded-2xl border-[3px] border-b-[6px] transition active:translate-y-0.5 sm:min-h-28 ${
