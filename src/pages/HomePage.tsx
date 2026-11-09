@@ -113,6 +113,7 @@ export function HomePage() {
                   className="inline-flex min-h-20 items-center justify-center rounded-3xl border-b-8 border-black/15 bg-surface px-8 font-display text-2xl text-ink active:translate-y-1"
                 >
                   Keep playing
+                  <span className="sr-only"> {latest.title}</span>
                 </Link>
               ) : null}
             </div>
