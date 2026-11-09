@@ -28,9 +28,13 @@ export function readLocalProgress(lessonId: string): ProgressRead {
     const raw = store.getItem(PROGRESS_PREFIX + lessonId)
     if (!raw) return { status: 'empty' }
     const parsed = savedProgressSchema.safeParse(JSON.parse(raw))
-    if (!parsed.success || parsed.data.lessonId !== lessonId) return { status: 'invalid' }
+    if (!parsed.success || parsed.data.lessonId !== lessonId) {
+      store.removeItem(PROGRESS_PREFIX + lessonId)
+      return { status: 'invalid' }
+    }
     return { status: 'ok', progress: parsed.data }
   } catch {
+    store.removeItem(PROGRESS_PREFIX + lessonId)
     return { status: 'invalid' }
   }
 }
