@@ -15,6 +15,7 @@ describe('error screen', () => {
       </ErrorBoundary>,
     )
     expect(screen.getByRole('link', { name: 'Go home' })).toHaveAttribute('href', '/')
+    expect(screen.getByRole('heading', { name: "Oops, let's try again" })).toHaveFocus()
     spy.mockRestore()
   })
 })
