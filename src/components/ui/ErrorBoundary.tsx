@@ -20,7 +20,14 @@ export class ErrorBoundary extends Component<Props, State> {
     return (
       <div className="grid min-h-dvh place-items-center bg-[#F4F0FF] px-4 text-center text-[#1A2340]">
         <div className="grid max-w-md gap-4">
-          <h1 tabIndex={-1} ref={(node) => { this.heading = node }} className="font-display text-4xl outline-none">
+          <h1
+            tabIndex={-1}
+            ref={(node) => {
+              this.heading = node
+              node?.focus()
+            }}
+            className="font-display text-4xl outline-none"
+          >
             Oops, let's try again
           </h1>
           <p className="text-lg">Something unexpected happened. Your saved mission is still on this device.</p>
