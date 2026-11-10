@@ -153,6 +153,11 @@ export function TaskView({
 
       <div className={`sticky bottom-0 z-20 -mx-4 grid gap-3 rounded-t-[2rem] px-4 pt-4 pb-5 shadow-[0_-10px_30px_rgb(0_0_0/0.2)] transition-colors sm:mx-0 sm:rounded-[2rem] ${tone}`}>
         <FeedbackBanner feedback={feedback} />
+        {checkDisabled ? (
+          <p id="same-answer" className="text-center text-base font-extrabold text-ink">
+            Change your answer, then check again.
+          </p>
+        ) : null}
         <div className="flex items-center gap-3">
           <Button variant="ghost" onClick={onBack} disabled={!canBack} aria-label="Back" className="w-14 shrink-0 px-0">
             <ArrowLeft aria-hidden="true" className="size-7 shrink-0" strokeWidth={3} />
@@ -166,7 +171,14 @@ export function TaskView({
             </Button>
           ) : null}
           {!task.completed ? (
-            <Button variant="primary" type="submit" data-testid="check-answer" disabled={checkDisabled} className="min-h-16 flex-1 text-xl uppercase">
+            <Button
+              variant="primary"
+              type="submit"
+              data-testid="check-answer"
+              disabled={checkDisabled}
+              aria-describedby={checkDisabled ? 'same-answer' : undefined}
+              className="min-h-16 flex-1 text-xl uppercase"
+            >
               Check Answer
             </Button>
           ) : (
