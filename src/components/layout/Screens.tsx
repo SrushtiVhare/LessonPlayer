@@ -38,6 +38,10 @@ export function MissingAdventure() {
 }
 
 export function LoadingMission() {
+  useEffect(() => {
+    document.title = 'Getting your adventure ready · WonderQuest Math'
+  }, [])
+
   return (
     <div className="world-sky grid min-h-dvh place-items-center px-4">
       <div className="grid justify-items-center gap-4 rounded-[2rem] border-b-8 border-black/10 bg-white px-8 py-6 text-[#1A2340] shadow-xl">
