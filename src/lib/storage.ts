@@ -135,9 +135,13 @@ export function readCachedLesson(lessonId: string): Lesson | null {
     const raw = store.getItem(LESSON_CACHE_PREFIX + lessonId)
     if (!raw) return null
     const parsed = parseLesson(JSON.parse(raw))
-    if (!parsed.ok || parsed.lesson.id !== lessonId) return null
+    if (!parsed.ok || parsed.lesson.id !== lessonId) {
+      store.removeItem(LESSON_CACHE_PREFIX + lessonId)
+      return null
+    }
     return parsed.lesson
   } catch {
+    store.removeItem(LESSON_CACHE_PREFIX + lessonId)
     return null
   }
 }
