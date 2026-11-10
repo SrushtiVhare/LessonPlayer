@@ -30,6 +30,8 @@ export function TutorChat({ lesson, slide, task }: { lesson: Lesson; slide: Slid
   const [trackedSlide, setTrackedSlide] = useState(slide.id)
   const endRef = useRef<HTMLDivElement>(null)
   const noteRef = useRef<HTMLInputElement>(null)
+  const openButtonRef = useRef<HTMLButtonElement>(null)
+  const openedOnce = useRef(false)
   const asking = useRef(false)
   const alive = useRef(true)
   const solvedMark = task?.solved ? 'solved' : task?.revealed ? 'revealed' : ''
@@ -62,7 +64,12 @@ export function TutorChat({ lesson, slide, task }: { lesson: Lesson; slide: Slid
   }, [])
 
   useEffect(() => {
-    if (open) noteRef.current?.focus()
+    if (open) {
+      openedOnce.current = true
+      noteRef.current?.focus()
+      return
+    }
+    if (openedOnce.current) openButtonRef.current?.focus()
   }, [open])
 
   useEffect(() => {
@@ -101,6 +108,7 @@ export function TutorChat({ lesson, slide, task }: { lesson: Lesson; slide: Slid
 
   const launcher = (
     <button
+      ref={openButtonRef}
       type="button"
       data-testid="tutor-open"
       className="inline-flex min-h-14 items-center gap-2 rounded-full border-b-8 border-black/15 bg-white px-5 font-display text-xl text-ink shadow-lg active:translate-y-1 active:border-b-2"

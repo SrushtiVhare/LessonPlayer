@@ -25,4 +25,12 @@ describe('tutor chat', () => {
     expect(await screen.findByText(/let's read it slowly/i)).toBeInTheDocument()
     expect(screen.getByTestId('tutor-panel').textContent).not.toContain('1/4')
   })
+
+  it('puts focus back on Chat when the tutor closes', async () => {
+    const user = userEvent.setup()
+    render(<TutorChat lesson={lesson} slide={slide} task={createInitialTaskState()} />)
+    await user.click(screen.getByTestId('tutor-open'))
+    await user.click(screen.getByRole('button', { name: 'Close tutor' }))
+    expect(screen.getByTestId('tutor-open')).toHaveFocus()
+  })
 })
