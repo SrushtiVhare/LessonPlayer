@@ -11,8 +11,15 @@ export class ErrorBoundary extends Component<Props, State> {
     return { failed: true }
   }
 
+  componentDidMount() {
+    if (this.state.failed) document.title = "Let's try again · WonderQuest Math"
+  }
+
   componentDidUpdate(_: Props, previous: State) {
-    if (this.state.failed && !previous.failed) this.heading?.focus()
+    if (this.state.failed && !previous.failed) {
+      document.title = "Let's try again · WonderQuest Math"
+      this.heading?.focus()
+    }
   }
 
   render() {
