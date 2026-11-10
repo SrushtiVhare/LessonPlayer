@@ -25,4 +25,13 @@ describe('new story question', () => {
     await user.click(screen.getByRole('button', { name: 'Play again!' }))
     expect(screen.getByRole('heading', { name: 'Want a new story?' })).toHaveFocus()
   })
+
+  it('closes the question with Escape and returns to Play again', async () => {
+    const user = userEvent.setup()
+    renderOutro()
+    await user.click(screen.getByRole('button', { name: 'Play again!' }))
+    await user.keyboard('{Escape}')
+    expect(screen.queryByRole('heading', { name: 'Want a new story?' })).not.toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Play again!' })).toHaveFocus()
+  })
 })

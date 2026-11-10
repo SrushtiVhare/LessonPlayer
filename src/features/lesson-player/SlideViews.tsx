@@ -196,11 +196,24 @@ export function OutroView({
   const reduce = useReducedMotion()
   const [confirmReplay, setConfirmReplay] = useState(false)
   const replayTitleRef = useRef<HTMLHeadingElement>(null)
+  const replayWasOpen = useRef(false)
   const score = scoreLesson(lesson, state.tasks)
   const tasks = lesson.slides.filter((item) => item.type === 'task')
 
   useEffect(() => {
-    if (confirmReplay) replayTitleRef.current?.focus()
+    if (!confirmReplay) {
+      if (replayWasOpen.current) document.querySelector<HTMLButtonElement>('[data-testid="play-again"]')?.focus()
+      return
+    }
+    replayWasOpen.current = true
+    replayTitleRef.current?.focus()
+    function onKey(event: KeyboardEvent) {
+      if (event.key !== 'Escape') return
+      event.preventDefault()
+      setConfirmReplay(false)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
   }, [confirmReplay])
 
   return (
