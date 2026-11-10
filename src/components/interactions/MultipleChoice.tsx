@@ -27,6 +27,7 @@ export function MultipleChoice({
   onChange: (value: string | null) => void
 }) {
   const wide = interaction.options.some((option) => option.visual)
+  const chosen = interaction.options.find((option) => option.id === value)
   return (
     <fieldset className={`grid gap-3 ${wide ? '' : 'sm:grid-cols-2'}`} disabled={disabled}>
       <legend className="sr-only">{interaction.prompt}</legend>
@@ -62,6 +63,9 @@ export function MultipleChoice({
           </label>
         )
       })}
+      <p className="sr-only" aria-live="polite">
+        {chosen ? `You chose ${chosen.accessibleLabel}.` : ''}
+      </p>
     </fieldset>
   )
 }
