@@ -69,6 +69,11 @@ export function NumericInput({
             ? 'Try 3/4'
             : 'Try 0.5'}
       </p>
+      {text.length >= MAX_LENGTH ? (
+        <p className="text-center text-base font-bold text-ink" aria-live="polite">
+          That answer is as long as it can be.
+        </p>
+      ) : null}
       {disabled ? null : (
         <div className="mx-auto grid w-full max-w-sm grid-cols-3 gap-2" role="group" aria-label="Number keypad">
           {keys.map((key, index) =>
@@ -76,8 +81,9 @@ export function NumericInput({
               <button
                 key={key}
                 type="button"
-                className="min-h-14 rounded-2xl border-2 border-b-[5px] border-black/10 bg-surface font-display text-3xl text-ink active:translate-y-0.5 active:border-b-2"
+                className="min-h-14 rounded-2xl border-2 border-b-[5px] border-black/10 bg-surface font-display text-3xl text-ink active:translate-y-0.5 active:border-b-2 disabled:opacity-50"
                 aria-label={key === '/' ? 'fraction bar' : key === '.' ? 'decimal point' : key}
+                disabled={text.length >= MAX_LENGTH}
                 onClick={() => press(key)}
               >
                 {key}
