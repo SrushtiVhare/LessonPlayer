@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import { useEffect, type ReactNode } from 'react'
 import { Link } from 'react-router'
 import { LessonBackground } from '../lesson/Background.tsx'
 import { themeToStyle } from '../theme/theme-style.ts'
@@ -19,6 +19,10 @@ export function ThemedScreen({ theme, children, skipLabel = 'Skip to the mission
 }
 
 export function MissingAdventure() {
+  useEffect(() => {
+    document.title = "We can't find that adventure · WonderQuest Math"
+  }, [])
+
   return (
     <div className="mx-auto grid min-h-dvh max-w-xl place-items-center px-4 text-center">
       <div className="grid gap-4 rounded-[2rem] bg-white p-6 text-[#1A2340] shadow-xl">
