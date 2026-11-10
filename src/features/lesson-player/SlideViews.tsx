@@ -195,8 +195,14 @@ export function OutroView({
 }) {
   const reduce = useReducedMotion()
   const [confirmReplay, setConfirmReplay] = useState(false)
+  const replayTitleRef = useRef<HTMLHeadingElement>(null)
   const score = scoreLesson(lesson, state.tasks)
   const tasks = lesson.slides.filter((item) => item.type === 'task')
+
+  useEffect(() => {
+    if (confirmReplay) replayTitleRef.current?.focus()
+  }, [confirmReplay])
+
   return (
     <section className="grid justify-items-center gap-5 text-center" aria-labelledby="slide-heading">
       <Confetti burst="finish" count={44} />
@@ -236,7 +242,9 @@ export function OutroView({
       <div className="grid w-full gap-3 sm:grid-cols-2">
         {confirmReplay ? (
           <div role="dialog" aria-labelledby="replay-title" className="grid gap-3 rounded-3xl bg-hint-surface p-4 text-hint sm:col-span-2">
-            <h2 id="replay-title" className="font-display text-2xl">Want a new story?</h2>
+            <h2 id="replay-title" tabIndex={-1} ref={replayTitleRef} className="font-display text-2xl outline-none">
+              Want a new story?
+            </h2>
             <p>Your stars from this story will reset.</p>
             <div className="grid gap-3 sm:grid-cols-2">
               <Button variant="accent" data-testid="confirm-replay" onClick={onReplay}>
