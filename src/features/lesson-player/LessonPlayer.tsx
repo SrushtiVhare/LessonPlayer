@@ -34,6 +34,7 @@ export function LessonPlayer({ lesson, hasMoreLessons }: { lesson: Lesson; hasMo
   const reduceMotion = useReducedMotion()
   const slide = getSlide(liveLesson, session.state.slideId) ?? liveLesson.slides[0]
   const headingRef = useRef<HTMLDivElement>(null)
+  const noticeRef = useRef<HTMLParagraphElement>(null)
   const score = scoreLesson(liveLesson, session.state.tasks)
   const label = progressLabel(liveLesson, slide?.id ?? '')
   const dynamic = liveLesson.id === LIVE_LESSON_ID
@@ -64,6 +65,10 @@ export function LessonPlayer({ lesson, hasMoreLessons }: { lesson: Lesson; hasMo
   useEffect(() => {
     headingRef.current?.querySelector('h1')?.focus()
   }, [slide?.id])
+
+  useEffect(() => {
+    if (session.notice) noticeRef.current?.focus()
+  }, [session.notice])
 
   function startPrefetch(step: number, slideId: string, outcome: NextOutcome): Promise<void> {
     const existing = inflight.current.get(slideId)
@@ -170,7 +175,9 @@ export function LessonPlayer({ lesson, hasMoreLessons }: { lesson: Lesson; hasMo
       </header>
       {session.notice ? (
         <div className="flex items-start justify-between gap-3 rounded-3xl bg-surface px-4 py-3 text-ink shadow-[var(--wq-shadow)]" role="status">
-          <p>{session.notice}</p>
+          <p tabIndex={-1} ref={noticeRef} className="outline-none">
+            {session.notice}
+          </p>
           <button type="button" className="min-h-12 font-bold" onClick={session.dismissNotice}>
             Got it
           </button>
