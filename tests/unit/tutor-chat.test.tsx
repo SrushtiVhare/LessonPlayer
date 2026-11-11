@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { bundledLessons } from '../../src/features/lesson-library/catalog.ts'
@@ -32,5 +32,13 @@ describe('tutor chat', () => {
     await user.click(screen.getByTestId('tutor-open'))
     await user.click(screen.getByRole('button', { name: 'Close tutor' }))
     expect(screen.getByTestId('tutor-open')).toHaveFocus()
+  })
+
+  it('says when a note is as long as it can be', async () => {
+    const user = userEvent.setup()
+    render(<TutorChat lesson={lesson} slide={slide} task={createInitialTaskState()} />)
+    await user.click(screen.getByTestId('tutor-open'))
+    fireEvent.change(screen.getByLabelText(/ask astro about this question/i), { target: { value: 'a'.repeat(200) } })
+    expect(screen.getByText('That note is as long as it can be.')).toBeInTheDocument()
   })
 })

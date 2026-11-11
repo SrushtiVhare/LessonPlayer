@@ -191,6 +191,11 @@ export function TutorChat({ lesson, slide, task }: { lesson: Lesson; slide: Slid
           Send it
         </button>
       </form>
+      {note.length >= 200 ? (
+        <p className="px-2 text-sm font-bold text-ink" aria-live="polite">
+          That note is as long as it can be.
+        </p>
+      ) : null}
     </section>
   )
 
