@@ -145,6 +145,9 @@ export function HomePage() {
           <h2 id="world-heading" className="on-world font-display text-3xl">
             Choose your friend
           </h2>
+          <p className="sr-only" aria-live="polite">
+            {adventure.theme.character.name} is ready to play.
+          </p>
           <div className="grid grid-cols-3 gap-3 sm:gap-4" role="group" aria-label="Choose your world">
             {adventures.map((item) => {
               const selected = item.id === adventure.id
