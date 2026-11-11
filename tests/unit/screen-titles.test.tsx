@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router'
 import { describe, expect, it } from 'vitest'
 import { LoadingMission, MissingAdventure } from '../../src/components/layout/Screens.tsx'
@@ -16,5 +16,6 @@ describe('screen titles', () => {
   it('names the waiting screen in the browser tab', () => {
     render(<LoadingMission />)
     expect(document.title).toBe('Getting your adventure ready · WonderQuest Math')
+    expect(screen.getByRole('heading', { name: 'Your adventure is almost ready...' })).toBeInTheDocument()
   })
 })
