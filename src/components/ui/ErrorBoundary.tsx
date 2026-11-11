@@ -41,7 +41,7 @@ export class ErrorBoundary extends Component<Props, State> {
           <button type="button" className="min-h-12 rounded-2xl bg-[#3C3489] px-5 font-bold text-white" onClick={() => window.location.reload()}>
             Try once more
           </button>
-          <a href="/" className="font-bold">
+          <a href="/" className="inline-flex min-h-14 items-center justify-center rounded-2xl border-2 border-[#1A2340]/15 bg-white px-5 font-bold">
             Go home
           </a>
         </div>

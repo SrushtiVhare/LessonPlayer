@@ -15,6 +15,7 @@ describe('error screen', () => {
       </ErrorBoundary>,
     )
     expect(screen.getByRole('link', { name: 'Go home' })).toHaveAttribute('href', '/')
+    expect(screen.getByRole('link', { name: 'Go home' })).toHaveClass('min-h-14')
     expect(screen.getByRole('heading', { name: "Oops, let's try again" })).toHaveFocus()
     expect(document.title).toBe("Let's try again · WonderQuest Math")
     spy.mockRestore()
