@@ -94,7 +94,8 @@ export function TaskView({
   }
 
   useEffect(() => {
-    if (previous.current !== 'correct' && task.feedbackKind === 'correct' && soundEnabled && lesson.theme.sound.celebration) {
+    const reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+    if (previous.current !== 'correct' && task.feedbackKind === 'correct' && soundEnabled && lesson.theme.sound.celebration && !reduceMotion) {
       try {
         playSoftChime()
       } catch {
