@@ -44,6 +44,16 @@ export function NumberLineInput({
                 disabled={disabled}
                 data-testid={`tick-${tick.index}`}
                 onClick={() => onChange(String(tick.index))}
+                onKeyDown={(event) => {
+                  if (disabled) return
+                  const step = event.key === 'ArrowRight' || event.key === 'ArrowDown' ? 1 : event.key === 'ArrowLeft' || event.key === 'ArrowUp' ? -1 : 0
+                  if (step === 0) return
+                  const next = tick.index + step
+                  if (next < 0 || next > interaction.partitions) return
+                  event.preventDefault()
+                  onChange(String(next))
+                  event.currentTarget.parentElement?.querySelector<HTMLButtonElement>(`[data-testid="tick-${next}"]`)?.focus()
+                }}
               >
                 {shown ? <span className="emoji-marker piece-pop absolute -top-11 text-4xl" aria-hidden="true" /> : null}
                 <span className={`h-9 w-9 rounded-full border-[5px] ${shown ? 'border-primary bg-accent' : 'border-primary bg-surface'}`} />
