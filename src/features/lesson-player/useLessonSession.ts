@@ -109,11 +109,13 @@ export function useLessonSession(lesson: Lesson) {
     }
   }, [dispatchBase, lesson.id])
 
+  const dismissNotice = useCallback(() => setNotice(null), [])
+
   return {
     state,
     dispatch,
     notice,
     syncStatus,
-    dismissNotice: () => setNotice(null),
+    dismissNotice,
   }
 }

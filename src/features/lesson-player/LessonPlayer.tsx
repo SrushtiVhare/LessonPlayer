@@ -35,6 +35,7 @@ export function LessonPlayer({ lesson, hasMoreLessons }: { lesson: Lesson; hasMo
   const slide = getSlide(liveLesson, session.state.slideId) ?? liveLesson.slides[0]
   const headingRef = useRef<HTMLDivElement>(null)
   const noticeRef = useRef<HTMLParagraphElement>(null)
+  const noticeWasOpen = useRef(false)
   const score = scoreLesson(liveLesson, session.state.tasks)
   const label = progressLabel(liveLesson, slide?.id ?? '')
   const dynamic = liveLesson.id === LIVE_LESSON_ID
@@ -67,8 +68,24 @@ export function LessonPlayer({ lesson, hasMoreLessons }: { lesson: Lesson; hasMo
   }, [slide?.id])
 
   useEffect(() => {
-    if (session.notice) noticeRef.current?.focus()
-  }, [session.notice])
+    if (!session.notice) {
+      if (noticeWasOpen.current) {
+        noticeWasOpen.current = false
+        headingRef.current?.querySelector('h1')?.focus()
+      }
+      return
+    }
+    noticeWasOpen.current = true
+    noticeRef.current?.focus()
+    function onKey(event: KeyboardEvent) {
+      if (event.key !== 'Escape') return
+      if (document.querySelector('[data-testid="tutor-panel"]')) return
+      event.preventDefault()
+      session.dismissNotice()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [session.notice, session.dismissNotice])
 
   function startPrefetch(step: number, slideId: string, outcome: NextOutcome): Promise<void> {
     const existing = inflight.current.get(slideId)
