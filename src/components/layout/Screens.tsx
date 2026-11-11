@@ -7,11 +7,20 @@ import type { Theme } from '../../schemas/theme.schema.ts'
 export function ThemedScreen({ theme, children, skipLabel = 'Skip to the mission' }: { theme: Theme; children: ReactNode; skipLabel?: string }) {
   return (
     <div style={themeToStyle(theme)} data-world={theme.background} className="world-sky relative min-h-dvh text-ink">
-      <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-20 focus:rounded-xl focus:bg-surface focus:px-4 focus:py-3">
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-20 focus:rounded-xl focus:bg-surface focus:px-4 focus:py-3"
+        onClick={(event) => {
+          const main = document.getElementById('main')
+          if (!main) return
+          event.preventDefault()
+          main.focus()
+        }}
+      >
         {skipLabel}
       </a>
       <LessonBackground theme={theme} />
-      <main id="main" className="relative z-10">
+      <main id="main" tabIndex={-1} className="relative z-10 outline-none">
         {children}
       </main>
     </div>
