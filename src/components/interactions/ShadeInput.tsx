@@ -48,6 +48,15 @@ export function ShadeInput({
               aria-label={`Piece ${index + 1}, ${on ? 'colored' : 'not colored'}`}
               disabled={disabled}
               onClick={() => toggle(index)}
+              onKeyDown={(event) => {
+                if (disabled) return
+                const step = event.key === 'ArrowRight' || event.key === 'ArrowDown' ? 1 : event.key === 'ArrowLeft' || event.key === 'ArrowUp' ? -1 : 0
+                if (step === 0) return
+                const next = index + step
+                if (next < 0 || next >= interaction.segments) return
+                event.preventDefault()
+                event.currentTarget.parentElement?.querySelector<HTMLButtonElement>(`[data-testid="piece-${next}"]`)?.focus()
+              }}
               className={`min-h-24 rounded-2xl border-[3px] border-b-[6px] transition active:translate-y-0.5 sm:min-h-28 ${
                 on ? 'piece-pop border-primary bg-accent' : 'border-black/15 bg-surface hover:bg-hint-surface'
               }`}
